@@ -136,41 +136,41 @@
     "descripcion": "protocolo de investigación real de licenciatura (anonimizado)",
     "hitos": [
       {
-        "hito": "Base inicial",
+        "hito": "Primera revisión",
         "puntaje": 31.1
       },
       {
-        "hito": "Sin falsos positivos del verificador",
+        "hito": "Fuentes sin falsas alarmas",
         "puntaje": 65.8
       },
       {
-        "hito": "Tras corregir.py",
+        "hito": "Corrección automática",
         "puntaje": 72.3
       },
       {
-        "hito": "Tras correcciones",
+        "hito": "Correcciones del autor",
         "puntaje": 91.5
       },
       {
-        "hito": "Con reglas nuevas de maquetación y congruencia",
+        "hito": "Reglas nuevas: más exigente",
         "puntaje": 87.0
       },
       {
-        "hito": "Final (sesión 6)",
+        "hito": "Versión final",
         "puntaje": 91.4
       },
       {
-        "hito": "Juez más estricto: sangrías y V5",
+        "hito": "Revisor aún más estricto",
         "puntaje": 85.4
       },
       {
-        "hito": "Tras corregir.py (de nuevo)",
+        "hito": "Nueva corrección automática",
         "puntaje": 88.4
       }
     ]
   },
   "tiempos": {
-    "total_segundos": 102.7,
+    "total_segundos": 96.1,
     "sin_red": true,
     "puertas": [
       {
@@ -181,61 +181,67 @@
       },
       {
         "puerta": "Fuentes V5 sustento (cifras y veredictos)",
-        "segundos": 0.1,
+        "segundos": 0.2,
         "ok": true,
         "saltada": false
       },
       {
         "puerta": "Congruencia: determinista CON-001..009 y 018..020 (CON-010..017 son del agente)",
-        "segundos": 16.7,
+        "segundos": 12.0,
         "ok": true,
         "saltada": false
       },
       {
         "puerta": "Estructura por género (7 géneros, muestras IMRyD)",
-        "segundos": 15.8,
+        "segundos": 15.7,
         "ok": true,
         "saltada": false
       },
       {
         "puerta": "Perfil de equipo (excepción institucional)",
-        "segundos": 0.9,
+        "segundos": 1.0,
         "ok": true,
         "saltada": false
       },
       {
         "puerta": "CLI: despachador, códigos de salida, --json, caché",
-        "segundos": 25.9,
+        "segundos": 21.4,
         "ok": true,
         "saltada": false
       },
       {
         "puerta": "Portabilidad: skills, rutas, instalador, catálogo REGLAS.md",
-        "segundos": 15.0,
+        "segundos": 13.1,
+        "ok": true,
+        "saltada": false
+      },
+      {
+        "puerta": "Ejemplo del README (ejemplos/): cifras publicadas",
+        "segundos": 6.4,
         "ok": true,
         "saltada": false
       },
       {
         "puerta": "/puntuar estable y sensible",
-        "segundos": 1.4,
+        "segundos": 1.2,
         "ok": true,
         "saltada": false
       },
       {
         "puerta": "Corrector de formato docx (corregir.py)",
-        "segundos": 11.8,
+        "segundos": 11.1,
         "ok": true,
         "saltada": false
       },
       {
         "puerta": "Juez: errores sembrados",
-        "segundos": 1.6,
+        "segundos": 1.5,
         "ok": true,
         "saltada": false
       },
       {
         "puerta": "Juez: muestras oficiales",
-        "segundos": 10.6,
+        "segundos": 9.7,
         "ok": true,
         "saltada": false
       },
@@ -247,13 +253,13 @@
       },
       {
         "puerta": "Juez: ronda ciega docs2",
-        "segundos": 0.9,
+        "segundos": 0.8,
         "ok": true,
         "saltada": false
       },
       {
         "puerta": "Juez: ronda ciega docs3",
-        "segundos": 0.8,
+        "segundos": 0.7,
         "ok": true,
         "saltada": false
       }

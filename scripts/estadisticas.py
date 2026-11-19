@@ -37,14 +37,14 @@ IMG = ROOT / "docs" / "img"
 
 # Evolución del piloto anonimizado («protocolo de investigación real de licenciatura»): puntaje de /puntuar por hito.
 PILOTO = [
-    ("Base inicial", 31.1),
-    ("Sin falsos positivos\ndel verificador", 65.8),
-    ("Tras corregir.py", 72.3),
-    ("Tras correcciones", 91.5),
-    ("Con reglas nuevas de\nmaquetación y congruencia", 87.0),
-    ("Final (sesión 6)", 91.4),
-    ("Juez más estricto:\nsangrías y V5", 85.4),
-    ("Tras corregir.py\n(de nuevo)", 88.4),
+    ("Primera\nrevisión", 31.1),
+    ("Fuentes sin\nfalsas alarmas", 65.8),
+    ("Corrección\nautomática", 72.3),
+    ("Correcciones\ndel autor", 91.5),
+    ("Reglas nuevas:\nmás exigente", 87.0),
+    ("Versión\nfinal", 91.4),
+    ("Revisor aún\nmás estricto", 85.4),
+    ("Nueva corrección\nautomática", 88.4),
 ]
 # Primera medición ciega de las rondas 2 y 3 (antes de corregir lo que revelaron), según el historial del repositorio.
 PRIMERA_MEDICION = {"ronda ciega docs2": {"precision": 1.00, "recall": 0.87}, "ronda ciega docs3": {"precision": 0.97, "recall": 1.00}}
@@ -166,107 +166,160 @@ def _guardar(fig, nombre):
     print(f"escrito docs/img/{nombre}")
 
 
+# paleta categórica validada (skill dataviz, modo claro) y tinta neutra
+SERIE1, SERIE2, SERIE3, PISTA, TINTA2, TENUE2 = "#2a78d6", "#eb6834", "#1baf7a", "#f1f0ed", "#0b0b0b", "#52514e"
+
+
+def _lienzo(plt, alto=5.2):
+    plt.rcParams.update({"font.family": ["Segoe UI", "DejaVu Sans"], "font.size": 12, "axes.spines.top": False,
+                         "axes.spines.right": False, "axes.grid": False, "text.color": TINTA2})
+    return plt.figure(figsize=(13, alto), dpi=130)
+
+
+def _titulos(fig, titulo, subtitulo):
+    fig.text(0.015, 0.94, titulo, fontsize=18, weight="bold", color=TINTA2, va="top")
+    fig.text(0.015, 0.865, subtitulo, fontsize=12, color=TENUE2, va="top")
+
+
+NOMBRE_RONDA = {"errores sembrados": "Errores sembrados a propósito", "ronda ciega docs": "Documento nuevo a ciegas, 1",
+                "ronda ciega docs2": "Documento nuevo a ciegas, 2", "ronda ciega docs3": "Documento nuevo a ciegas, 3",
+                "boceto": "Borrador de estudiante"}
+
+
 def grafica_juez(datos):
+    """¿Encuentra los errores sin inventar otros? Barras de 0 a 100 % (nunca un eje recortado) y, aparte, las
+    falsas alarmas en las muestras oficiales."""
     import matplotlib.pyplot as plt
-    _estilo(plt)
     rs = [r for r in datos["rondas"] if r.get("disponible")]
-    fig, (ax, ax2) = plt.subplots(1, 2, figsize=(11, 4.6), gridspec_kw={"width_ratios": [3, 1.25]})
-    x = range(len(rs))
-    w = 0.36
-    b1 = ax.bar([i - w / 2 for i in x], [r["precision"] for r in rs], w, color=AZUL, label="Precisión")
-    b2 = ax.bar([i + w / 2 for i in x], [r["recall"] for r in rs], w, color=VERDE, label="Recall")
-    for b in list(b1) + list(b2):
-        ax.text(b.get_x() + b.get_width() / 2, b.get_height() + 0.004, f"{b.get_height():.2f}", ha="center", va="bottom", fontsize=8.5)
-    for i, r in enumerate(rs):
-        if r.get("primera_precision") is not None:
-            ax.plot(i - w / 2, r["primera_precision"], marker="D", color=NARANJA, markersize=6, zorder=5)
-            ax.plot(i + w / 2, r["primera_recall"], marker="D", color=NARANJA, markersize=6, zorder=5)
-    ax.plot([], [], marker="D", color=NARANJA, linestyle="", label="Primera medición ciega\n(antes de corregir lo hallado)")
-    ax.set_xticks(list(x))
-    ax.set_xticklabels([f"{r['ronda']}\n({r['esperados']} errores)" for r in rs], fontsize=9)
-    ax.set_ylim(0.8, 1.1)
-    ax.set_yticks([0.8, 0.85, 0.9, 0.95, 1.0])
-    ax.axhline(0.95, color=ROJO, linewidth=1, linestyle="--")
-    ax.text(-0.48, 0.953, "umbral 0,95", color=ROJO, fontsize=8, ha="left", va="bottom", bbox={"facecolor": "white", "edgecolor": "none", "pad": 1})
-    ax.set_title("Juez determinista por ronda", loc="left", fontweight="bold")
-    ax.legend(loc="upper center", ncol=3, frameon=False, fontsize=8.5)
+    fig = _lienzo(plt, 5.6)
+    _titulos(fig, "¿Encuentra los errores sin inventar otros?",
+             "Documentos con errores conocidos: cuántos encontró el revisor y cuántas veces marcó algo que estaba bien.")
+    ax = fig.add_axes([0.24, 0.17, 0.44, 0.6])
+    ys = list(range(len(rs)))[::-1]
+    for r, y in zip(rs, ys):
+        frac = r["detectados"] / r["esperados"] if r["esperados"] else 1
+        ax.barh(y, 100, height=0.56, color=PISTA, zorder=1)
+        ax.barh(y, 100 * frac, height=0.56, color=SERIE1, zorder=2)
+        fp = r.get("falsos_positivos", 0)
+        ax.text(102, y + 0.1, f"{r['detectados']} de {r['esperados']}", fontsize=12.5, weight="bold", va="center")
+        ax.text(102, y - 0.24, "1 falsa alarma" if fp == 1 else f"{fp} falsas alarmas", fontsize=10.5, color=TENUE2,
+                va="center")
+        pr, pp = r.get("primera_recall"), r.get("primera_precision")
+        if pr is not None and pr < 1:
+            ax.plot(100 * pr, y, marker="o", ms=10, mfc="white", mec=SERIE2, mew=2.5, zorder=3)
+            ax.text(100 * pr - 2.5, y, f"1.ª vez: {round(pr * r['esperados'])} de {r['esperados']}", fontsize=10,
+                    color="white", ha="right", va="center", zorder=4)
+        elif pp is not None and pp < 1:
+            n = round(r["esperados"] / pp - r["esperados"])
+            ax.text(3, y, f"1.ª vez: {n} falsa alarma (ya corregida)", fontsize=10, color="white", va="center", zorder=4)
+    ax.set_yticks(ys, [NOMBRE_RONDA.get(r.get("clave"), r["ronda"]) for r in rs], fontsize=12)
+    ax.set_xlim(0, 100)
+    ax.set_xticks([0, 25, 50, 75, 100], ["0 %", "25 %", "50 %", "75 %", "100 %"], fontsize=10, color=TENUE2)
+    ax.tick_params(axis="y", length=0)
+    for s in ("left", "bottom"):
+        ax.spines[s].set_color("#c3c2b7")
+    ax.plot([], [], marker="o", ms=9, mfc="white", mec=SERIE2, mew=2.5, ls="",
+            label="primera medición, antes de corregir lo que reveló")
+    ax.legend(loc="upper center", bbox_to_anchor=(0.5, -0.1), frameon=False, fontsize=10.5)
     m = datos["muestras_oficiales"]
-    ax2.set_axis_off()
-    ax2.set_title("Muestras oficiales APA/IEEE", loc="left", fontweight="bold")
     if m.get("disponible"):
-        ax2.text(0.02, 0.62, f"{m['falsos_positivos']}", fontsize=54, color=VERDE if m["falsos_positivos"] == 0 else ROJO, fontweight="bold")
-        ax2.text(0.02, 0.45, "falsos positivos", fontsize=12)
-        ax2.text(0.02, 0.30, f"en {m['muestras']} documentos oficiales", fontsize=10)
-        ax2.text(0.02, 0.20, f"({m['verdaderos_positivos_esperados']} errores reales de las\npropias muestras, detectados)", fontsize=9, color=GRIS)
-    else:
-        ax2.text(0.02, 0.5, "No disponible\n(falta normas/)", fontsize=12, color=GRIS)
-    fig.text(0.01, 0.01, "Rondas ciegas: documentos sembrados con errores según la norma, no según el juez. Hoy 1,00 tras corregir lo que cada ronda reveló.",
-             fontsize=8, color=GRIS)
-    fig.tight_layout(rect=(0, 0.04, 1, 1))
+        fig.text(0.79, 0.64, f"{m['falsos_positivos']}", fontsize=64, weight="bold", color=TINTA2, va="center")
+        fig.text(0.79, 0.48, "falsas alarmas", fontsize=15, weight="bold", va="center")
+        fig.text(0.79, 0.36, f"en {m['muestras']} documentos de muestra\noficiales de APA e IEEE", fontsize=12,
+                 color=TENUE2, va="center", linespacing=1.3)
+        fig.text(0.79, 0.22, f"Los {m['verdaderos_positivos_esperados']} errores reales que traen\nesas muestras, sí los marca.",
+                 fontsize=10.5, color=TENUE2, va="center", linespacing=1.3)
+    fig.text(0.015, 0.025, "Los documentos «a ciegas» se escribieron con errores según la norma, sin mirar el revisor. "
+             "Lo que la primera medición reveló se corrigió; hoy cada ronda es una prueba que no debe volver a fallar.",
+             fontsize=9.5, color=TENUE2)
     _guardar(fig, "juez-precision-recall.png")
     plt.close(fig)
 
 
+NOMBRE_FAMILIA = {"APA": "APA 7", "IEEE": "IEEE", "CON": "Coherencia interna", "EST": "Estructura y maquetación",
+                  "FUE": "Fuentes", "EA": "Marcadores olvidados", "RED": "Redacción"}
+
+
 def grafica_reglas(datos):
+    """¿Quién revisa cada regla? Programa que además corrige, programa que solo detecta, o el agente de IA."""
     import matplotlib.pyplot as plt
-    _estilo(plt)
     fam = datos["reglas"]["familias"]
     orden = [p for p in ("APA", "IEEE", "CON", "EST", "FUE", "EA", "RED") if p in fam]
-    fig, (ax, ax2) = plt.subplots(1, 2, figsize=(11, 4.6), gridspec_kw={"width_ratios": [1.5, 1]})
-    cor = [fam[p]["corregibles"] for p in orden]
-    det = [fam[p]["deterministas"] - fam[p]["corregibles"] for p in orden]
-    ag = [fam[p]["agente"] for p in orden]
-    y = range(len(orden))
-    ax.barh(y, cor, color=VERDE, label="Determinista y corregible")
-    ax.barh(y, det, left=cor, color=AZUL, label="Determinista (solo detecta)")
-    ax.barh(y, ag, left=[a + b for a, b in zip(cor, det)], color=GRIS, label="Agente (juicio)")
-    for i, p in enumerate(orden):
-        ax.text(fam[p]["total"] + 2, i, str(fam[p]["total"]), va="center", fontsize=9)
-    ax.set_yticks(list(y))
-    ax.set_yticklabels(orden)
-    ax.invert_yaxis()
-    ax.set_xlabel("Reglas")
-    ax.set_title(f"{datos['reglas']['total']} reglas por familia", loc="left", fontweight="bold")
-    ax.legend(loc="lower right", frameon=True, facecolor="white", edgecolor="#c5cbd3", fontsize=8.5)
+    fig = _lienzo(plt, 5.6)
+    _titulos(fig, f"¿Quién revisa cada una de las {datos['reglas']['total']} reglas?",
+             "Lo mecánico lo hace el programa (siempre igual); lo que requiere criterio, tu agente de IA.")
+    ax = fig.add_axes([0.2, 0.2, 0.5, 0.58])
+    gris = "#a8a69e"
+    seg = [("corrige", "El programa la revisa y la corrige", SERIE3),
+           ("detecta", "El programa la revisa", SERIE1),
+           ("agente", "La juzga tu agente de IA", gris)]
+    ys = list(range(len(orden)))[::-1]
+    for p, y in zip(orden, ys):
+        f = fam[p]
+        vals = {"corrige": f["corregibles"], "detecta": f["deterministas"] - f["corregibles"], "agente": f["agente"]}
+        x = 0
+        for k, _, c in seg:
+            v = vals[k]
+            if v:
+                ax.barh(y, max(v - 0.8, 0.6), left=x + 0.4, height=0.6, color=c)
+                if v >= 12:
+                    ax.text(x + v / 2, y, str(v), ha="center", va="center", fontsize=10.5,
+                            color=TINTA2 if c == gris else "white")
+            x += v
+        ax.text(x + 2, y, str(f["total"]), va="center", fontsize=12, weight="bold")
+    ax.set_yticks(ys, [NOMBRE_FAMILIA.get(p, p) for p in orden], fontsize=12)
+    ax.tick_params(axis="y", length=0)
+    ax.tick_params(axis="x", colors=TENUE2, labelsize=10)
+    for s in ("left", "bottom"):
+        ax.spines[s].set_color("#c3c2b7")
+    ax.legend([plt.Rectangle((0, 0), 1, 1, color=c) for _, _, c in seg], [t for _, t, _ in seg], loc="upper center",
+              bbox_to_anchor=(0.5, -0.1), ncol=3, frameon=False, fontsize=10.5)
     ai = datos["reglas"]["apa_ieee"]
-    etiquetas = ["Reglas APA/IEEE", "«Fix: sí» en\nel checklist", "IDs que emite\nalgún script", "Corregibles\nautomáticamente"]
-    vals = [ai["total"], ai["fix_si_en_checklist"], ai["ids_en_scripts"], ai["corregibles"]]
-    cols = [GRIS, NARANJA, AZUL, VERDE]
-    ax2.bar(range(4), vals, color=cols)
-    for i, v in enumerate(vals):
-        ax2.text(i, v + 4, str(v), ha="center", fontsize=10, fontweight="bold")
-    ax2.set_xticks(range(4))
-    ax2.set_xticklabels(etiquetas, fontsize=8)
-    ax2.set_ylim(0, ai["total"] * 1.12)
-    ax2.set_title("APA/IEEE: lo automatizable vs lo hecho", loc="left", fontweight="bold", fontsize=10.5)
-    fig.text(0.01, 0.01, f"El conteo «determinista» es una heurística (ID presente en un script). El checklist marca {ai['fix_si_en_checklist']} reglas como "
-             f"mecánicas y solo {ai['ids_en_scripts']} están implementadas: la brecha es trabajo pendiente.", fontsize=8, color=GRIS)
-    fig.tight_layout(rect=(0, 0.04, 1, 1))
+    hecho, meta = ai["ids_en_scripts"], ai["fix_si_en_checklist"]
+    fig.text(0.76, 0.74, "Lo que falta automatizar", fontsize=14, weight="bold", va="top")
+    fig.text(0.76, 0.66, f"De las {meta} reglas de APA e IEEE que se\npueden revisar de forma mecánica:", fontsize=11,
+             color=TENUE2, va="top", linespacing=1.3)
+    bx = fig.add_axes([0.76, 0.45, 0.2, 0.05])
+    bx.barh(0, meta, color=PISTA, height=1)
+    bx.barh(0, hecho, color=SERIE1, height=1)
+    bx.set_xlim(0, meta)
+    bx.set_axis_off()
+    fig.text(0.76, 0.39, f"{hecho} ya las revisa el programa", fontsize=12, weight="bold", va="top")
+    fig.text(0.76, 0.33, f"Las otras {meta - hecho} las revisa, mientras\ntanto, tu agente de IA.", fontsize=11,
+             color=TENUE2, va="top", linespacing=1.3)
     _guardar(fig, "reglas-por-familia.png")
     plt.close(fig)
 
 
 def grafica_piloto(datos):
+    """Puntaje de un protocolo real en cada hito; bandas del veredicto como líneas con nombre, no colores."""
     import matplotlib.pyplot as plt
-    _estilo(plt)
     pts = datos["piloto"]["hitos"]
-    fig, ax = plt.subplots(figsize=(11, 4.6))
+    fig = _lienzo(plt, 5.6)
+    _titulos(fig, "Un protocolo de investigación real, revisión tras revisión",
+             "Puntaje de 0 a 100 de un protocolo de licenciatura (anonimizado) en cada etapa del desarrollo del editor.")
+    ax = fig.add_axes([0.06, 0.22, 0.78, 0.56])
     xs = list(range(len(pts)))
     ys = [p["puntaje"] for p in pts]
-    ax.axhspan(85, 100, color="#e6f2ec", zorder=0)
-    ax.text(len(pts) - 0.55, 86, "banda «Publicable»", fontsize=8.5, color=VERDE, ha="right")
-    ax.plot(xs, ys, color=AZUL, linewidth=2, marker="o", markersize=8, zorder=3)
+    for v, nombre in ((60, "60 · correcciones mayores"), (75, "75 · correcciones menores"), (90, "90 · publicable")):
+        ax.axhline(v, color="#c3c2b7", lw=1, zorder=0)
+        ax.text(len(pts) - 0.5, v, "  " + nombre, fontsize=10, color=TENUE2, va="center", ha="left")
+    ax.plot(xs, ys, color=SERIE1, lw=2, zorder=2)
+    ax.plot(xs, ys, ls="", marker="o", ms=9, mfc=SERIE1, mec="white", mew=2, zorder=3)
     for i, (x, y) in enumerate(zip(xs, ys)):
-        ax.annotate(f"{y:.1f}", (x, y), textcoords="offset points", xytext=(0, 11 if i != 4 else -18), ha="center", fontweight="bold")
-    ax.set_xticks(xs)
-    ax.set_xticklabels([textwrap.fill(p["hito"], 20) for p in pts], fontsize=8.5)
+        baja = i > 0 and y < ys[i - 1]
+        ax.text(x, y + (-7.5 if baja else 3.5), f"{y:g}", ha="center", fontsize=12, weight="bold")
+    ax.set_xticks(xs, [textwrap.fill(p["hito"], 15) for p in pts], fontsize=10)
+    ax.set_xlim(-0.4, len(pts) - 0.5)
     ax.set_ylim(20, 100)
-    ax.set_ylabel("Puntaje /puntuar (0-100)")
-    ax.set_title("Piloto anonimizado: protocolo de investigación real de licenciatura", loc="left", fontweight="bold")
-    ax.annotate("Más reglas = más hallazgos:\nel puntaje baja y luego se corrige", (4, 87), xytext=(2.6, 52), fontsize=8.5, color=GRIS,
-                arrowprops={"arrowstyle": "->", "color": GRIS})
-    fig.text(0.01, 0.01, "Valores registrados en cada hito de desarrollo; el documento original no se distribuye.", fontsize=8, color=GRIS)
-    fig.tight_layout(rect=(0, 0.04, 1, 1))
+    ax.set_yticks([20, 40, 60, 80, 100])
+    ax.tick_params(colors=TENUE2, labelsize=10)
+    ax.tick_params(axis="x", colors=TINTA2, length=0)
+    for s in ("left", "bottom"):
+        ax.spines[s].set_color("#c3c2b7")
+    fig.text(0.015, 0.025, "Las dos bajadas no son retrocesos del documento: el revisor se volvió más exigente y encontró "
+             "cosas que antes dejaba pasar. Valores registrados en cada hito; el documento no se distribuye.",
+             fontsize=9.5, color=TENUE2)
     _guardar(fig, "piloto-evolucion.png")
     plt.close(fig)
 

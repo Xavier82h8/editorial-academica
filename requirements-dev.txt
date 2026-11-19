@@ -1,3 +1,6 @@
-# Solo desarrollo (estadísticas y gráficas; no hace falta para usar el plugin).
+# Solo desarrollo (estadísticas, gráficas e imágenes del ejemplo; no hace falta para usar el plugin).
+# Las imágenes del ejemplo (ejemplos/capturas.py) necesitan además LibreOffice instalado.
 -r requirements.txt
 matplotlib>=3.7
+pillow>=10
+pymupdf>=1.24

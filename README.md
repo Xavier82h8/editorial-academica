@@ -11,9 +11,30 @@
 
 > Tu asesor no debería gastar la revisión en márgenes, sangrías y comas de la lista de referencias. Que lo haga la máquina, con la regla citada, y que la conversación con tu asesor sea sobre tus ideas.
 
-![Un informe real de tres páginas: entrega original, tras la corrección automática y tras la revisión de contenido](docs/img/ejemplo-etapas.png)
+## En un minuto
 
-<sub>Páginas renderizadas con LibreOffice a partir de los .docx de [`ejemplos/`](ejemplos/README.md). Los datos del informe son ficticios; las cuatro referencias son reales y se verificaron contra Crossref.</sub>
+Le pides a tu agente de IA que revise tu documento. La skill hace tres cosas, en este orden:
+
+1. **Revisa.** Encuentra cada problema y te dice dónde está y qué regla incumple: de APA 7, de IEEE o de coherencia interna (que el documento no se contradiga).
+2. **Corrige lo mecánico.** Márgenes, títulos, numeración de páginas, tablas y lista de referencias, sobre una copia. Tu archivo original no se toca.
+3. **Te guía en lo demás.** Lo que exige decidir contenido (una cifra que no cuadra, una cita sin fuente) te lo explica para que tú o tu agente lo arreglen, y te da un puntaje de 0 a 100 para saber cuánto falta.
+
+Así se ve con un [informe de ejemplo](ejemplos/README.md) de tres páginas:
+
+![Puntaje del informe de ejemplo en cada etapa: 53.6 la entrega original, 57.4 tras la corrección automática y 94.4 tras corregir el contenido, desglosado en coherencia, fuentes, formato, estructura y redacción](docs/img/ejemplo-puntaje.png)
+
+La corrección automática deja bien márgenes, títulos y tablas, pero el puntaje casi no sube: lo que lo hunde es que el resumen y el método se contradicen y que hay citas sin fuente. Eso no se arregla moviendo márgenes, y por eso el editor lo separa y lo explica:
+
+![Antes y después de cuatro problemas de contenido: el resumen dice 120 participantes y el método 112; citas sin referencia y un dato sin fuente; un párrafo que repite la tabla; una conclusión causal con un diseño que no lo permite](docs/img/ejemplo-contenido.png)
+
+<details>
+<summary><b>Ver también el antes y después del formato</b> (títulos, numeración de páginas, tabla y referencias)</summary>
+
+![Antes y después del formato: títulos con estilo de Word y dos números de página; tabla con rejilla y nota mal escrita; lista de referencias desordenada](docs/img/ejemplo-formato.png)
+
+</details>
+
+<sub>Fragmentos reales del documento abierto con LibreOffice, no maquetas. Los datos del informe son ficticios; sus cuatro referencias son reales y se verificaron contra Crossref. Cómo reproducirlo: [ejemplos/README.md](ejemplos/README.md).</sub>
 
 ## Qué es una skill (y por qué esto no es una app)
 
@@ -21,44 +42,32 @@ Una *skill* es un paquete de instrucciones y herramientas que un agente de IA de
 
 ```text
 tú      › usa la skill editorial-academica para auditar informe-ejemplo.docx con el perfil apa7
-agente  › (lee la skill, corre `editorial.py auditar`, lee el documento)
+agente  › (lee la skill, ejecuta el revisor automático y lee el documento)
           Dictamen: Rechazado
           Hallazgos: 4 críticos, 16 mayores, 5 menores.
           IDs de regla: APA-001, APA-003, APA-004, … APA-034, APA-037, APA-038, APA-057, … EA-001
 ```
 
-<sub>Respuesta real de Codex CLI con la skill instalada ([registro](docs/PRUEBAS-EN-VIVO.md)). `APA-057` (un dato sin cita) lo añadió el agente: es una regla de juicio que el script no evalúa.</sub>
+<sub>Respuesta real de Codex CLI con la skill instalada ([registro](docs/PRUEBAS-EN-VIVO.md)). `APA-057` (un dato sin cita) lo añadió el agente: es una regla de criterio que el revisor automático no evalúa.</sub>
 
 Por dentro, la skill reparte el trabajo en dos manos:
 
 | | Quién lo hace | Ejemplos |
 |---|---|---|
-| **Lo mecánico** | Scripts de Python deterministas: mismo documento, mismo resultado | márgenes, interlineado, numeración de página, orden de la lista, cita sin referencia, tamaño de muestra que no cuadra, DOI que no existe |
-| **Lo que requiere juicio** | Tu agente, guiado por los checklists de la skill | lenguaje sin sesgo, si una conclusión se sostiene, si la fuente dice lo que le atribuyes |
+| **Lo mecánico** | Un programa en Python que, con el mismo documento, da siempre el mismo resultado | márgenes, interlineado, numeración de página, orden de la lista, cita sin referencia, tamaño de muestra que no cuadra, DOI que no existe |
+| **Lo que requiere criterio** | Tu agente de IA, guiado por las listas de verificación de la skill | lenguaje sin sesgo, si una conclusión se sostiene, si la fuente dice lo que le atribuyes |
 
 Cada hallazgo, venga de donde venga, cita su regla (`APA-034`, `IEEE-093`, `CON-001`) y la sección oficial. Si un hallazgo no tiene regla, no es un hallazgo: es una opinión, y se marca como tal.
 
-## Lo que encuentra
-
-Este es el [ejemplo completo](ejemplos/README.md), de principio a fin, con números que puedes reproducir:
+## El ejemplo, paso a paso
 
 | Etapa | Puntaje | Qué pasó |
 |---|---:|---|
-| Entrega original | **53.6** Rechazado | 24 hallazgos de formato, 4 de congruencia, 4 de maquetación |
-| `corregir` (automático, sobre una copia) | **57.4** Rechazado | 28 → 9 hallazgos. Lo que queda no es formato: es contenido |
-| Revisión de contenido siguiendo cada hallazgo | **94.4** Publicable | Sin hallazgos. No llega a 100 porque 3 de las 4 fuentes no publican su resumen y su sustento queda «no verificable» |
+| Entrega original | **53.6** Rechazado | El revisor encuentra 24 problemas de formato y citas, 4 de coherencia y 4 de maquetación |
+| Corrección automática, sobre una copia | **57.4** Rechazado | Quedan 9 de 28. Los que quedan no son de formato: son de contenido y piden una decisión |
+| Corrección del contenido, siguiendo cada hallazgo | **94.4** Publicable | Ningún problema pendiente. No llega a 100 porque 3 de las 4 fuentes no publican su resumen, y el editor no da por buena una afirmación que no pudo comprobar |
 
-Algunas cosas que detectó y que un corrector ortográfico jamás vería:
-
-- el resumen dice 120 participantes y el método, 112 (`CON-001`);
-- «el uso de redes **provoca** peor sueño» con un diseño transversal (`CON-007`);
-- un objetivo que nunca vuelve a aparecer en método, resultados ni conclusiones (`CON-020`);
-- un párrafo que solo repite, cifra por cifra, la tabla de arriba (`CON-008`);
-- «Levenson & Shensa (2016)» cuando la obra tiene cinco autores (`APA-038`);
-- número de página arriba **y** «Página 2 de 3» abajo (`EST-010`, `EST-011`);
-- un `[[FALTA FUENTE]]` olvidado que habría llegado a la entrega (`EA-001`).
-
-![Página de resultados antes y después: tabla con formato APA, nota con «Nota.», texto que ya no repite la tabla](docs/img/ejemplo-tabla.png)
+Además de lo que muestran las imágenes, encontró un objetivo que nunca vuelve a aparecer en el método ni en las conclusiones (`CON-020`). Cada problema lleva un código de regla (`CON-001`, `APA-038`…) que remite a la norma oficial; la lista completa está en [docs/REGLAS.md](docs/REGLAS.md).
 
 ## Instalación
 
@@ -105,28 +114,43 @@ En Claude Code son `/editorial-academica:<nombre>`; en cualquier otro lado, `pyt
 ## Tres cosas que nunca hace
 
 1. **Inventar una fuente.** Una referencia entra solo si su DOI resuelve en Crossref o DataCite (o su URL oficial responde, con fecha de consulta). Si no, no entra.
-2. **Tocar tu original.** Todo se escribe en una copia; si la salida coincidiera con la entrada, el script se detiene.
+2. **Tocar tu original.** Todo se escribe en una copia; si la copia fuera a caer sobre el original, el programa se detiene.
 3. **Dar por verificado lo que no pudo comprobar.** Un fallo de red queda `no_verificado` con su motivo, y una fuente sin resumen público deja su afirmación «no verificable», que cuenta la mitad, no completa.
 
-## Cómo juzga
+## Cómo está hecho
 
 ```mermaid
 flowchart LR
-    D[Documento .docx / .md] --> J[Juez determinista]
-    J --> F[Formato] & C[Citas y referencias] & E[Estructura] & M[Maquetación] & G[Congruencia]
-    D --> V[Verificación de fuentes V1-V5]
-    D --> A[Tu agente: juicio, sesgo, sustento]
-    F & C & E & M & G --> P[Puntaje 0-100]
-    V --> P
-    A --> P
-    P --> K[Corregir y volver a puntuar]
+    D[Tu documento<br/>.docx o .md] --> J[Revisor automático]
+    J --> F[Formato y citas] & E[Estructura y<br/>maquetación] & G[Coherencia interna]
+    D --> V[Verificador de fuentes<br/>Crossref, OpenAlex]
+    D --> A[Tu agente de IA:<br/>lo que pide criterio]
+    F & E & G & V & A --> P[Puntaje 0-100 y<br/>qué arreglar primero]
+    P --> K[Corrector automático<br/>sobre una copia]
+    K --> J
 ```
 
-Todas las reglas, con severidad, quién las evalúa y su fuente, están en [docs/REGLAS.md](docs/REGLAS.md).
+Cada pieza, en palabras y en código:
+
+| Pieza | Qué hace | Dónde está |
+|---|---|---|
+| Revisor de formato y citas | Abre el Word como lo guarda Word (estilos, márgenes, campos de número de página) y compara cada párrafo, cita y referencia con las reglas de APA 7 o IEEE | [`scripts/auditar.py`](scripts/auditar.py) |
+| Revisor de coherencia | Busca el tamaño de muestra en resumen, método y resultados; siglas usadas antes de definirse; tablas citadas que no existen; objetivos que no vuelven a aparecer; «causa» donde el diseño solo permite «se asocia» | [`scripts/congruencia.py`](scripts/congruencia.py) |
+| Revisor de estructura y maquetación | Comprueba que estén las secciones que pide el tipo de documento (tesis, informe, protocolo…), una sola numeración de página y tablas que no se parten entre páginas | [`scripts/estructura.py`](scripts/estructura.py), [`scripts/maquetacion.py`](scripts/maquetacion.py) |
+| Corrector automático | Aplica lo mecánico editando por dentro el archivo .docx (su XML), sin tocar el texto, y siempre en una copia | [`scripts/corregir.py`](scripts/corregir.py) |
+| Verificador de fuentes | Consulta cada DOI en Crossref, OpenAlex y DataCite: que exista, que título, autor y año coincidan, que no esté retractada; y compara cada afirmación citada con el resumen de la obra | [`skills/fuentes-academicas/scripts/fuentes.py`](skills/fuentes-academicas/scripts/fuentes.py), [`scripts/afirmaciones.py`](scripts/afirmaciones.py) |
+| Puntaje | Junta todo en un número de 0 a 100 con pesos fijos y ordena las correcciones por cuánto suben el puntaje | [`scripts/puntuar.py`](scripts/puntuar.py) |
+| Instrucciones para el agente | Qué preguntar antes de empezar, en qué orden trabajar y qué no inventar nunca | [`AGENTS.md`](AGENTS.md), [`skills/`](skills), [`agents/`](agents) |
+| Un solo punto de entrada | Un comando, `editorial.py <tarea>`, que llama a cualquiera de los anteriores en Windows, macOS o Linux | [`scripts/editorial.py`](scripts/editorial.py) |
+| Instalador | Copia la skill a la carpeta que lee cada agente (Codex, OpenCode, Cursor…) | [`scripts/instalar.py`](scripts/instalar.py) |
+
+Todas las reglas, con su gravedad, quién las revisa (el programa o el agente) y su fuente oficial, están en [docs/REGLAS.md](docs/REGLAS.md).
 
 ![Estructura y maquetación del informe de ejemplo](docs/img/demo-estructura.svg)
 
 ### Verificación de fuentes V1-V5
+
+Cinco comprobaciones por cada referencia, de la más básica a la más fina:
 
 - **V1 existencia**: el DOI resuelve (Crossref o DataCite) o la URL responde.
 - **V2 metadatos**: título, primer autor y año coinciden con el registro.
@@ -138,9 +162,9 @@ Todas las reglas, con severidad, quién las evalúa y su fuente, están en [docs
 
 | Dimensión | Peso |
 |---|---:|
-| Congruencia | 30 |
+| Coherencia interna (congruencia) | 30 |
 | Fuentes | 25 |
-| Formato | 20 |
+| Formato y citas | 20 |
 | Estructura | 15 |
 | Redacción | 10 |
 
@@ -150,36 +174,37 @@ Bandas: **90 o más** Publicable, **75-89** Correcciones menores, **60-74** Corr
 
 ## Resultados
 
-Medidos con [`scripts/estadisticas.py`](scripts/estadisticas.py) (datos en [docs/estadisticas.json](docs/estadisticas.json)).
+¿Cómo saber si un revisor automático es confiable? Con dos preguntas: si **encuentra** los errores que hay, y si **no inventa** errores donde no los hay. Para medirlo se usan documentos cuyos errores se conocen de antemano.
 
-| Métrica | Resultado |
+![¿Encuentra los errores sin inventar otros? 36 de 36 errores sembrados, 30 de 30, 30 de 30 y 37 de 37 en tres documentos a ciegas, 19 de 19 en un borrador de estudiante, y 0 falsas alarmas en 17 documentos de muestra oficiales](docs/img/juez-precision-recall.png)
+
+| Qué se midió | Resultado |
 |---|---|
-| Precisión / recall del juez, errores sembrados | 1,00 / 1,00 (36 errores) |
-| Rondas ciegas (3 documentos nuevos, 97 errores) | 1,00 / 1,00 tras corregir lo que cada ronda reveló |
-| Boceto sintético de estudiante | recall mecánico 1,00 (19/19), 0 falsos positivos |
-| Falsos positivos en muestras oficiales APA/IEEE | **0 en 17 documentos** |
-| Reglas | 323: 86 deterministas, 237 de agente, 32 corregibles automáticamente |
-| Piloto: protocolo de investigación real de licenciatura (anonimizado) | de 31,1 a 88,4 (Correcciones menores) |
-| Pruebas en vivo | Codex y OpenCode, sin ayuda, llegaron al mismo dictamen que el juez ([detalle](docs/PRUEBAS-EN-VIVO.md)) |
-| Suite rápida | unos 100 s (Windows, Python 3.10, sin red) |
+| Documentos de prueba con errores sembrados a propósito | encontró 36 de 36, sin falsas alarmas |
+| Tres documentos nuevos, escritos con errores según la norma sin mirar el revisor | hoy encuentra los 97; la primera vez se le escaparon 4 y marcó 1 de más, y se corrigió |
+| Borrador sintético de estudiante | 19 de 19, sin falsas alarmas |
+| 17 documentos de muestra oficiales de APA e IEEE, que están bien hechos | **0 falsas alarmas** |
+| Protocolo de investigación real de licenciatura (anonimizado) | de 31,1 a 88,4 sobre 100 |
+| Uso real desde otros agentes | Codex y OpenCode, sin ayuda, llegaron al mismo dictamen ([detalle](docs/PRUEBAS-EN-VIVO.md)) |
+| Batería de pruebas | unos 100 segundos; corre sola en Windows y Linux con cada cambio (GitHub Actions) |
 
-![Precisión y recall del juez](docs/img/juez-precision-recall.png)
+En términos técnicos: precisión y exhaustividad (*recall*) de 1,00 en todas las rondas. Ese 1,00 significa que ninguna ronda conocida vuelve a fallar, no que el revisor sea infalible con documentos nuevos.
 
-Las rondas ciegas se sembraron con errores según la norma y no según el juez; la primera medición de las rondas 2 y 3 fue menor (recall 0,87 y precisión 0,97) y se corrigió lo que revelaron. Los 1,00 actuales son una puerta de regresión, no una promesa sobre documentos nuevos.
+![¿Quién revisa cada una de las 323 reglas? El programa revisa y corrige 32, revisa otras 54 y el agente de IA juzga 237; de las 115 reglas mecánicas de APA e IEEE, 56 ya están automatizadas](docs/img/reglas-por-familia.png)
 
-![Reglas por familia](docs/img/reglas-por-familia.png)
+De las 323 reglas, el programa revisa 86 (y de esas, corrige solo 32); las 237 restantes las juzga tu agente porque piden criterio, como el lenguaje sin sesgo o si una cita respalda lo que se le atribuye. A la derecha está lo pendiente: APA e IEEE tienen 115 reglas que se podrían revisar de forma mecánica y hoy 56 ya lo están.
 
-Sobre el conteo de reglas, con honestidad: el catálogo llama «determinista» a toda regla cuyo ID aparece en algún script (56 de las 285 APA/IEEE). El checklist marca 115 como mecánicas («Fix: sí»), así que hay trabajo pendiente entre lo automatizable y lo implementado.
+![Un protocolo de investigación real, revisión tras revisión: de 31.1 a 91.5, baja a 87 con reglas nuevas, sube a 91.4, baja a 85.4 con un revisor más estricto y vuelve a 88.4 tras la corrección automática](docs/img/piloto-evolucion.png)
 
-![Evolución del piloto](docs/img/piloto-evolucion.png)
+Las dos bajadas no son retrocesos del documento: el revisor se volvió más exigente y encontró cosas que antes dejaba pasar. La última la provocó el ejemplo de esta página, que destapó dos fallos del propio revisor: dejaba pasar párrafos sin sangría después de una tabla, y contaba como comprobadas las afirmaciones cuya fuente no publica resumen. Preferimos un puntaje más bajo y cierto.
 
-El piloto también bajó: de 91,4 a 85,4 cuando el ejemplo de esta página destapó dos fallos del propio juez (dejaba pasar párrafos sin sangría después de una tabla y contaba como verificadas las afirmaciones sin resumen). Volver a pasarlo por `corregir` lo dejó en 88,4. Preferimos un puntaje más bajo y cierto.
+<sub>Todas las cifras de esta sección las calcula un script que corre las pruebas y dibuja las gráficas ([`scripts/estadisticas.py`](scripts/estadisticas.py)); los datos crudos están en [docs/estadisticas.json](docs/estadisticas.json).</sub>
 
 ## Perfiles y `.editorial.yaml`
 
 Perfiles: `apa7`, `apa7-profesional`, `ieee`, `apa7-base+ieee-citas`, `ieee-base+apa7-citas` (maquetación de una norma, citas de la otra).
 
-Un `.editorial.yaml` en la carpeta del proyecto fija el perfil y el género por defecto y las excepciones de tu institución; el juez las informa como «excepción institucional», no como error.
+Un `.editorial.yaml` en la carpeta del proyecto fija el perfil y el género por defecto y las excepciones de tu institución; el revisor las informa como «excepción institucional», no como error.
 
 ```yaml
 institucion: "Mi universidad"
@@ -200,11 +225,11 @@ Solo se envían a servicios externos (Crossref, OpenAlex, DataCite, doi.org) **D
 
 ## Límites
 
-- V5 solo verifica contra el resumen de la fuente; lo que esté solo en el texto completo queda «no verificable».
+- El sustento de una cita (V5) solo se comprueba contra el resumen de la fuente; lo que esté solo en el texto completo queda «no verificable».
 - `corregir` solo corrige perfiles de base APA; con base IEEE se audita pero sale con código 2.
-- Las reglas de agente (lenguaje sin sesgo, claridad, adecuación de una cita) no son deterministas: dos corridas, o dos agentes, pueden diferir.
+- Las reglas que juzga el agente (lenguaje sin sesgo, claridad, si una cita respalda lo que dice) dependen de su criterio: dos corridas, o dos agentes, pueden diferir.
 - Las normas oficiales (`normas/`) no se distribuyen; se obtienen con `python scripts/obtener_normas.py`. Sin ellas, las pruebas que las necesitan se saltan con aviso.
-- El juez cubre .docx y Markdown; PDF y LaTeX los evalúa el agente tras extraer el texto.
+- El revisor automático lee .docx y Markdown; PDF y LaTeX los evalúa el agente tras extraer el texto.
 - Probado en vivo en Claude Code, Codex y OpenCode; en Gemini CLI, Cursor y Copilot solo el instalador.
 
 ## Hoja de ruta
@@ -214,7 +239,7 @@ Solo se envían a servicios externos (Crossref, OpenAlex, DataCite, doi.org) **D
 - V5 con texto completo de fuentes de acceso abierto.
 - Citas dentro de celdas de tabla (APA-034).
 - Prueba en vivo en Gemini CLI, Cursor y Copilot CLI.
-- Servidor MCP para usar el juez desde cualquier cliente.
+- Servidor MCP para usar el revisor desde cualquier cliente.
 
 ## Contribuir
 
