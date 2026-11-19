@@ -173,7 +173,7 @@ SERIE1, SERIE2, SERIE3, PISTA, TINTA2, TENUE2 = "#2a78d6", "#eb6834", "#1baf7a",
 def _lienzo(plt, alto=5.2):
     plt.rcParams.update({"font.family": ["Segoe UI", "DejaVu Sans"], "font.size": 12, "axes.spines.top": False,
                          "axes.spines.right": False, "axes.grid": False, "text.color": TINTA2})
-    return plt.figure(figsize=(13, alto), dpi=130)
+    return plt.figure(figsize=(11, alto), dpi=130)
 
 
 def _titulos(fig, titulo, subtitulo):
@@ -194,7 +194,7 @@ def grafica_juez(datos):
     fig = _lienzo(plt, 5.6)
     _titulos(fig, "¿Encuentra los errores sin inventar otros?",
              "Documentos con errores conocidos: cuántos encontró el revisor y cuántas veces marcó algo que estaba bien.")
-    ax = fig.add_axes([0.24, 0.17, 0.44, 0.6])
+    ax = fig.add_axes([0.24, 0.21, 0.44, 0.56])
     ys = list(range(len(rs)))[::-1]
     for r, y in zip(rs, ys):
         frac = r["detectados"] / r["esperados"] if r["esperados"] else 1
@@ -225,11 +225,11 @@ def grafica_juez(datos):
     if m.get("disponible"):
         fig.text(0.79, 0.64, f"{m['falsos_positivos']}", fontsize=64, weight="bold", color=TINTA2, va="center")
         fig.text(0.79, 0.48, "falsas alarmas", fontsize=15, weight="bold", va="center")
-        fig.text(0.79, 0.36, f"en {m['muestras']} documentos de muestra\noficiales de APA e IEEE", fontsize=12,
+        fig.text(0.79, 0.36, f"en {m['muestras']} documentos de\nmuestra oficiales\nde APA e IEEE", fontsize=12,
                  color=TENUE2, va="center", linespacing=1.3)
-        fig.text(0.79, 0.22, f"Los {m['verdaderos_positivos_esperados']} errores reales que traen\nesas muestras, sí los marca.",
+        fig.text(0.79, 0.2, f"Los {m['verdaderos_positivos_esperados']} errores reales\nque traen esas\nmuestras, sí los marca.",
                  fontsize=10.5, color=TENUE2, va="center", linespacing=1.3)
-    fig.text(0.015, 0.025, "Los documentos «a ciegas» se escribieron con errores según la norma, sin mirar el revisor. "
+    fig.text(0.015, 0.02, "Los documentos «a ciegas» se escribieron con errores según la norma, sin mirar el revisor.\n"
              "Lo que la primera medición reveló se corrigió; hoy cada ronda es una prueba que no debe volver a fallar.",
              fontsize=9.5, color=TENUE2)
     _guardar(fig, "juez-precision-recall.png")
@@ -277,15 +277,15 @@ def grafica_reglas(datos):
     ai = datos["reglas"]["apa_ieee"]
     hecho, meta = ai["ids_en_scripts"], ai["fix_si_en_checklist"]
     fig.text(0.76, 0.74, "Lo que falta automatizar", fontsize=14, weight="bold", va="top")
-    fig.text(0.76, 0.66, f"De las {meta} reglas de APA e IEEE que se\npueden revisar de forma mecánica:", fontsize=11,
+    fig.text(0.76, 0.66, f"De las {meta} reglas de APA e IEEE\nque se pueden revisar de forma\nmecánica:", fontsize=11,
              color=TENUE2, va="top", linespacing=1.3)
-    bx = fig.add_axes([0.76, 0.45, 0.2, 0.05])
+    bx = fig.add_axes([0.76, 0.42, 0.2, 0.05])
     bx.barh(0, meta, color=PISTA, height=1)
     bx.barh(0, hecho, color=SERIE1, height=1)
     bx.set_xlim(0, meta)
     bx.set_axis_off()
-    fig.text(0.76, 0.39, f"{hecho} ya las revisa el programa", fontsize=12, weight="bold", va="top")
-    fig.text(0.76, 0.33, f"Las otras {meta - hecho} las revisa, mientras\ntanto, tu agente de IA.", fontsize=11,
+    fig.text(0.76, 0.36, f"{hecho} ya las revisa el programa", fontsize=12, weight="bold", va="top")
+    fig.text(0.76, 0.3, f"Las otras {meta - hecho} las revisa, mientras\ntanto, tu agente de IA.", fontsize=11,
              color=TENUE2, va="top", linespacing=1.3)
     _guardar(fig, "reglas-por-familia.png")
     plt.close(fig)
@@ -298,7 +298,7 @@ def grafica_piloto(datos):
     fig = _lienzo(plt, 5.6)
     _titulos(fig, "Un protocolo de investigación real, revisión tras revisión",
              "Puntaje de 0 a 100 de un protocolo de licenciatura (anonimizado) en cada etapa del desarrollo del editor.")
-    ax = fig.add_axes([0.06, 0.22, 0.78, 0.56])
+    ax = fig.add_axes([0.07, 0.25, 0.72, 0.53])
     xs = list(range(len(pts)))
     ys = [p["puntaje"] for p in pts]
     for v, nombre in ((60, "60 · correcciones mayores"), (75, "75 · correcciones menores"), (90, "90 · publicable")):
@@ -317,7 +317,7 @@ def grafica_piloto(datos):
     ax.tick_params(axis="x", colors=TINTA2, length=0)
     for s in ("left", "bottom"):
         ax.spines[s].set_color("#c3c2b7")
-    fig.text(0.015, 0.025, "Las dos bajadas no son retrocesos del documento: el revisor se volvió más exigente y encontró "
+    fig.text(0.015, 0.02, "Las dos bajadas no son retrocesos del documento: el revisor se volvió más exigente y encontró\n"
              "cosas que antes dejaba pasar. Valores registrados en cada hito; el documento no se distribuye.",
              fontsize=9.5, color=TENUE2)
     _guardar(fig, "piloto-evolucion.png")

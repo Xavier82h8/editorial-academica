@@ -33,7 +33,7 @@ FONDO, TARJETA, BORDE = (255, 255, 255), (246, 248, 250), (208, 215, 222)
 TINTA, TENUE = (31, 35, 40), (89, 99, 110)
 ROJO, ROJO_SUAVE = (207, 34, 46), (255, 129, 130)
 VERDE, VERDE_SUAVE = (26, 127, 55), (74, 194, 107)
-ANCHO_PANEL = 760
+ANCHO_PANEL = 1040
 
 # Una fila por problema: título y explicación para cualquier lector; reglas para quien quiera el detalle.
 # Cada lado: (texto que abre el recorte, texto que lo cierra, fragmentos a resaltar). Los textos se buscan en el PDF.
@@ -186,26 +186,47 @@ def recorte(doc, lado, color):
     return render(pag, fitz.Rect(x0, r_ini.y0 - 6, x1, r_fin.y1 + 5), resaltar, color)
 
 
+def envolver(texto, f, ancho):
+    """Parte `texto` en líneas que caben en `ancho` px con la fuente `f`."""
+    lineas, act = [], ""
+    for pal in texto.split():
+        prueba = f"{act} {pal}".strip()
+        if f.getlength(prueba) <= ancho or not act:
+            act = prueba
+        else:
+            lineas.append(act)
+            act = pal
+    return lineas + ([act] if act else [])
+
+
 def fila(num, f, im_a, im_d):
+    """Una fila por problema: título, explicación y, debajo, ANTES y DESPUÉS a todo el ancho (legible en la columna
+    de unos 840 px con que GitHub muestra el README)."""
     from PIL import Image, ImageDraw
-    m, sep, cab = 28, 24, 104
-    alto = max(im_a.height, im_d.height)
-    w = 2 * ANCHO_PANEL + sep + 2 * m
-    h = cab + 34 + alto + m
+    m, sep = 28, 18
+    w = ANCHO_PANEL + 2 * m
+    f_tit, f_exp, f_reg, f_eti = fuente(30, True), fuente(21), fuente(17), fuente(17, True)
+    exp = envolver(f["explica"], f_exp, w - 2 * m - 50)
+    cab = 76 + 30 * len(exp) + 26
+    h = cab + 2 * (28 + sep) + im_a.height + im_d.height + m
     out = Image.new("RGB", (w, h), FONDO)
     d = ImageDraw.Draw(out)
-    d.ellipse([m, 22, m + 34, 56], fill=TINTA)
-    d.text((m + 17, 39), str(num), font=fuente(20, True), fill=FONDO, anchor="mm")
-    d.text((m + 48, 20), f["titulo"], font=fuente(27, True), fill=TINTA)
-    d.text((w - m, 26), f["reglas"], font=fuente(16), fill=TENUE, anchor="ra")
-    d.text((m + 48, 62), f["explica"], font=fuente(19), fill=TENUE)
-    for k, (im, etiqueta, col) in enumerate(((im_a, "ANTES", ROJO), (im_d, "DESPUÉS", VERDE))):
-        x = m + k * (ANCHO_PANEL + sep)
-        d.text((x, cab), etiqueta, font=fuente(16, True), fill=col)
-        y = cab + 30
-        d.rectangle([x - 1, y - 1, x + ANCHO_PANEL, y + alto], fill=FONDO, outline=BORDE)
-        out.paste(im, (x, y))
-        d.rectangle([x, y, x + 3, y + alto - 1], fill=col)
+    d.ellipse([m, 20, m + 36, 56], fill=TINTA)
+    d.text((m + 18, 38), str(num), font=fuente(21, True), fill=FONDO, anchor="mm")
+    d.text((m + 50, 17), f["titulo"], font=f_tit, fill=TINTA)
+    y = 66
+    for ln in exp:
+        d.text((m + 50, y), ln, font=f_exp, fill=TENUE)
+        y += 30
+    d.text((m + 50, y + 2), f["reglas"], font=f_reg, fill=TENUE)
+    y = cab
+    for im, etiqueta, col in ((im_a, "ANTES", ROJO), (im_d, "DESPUÉS", VERDE)):
+        d.text((m, y), etiqueta, font=f_eti, fill=col)
+        y += 28
+        d.rectangle([m - 1, y - 1, m + ANCHO_PANEL, y + im.height], fill=FONDO, outline=BORDE)
+        out.paste(im, (m, y))
+        d.rectangle([m, y, m + 4, y + im.height - 1], fill=col)
+        y += im.height + sep
     return out
 
 
@@ -214,12 +235,13 @@ def lamina(filas, docs, titulo, subtitulo):
     imgs = [fila(i, f, recorte(docs[ORIGINAL], f["antes"], ROJO), recorte(docs[FINAL], f["despues"], VERDE))
             for i, f in enumerate(filas, 1)]
     w = imgs[0].width
-    cab = 96
+    cab = 68 + 28 * len(envolver(subtitulo, fuente(20), w - 56)) + 20
     h = cab + sum(i.height for i in imgs) + 8 * (len(imgs) - 1) + 12
     out = Image.new("RGB", (w, h), TARJETA)
     d = ImageDraw.Draw(out)
-    d.text((28, 22), titulo, font=fuente(32, True), fill=TINTA)
-    d.text((28, 64), subtitulo, font=fuente(18), fill=TENUE)
+    d.text((28, 22), titulo, font=fuente(34, True), fill=TINTA)
+    for k, ln in enumerate(envolver(subtitulo, fuente(20), w - 56)):
+        d.text((28, 68 + 28 * k), ln, font=fuente(20), fill=TENUE)
     y = cab
     for im in imgs:
         out.paste(im, (0, y))
@@ -252,7 +274,7 @@ def grafica_puntaje(p):
     etapas = [(ORIGINAL, "Entrega original"), (CORREGIDO, "Tras la corrección\nautomática"),
               (FINAL, "Tras corregir\nel contenido")]
     plt.rcParams.update({"font.family": ["Segoe UI", "DejaVu Sans"], "font.size": 12})
-    fig, ax = plt.subplots(figsize=(13, 5.6), dpi=130)
+    fig, ax = plt.subplots(figsize=(10.5, 5.8), dpi=130)
     fig.patch.set_facecolor("#ffffff")
     ys = [2, 1, 0]
     # bandas del veredicto, al fondo y sin color de estado: solo líneas finas con su nombre
@@ -292,12 +314,13 @@ def grafica_puntaje(p):
     maximos = p[FINAL]["maximos"]
     hand = [plt.Rectangle((0, 0), 1, 1, color=c) for _, _, c in dims]
     ax.legend(hand, [f"{e} (máx. {maximos[k]})" for k, e, _ in dims], loc="upper center", bbox_to_anchor=(0.5, -0.1),
-              ncol=5, frameon=False, fontsize=11, handlelength=1.2, columnspacing=1.6)
-    fig.suptitle("Puntaje del informe en cada etapa, por dimensión (0 a 100)", x=0.015, ha="left", fontsize=17,
+              ncol=3, frameon=False, fontsize=11, handlelength=1.2, columnspacing=1.6)
+    fig.suptitle("Puntaje del informe en cada etapa (0 a 100)", x=0.015, ha="left", fontsize=17,
                  weight="bold", color="#0b0b0b", y=0.98)
-    fig.text(0.015, 0.895, "La corrección automática arregla el formato, pero el documento sigue rechazado: lo que "
-                           "pesa es la coherencia y las citas.", fontsize=12, color="#52514e")
-    fig.subplots_adjust(left=0.15, right=0.9, top=0.8, bottom=0.2)
+    fig.text(0.015, 0.905, "La corrección automática arregla el formato, pero el documento sigue rechazado:\n"
+                           "lo que pesa es la coherencia y las citas.", fontsize=12, color="#52514e", va="top",
+             linespacing=1.3)
+    fig.subplots_adjust(left=0.17, right=0.88, top=0.76, bottom=0.22)
     fig.savefig(IMG / "ejemplo-puntaje.png", facecolor=fig.get_facecolor())
     plt.close(fig)
 
