@@ -1,0 +1,10 @@
+id: apa7
+nombre: APA 7 completo
+base: apa7          # página, portada, encabezados, tablas/figuras, mecánica
+citas: apa7         # citas en texto + lista de referencias
+csl: plantillas/csl/apa-editorial.csl
+checklists: [skills/apa7/references/checklist.md]
+opciones:
+  tipo_trabajo: estudiante   # estudiante | profesional
+  idioma: es                 # es | en  (es => locale es-MX; la cita parentética conserva «&», APA-037, decisión 18-nov-2026)
+overrides: {}

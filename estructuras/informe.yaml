@@ -1,0 +1,87 @@
+id: informe
+nombre: Informe o reporte académico
+front_matter:
+- portada
+- declaración de uso de IA (si aplica)
+secciones:
+- nombre: Resumen
+  alias:
+  - resumen
+  - abstract
+  obligatoria: false
+  proposito: 'Síntesis de 150-250 palabras: objetivo, método, resultados y conclusión'
+  preguntas:
+  - ¿El resumen refleja objetivo, método, resultado principal y conclusión?
+- nombre: Introducción
+  alias:
+  - introduccion
+  - introduction
+  - planteamiento
+  - antecedentes
+  obligatoria: true
+  proposito: Contexto, problema, vacío y objetivo
+  preguntas:
+  - ¿Qué problema se aborda y por qué importa?
+  - ¿Qué vacío deja la literatura?
+  - ¿Cuál es el objetivo o la pregunta?
+  extension: 10-15 %
+- nombre: Método
+  alias:
+  - metodo
+  - metodologia
+  - materiales y metodos
+  - method
+  - methods
+  - methodology
+  - diseño metodológico
+  obligatoria: true
+  proposito: Diseño, participantes o datos, instrumentos y procedimiento reproducibles
+  preguntas:
+  - ¿Qué diseño se usó y por qué?
+  - ¿Quiénes participaron o qué datos se usaron (n, criterios)?
+  - ¿Cómo se recolectaron y analizaron los datos?
+  extension: 15-25 %
+- nombre: Resultados
+  alias:
+  - resultados
+  - results
+  - hallazgos
+  - findings
+  obligatoria: true
+  proposito: Hallazgos sin interpretar, en el orden de los objetivos
+  preguntas:
+  - ¿Qué se encontró para cada objetivo o pregunta?
+  - ¿Los números coinciden con tablas y figuras?
+  extension: 20-30 %
+- nombre: Discusión
+  alias:
+  - discusion
+  - discussion
+  - analisis de resultados
+  obligatoria: false
+  proposito: Interpretación, comparación con la literatura, limitaciones
+  preguntas:
+  - ¿Qué significan los resultados?
+  - ¿Coinciden o difieren de estudios previos?
+  - ¿Cuáles son las limitaciones?
+- nombre: Conclusiones
+  alias:
+  - conclusion
+  - conclusiones
+  - conclusions
+  - consideraciones finales
+  obligatoria: true
+  proposito: Respuesta a cada objetivo e implicaciones
+  preguntas:
+  - ¿Se responde cada objetivo?
+  - ¿Qué implicaciones y trabajo futuro hay?
+  extension: 5-10 %
+- nombre: Referencias
+  alias:
+  - referencias
+  - references
+  - bibliografia
+  - fuentes
+  obligatoria: true
+  proposito: Lista de fuentes citadas
+  preguntas: []

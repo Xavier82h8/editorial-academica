@@ -1,0 +1,25 @@
+---
+description: 'Corrige automáticamente el formato APA de un .docx (márgenes, fuente, interlineado, sangrías, encabezados, número de página, lista de referencias, citas narrativas, orden de citas, bordes de tabla, tablas y figuras que no se parten, espacio tras tablas) sin tocar el original'
+argument-hint: '<archivo.docx> --perfil apa7|apa7-profesional|apa7-base+ieee-citas [--solo APA-002,APA-004] [--paginacion encabezado|pie|ninguna] [--portada-numero si|no]'
+---
+Corre `python ${CLAUDE_PLUGIN_ROOT}/scripts/editorial.py corregir $ARGUMENTS`. Muestra el conteo antes/después por regla y la lista «no automático». Para lo no automático, ofrece aplicarlo con el agente `juez-formato` sobre `<archivo>.corregido.docx` (es una acción del agente: `--fix` no es una opción del script). Nunca sobrescribas el original.
+
+`--perfil` es obligatorio, salvo que un `.editorial.yaml` cercano declare `perfil:`; sin ninguno de los dos el script sale con 2. Solo se corrigen perfiles de base APA: con un perfil de base IEEE (`ieee`, `ieee-base+apa7-citas`) el script no corrige nada, dice «base ieee no soportado aún (solo base APA 7)» y sale con 2; esos documentos se auditan con `/auditar`.
+
+Códigos de salida de los scripts: 0 sin hallazgos (o solo menores), 1 con hallazgos críticos o mayores, 2 error de uso o de entrada (archivo inexistente o no soportado, perfil desconocido o ausente, herramienta externa ausente).
+
+`--paginacion encabezado|pie|ninguna` decide dónde queda el número de página y nunca deja número en encabezado y pie a la vez:
+- `encabezado` (por defecto en APA, §2.18): un PAGE a la derecha en el encabezado; quita del pie y de la primera página distinta los párrafos que solo son numeración («Página X de Y», «Page X of Y», solo el número). Si el pie tiene más texto, quita únicamente el campo y esas palabras.
+- `pie`: quita PAGE/NUMPAGES del encabezado (conserva el texto del encabezado) y deja un solo número en el pie, sin «Página» ni total.
+- `ninguna`: quita PAGE y NUMPAGES de encabezados y pies.
+- En un perfil de base IEEE sin el flag no se toca la numeración (IEEE no la define) y se avisa.
+Con `pie` o `ninguna`, APA-008 queda señalado a propósito (APA pide el número arriba a la derecha).
+
+`--portada-numero si|no` decide si la portada (primera página de la sección 0) lleva número. APA §2.18 pide número en todas las páginas, la portada con el 1; muchas instituciones lo prohíben, así que es decisión del usuario. Por defecto usa `portada_numero:` de `.editorial.yaml`; sin él no toca la portada (una portada sin número no recibe número). Si hay duda, pregunta antes de correr (ver `/estructura`).
+- `no`: activa «primera página distinta» en la sección 0, copia al encabezado de primera página el contenido del encabezado (running head) y al pie de primera página el del pie, ambos sin PAGE ni NUMPAGES (conserva el resto del texto); las demás páginas siguen numeradas.
+- `si`: la portada lleva el número como el resto (según `--paginacion`): mismo encabezado o pie, un solo número, nunca dos.
+- Con `portada_numero: no` en `.editorial.yaml`, `/auditar` registra APA-008 de la portada como excepción institucional.
+
+Cuando un encabezado tiene texto y el campo PAGE pegados, sin tabulador ni alineación derecha, se inserta antes del PAGE un tabulador posicional derecho para que el número quede a la derecha (APA-008).
+
+Además aplica las reglas de maquetación (ver `/estructura`). EST-010 y EST-011 (número de página duplicado, «Página X de Y») se resuelven con `--paginacion`; EST-012 a EST-014 son automáticas, sin preguntar: `keep_with_next` en rótulo, título e imagen, filas sin partir (`cantSplit`) en tablas de hasta 20 filas, fila de encabezados repetida (`tblHeader`) en las más largas y 24 pt de espacio antes del encabezado que sigue a una tabla, figura o nota. EST-015 (nota sin formato APA) no se corrige: hay que elegir la obra.

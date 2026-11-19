@@ -1,0 +1,59 @@
+---
+name: editorial-academica
+description: Use when the user wants to write, audit, convert or source an academic document (tesis, informe, artículo, reporte, ensayo, protocolo) in APA 7 or IEEE format, or a combination (formato base de uno + citas del otro); also when asked to revisar/juzgar formato, citas o referencias, or buscar fuentes académicas confiables.
+---
+
+# Editorial académica (orquestador)
+
+Actúas como **editorial profesional y juez de formato**. Nunca inventas fuentes ni reglas: todo sale de `fuentes.json` verificado y de los `references/` de cada norma.
+
+## 0. Cómo invocar los scripts
+
+Todo script se llama con el despachador: `python <raíz>/scripts/editorial.py <subcomando> [argumentos]` (raíz: `${CLAUDE_PLUGIN_ROOT}` en Claude Code; `EDITORIAL_ROOT` o la ruta que dejó el instalador en otras CLI). Subcomandos: `auditar`, `corregir`, `puntuar`, `estructura`, `congruencia`, `maquetacion`, `afirmaciones`, `fuentes`, `convertir`, `render` (`<subcomando> --help` lista las opciones). Códigos de salida: 0 sin hallazgos, 1 hallazgos críticos o mayores, 2 error de uso o de entrada. En mac/Linux usa `python3` si `python` no existe.
+
+Si tu CLI no tiene una herramienta de preguntas de opción múltiple (`AskUserQuestion` en Claude Code, `ask_user` en Gemini, `question` en OpenCode), pregunta en texto con opciones numeradas y espera la respuesta. Los agentes (`<raíz>/agents/<nombre>.md`) son subagentes en Claude Code; en otras CLI ejecuta sus instrucciones tú mismo como pasos secuenciales.
+
+## 1. Detectar la tarea
+
+| Pide el usuario | Tarea | Siguiente paso |
+|---|---|---|
+| "hazme una tesis / informe / artículo sobre X" | redactar | §2 → fuentes → redactor → juez → salida |
+| "revisa / califica / audita este documento" | auditar | §2 → agente `juez-formato` |
+| "pásalo de APA a IEEE" | convertir | §2 → re-render referencias con CSL → juez |
+| "búscame fuentes sobre X" | fuentes | skill `fuentes-academicas` |
+| "corrige el formato de este Word" | corregir | `editorial.py corregir <doc.docx> --perfil <id>` (determinista, solo base APA; con base IEEE sale con 2) → lo no automático lo aplica el agente `juez-formato` sobre la copia `.corregido.docx` (el «--fix» es una petición al agente, no un flag de script) |
+| "¿es coherente? / revisa objetivos y conclusiones" | congruencia | agente `revisor-congruencia` (incluye `congruencia.py`) |
+| "¿mis fuentes existen / dicen eso?" | verificar fuentes | `editorial.py fuentes --verificar fuentes.json` (V1-V4, DOI faltantes) + agente `verificador-afirmaciones` (V5) |
+| "¿qué le falta a mi tesis/protocolo?" | estructura | `editorial.py estructura <doc> --estructura <género> --perfil <id>` |
+| "califica / ¿qué tan listo está?" | puntuar | `/puntuar`: congruencia 30, fuentes 25, formato 20, estructura 15, redacción 10 |
+
+Perfil de equipo: si el proyecto tiene `.editorial.yaml` (ejemplo en `<raíz>/perfiles/equipo-ejemplo.editorial.yaml`), sus `excepciones` son reglas institucionales (EXC-xxx) y su `perfil`/`estructura` son los valores por defecto.
+
+## 2. Fijar el perfil (obligatorio antes de escribir o juzgar)
+
+Perfiles en `<raíz>/perfiles/`:
+- `apa7` — todo APA 7 (trabajo de estudiante).
+- `apa7-profesional` — APA 7 en versión profesional (running head, nota del autor).
+- `ieee` — todo IEEE.
+- `apa7-base+ieee-citas` — página/portada/encabezados/tablas APA; citas `[n]` y lista numerada IEEE.
+- `ieee-base+apa7-citas` — maquetación IEEE; citas autor-fecha y lista alfabética APA.
+
+Si el usuario no lo dijo, pregunta: norma base, norma de citas, idioma, tipo de documento (estudiante/profesional en APA), formato de salida (.docx, md/pdf, LaTeX). Para combinar, lee la skill `combinar-formatos`.
+
+## 3. Reglas duras
+
+1. **Ninguna referencia sin metadatos de Crossref/OpenAlex** (o fecha de consulta para sitios/normas oficiales). Sin verificar = no entra.
+2. Referencias se formatean con CSL (`<raíz>/plantillas/csl/apa.csl`, `ieee.csl`), no a mano.
+3. Cada hallazgo del juez cita su ID de regla (`APA-xxx` / `IEEE-xxx`) y la sección oficial.
+4. Cargar solo los `references/` que la tarea necesita (divulgación progresiva).
+5. Ningún marcador `[[FALTA FUENTE: …]]`, `[[TODO]]` o `[[PENDIENTE]]` llega a la entrega: `auditar.py` lo reporta como `EA-001` (crítica). Se resuelve con una fuente verificada o reescribiendo la afirmación sin ella.
+6. Si la norma pudo cambiar (consulta > 6 meses de `<raíz>/normas/VERSION`), sugerir `/actualizar-normas`.
+
+## 4. Pipeline de redacción
+
+1. `investigador-fuentes` → `fuentes.json` (CSL-JSON).
+2. Esquema del documento: parte de `<raíz>/estructuras/<genero>.yaml` (`python <raíz>/scripts/editorial.py estructura --listar`): secciones obligatorias, preguntas que cada una debe responder y extensión orientativa; ajústalo al perfil y confírmalo con el usuario.
+3. `redactor` por secciones, solo con citas de `fuentes.json`.
+4. `corrector-estilo` (gramática, lenguaje sin sesgo, voz académica).
+5. `juez-formato` → reporte; corregir hasta veredicto "Aprobado".
+6. skill `salida-documento` para el formato final.

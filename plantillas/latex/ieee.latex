@@ -1,0 +1,119 @@
+$document-metadata.latex()$
+$passoptions.latex()$
+% Plantilla pandoc IEEE (IEEEtran). Requiere xelatex + filtro plantillas/filtros/latex-base.lua + -V indent=true.
+% classoption: conference (dos columnas) o journal,onecolumn.
+\documentclass[
+$for(babel-otherlangs)$
+  $babel-otherlangs$,
+$endfor$
+$if(babel-lang)$
+  $babel-lang$,
+$endif$
+$if(fontsize)$
+  $fontsize$,
+$endif$
+  letterpaper,
+$for(classoption)$
+  $classoption$$sep$,
+$endfor$
+]{IEEEtran}
+\usepackage{xcolor}
+\usepackage{amsmath,amssymb}
+$fonts.latex()$
+$font-settings.latex()$
+$common.latex()$
+\usepackage{etoolbox}
+$if(kwlabel)$
+\renewcommand{\IEEEkeywordsname}{$kwlabel$}
+$endif$
+\usepackage{booktabs,array}
+% --- tablas y figuras IEEE: "TABLE I" (versalitas) arriba, titulo en versalitas debajo; "Fig. 1." debajo de la figura
+\usepackage{caption}
+\captionsetup{font=footnotesize,justification=centering}
+\captionsetup[table]{labelsep=newline,labelfont=sc,textfont=sc,position=top,skip=6pt}
+\captionsetup[figure]{labelsep=period,labelfont=normalfont,textfont=normalfont,position=bottom}
+\renewcommand{\thetable}{\Roman{table}}
+\makeatletter
+\@ifundefined{captionsspanish}{}{\addto\captionsspanish{\renewcommand{\tablename}{TABLA}\renewcommand{\figurename}{Fig.}}}
+\@ifundefined{captionsmexican}{}{\addto\captionsmexican{\renewcommand{\tablename}{TABLA}\renewcommand{\figurename}{Fig.}}}
+\@ifundefined{captionsenglish}{}{\addto\captionsenglish{\renewcommand{\tablename}{TABLE}\renewcommand{\figurename}{Fig.}}}
+\@ifundefined{captionsamerican}{}{\addto\captionsamerican{\renewcommand{\tablename}{TABLE}\renewcommand{\figurename}{Fig.}}}
+\makeatother
+% numeracion IEEE: I. / A. / 1)
+\renewcommand{\thesubsection}{\Alph{subsection}}
+\renewcommand{\thesubsubsection}{\arabic{subsubsection})}
+% IEEEtran no define \paragraph/\subparagraph: encabezados de nivel 4-5 en linea, cursiva
+\providecommand{\paragraph}[1]{\par\textit{#1}.\ }
+\providecommand{\subparagraph}[1]{\textit{#1}.\ }
+$if(tables)$
+% IEEEtran en dos columnas: longtable exige modo 1 columna; se engana la comprobacion dentro del entorno
+\makeatletter
+\AtBeginEnvironment{longtable}{\@twocolumnfalse\small}
+\makeatother
+$endif$
+% --- lista de referencias: 8 pt, compacta
+\ifdefined\cslhangindent
+\setlength{\cslhangindent}{0.25in}
+\setlength{\csllabelwidth}{2em}
+\AtBeginEnvironment{CSLReferences}{\footnotesize\setlength{\itemsep}{0pt}\setlength{\parskip}{0pt}\raggedright}
+\fi
+$for(header-includes)$
+$header-includes$
+$endfor$
+$after-header-includes.latex()$
+$hypersetup.latex()$
+$if(pdf-trailer-id)$
+
+\ifXeTeX
+\special{pdf:trailerid [ $pdf-trailer-id$ ]}
+\fi
+$endif$
+
+$if(title)$
+\title{$title$$if(subtitle)$\\ \large $subtitle$$endif$$if(thanks)$\thanks{$thanks$}$endif$}
+$endif$
+$if(ieee-onecolumn)$
+% journal,onecolumn: los bloques IEEEauthorblockN/A son de conferencia y dejan autor y afiliacion en una linea
+\author{$for(author)$$if(author.name)$$author.name$$else$$author$$endif$$sep$, $endfor$\\[0.5ex]
+{\normalfont\small\itshape $if(affiliation)$$for(affiliation)$$affiliation$$sep$\\ $endfor$$else$$for(author)$$author.affiliation$$sep$\\ $endfor$$endif$}}
+$else$
+$if(affiliation)$
+\author{\IEEEauthorblockN{$for(author)$$if(author.name)$$author.name$$else$$author$$endif$$sep$, $endfor$}
+\IEEEauthorblockA{$affiliation$}}
+$else$
+\author{$for(author)$\IEEEauthorblockN{$if(author.name)$$author.name$$else$$author$$endif$}$if(author.affiliation)$
+\IEEEauthorblockA{$author.affiliation$$if(author.email)$\\ $author.email$$endif$}$else$$if(affiliation)$
+\IEEEauthorblockA{$affiliation$}$endif$$endif$$sep$
+\and
+$endfor$}
+$endif$
+$endif$
+
+\begin{document}
+$if(title)$
+\maketitle
+$endif$
+$if(abstract)$
+\begin{abstract}
+$abstract$
+\end{abstract}
+$endif$
+$if(keywords)$
+\begin{IEEEkeywords}
+$for(keywords)$$keywords$$sep$, $endfor$
+\end{IEEEkeywords}
+$endif$
+$for(include-before)$
+$include-before$
+
+$endfor$
+$body$
+
+$if(nocite-ids)$
+\nocite{$for(nocite-ids)$$it$$sep$, $endfor$}
+$endif$
+$for(include-after)$
+$include-after$
+
+$endfor$
+\end{document}

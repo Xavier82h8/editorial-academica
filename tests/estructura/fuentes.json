@@ -1,0 +1,776 @@
+[
+  {
+    "type": "article-journal",
+    "title": "Generative AI and academic integrity in higher education: A systematic review and research agenda",
+    "author": [
+      {
+        "family": "Bittle",
+        "given": "Kyle"
+      },
+      {
+        "family": "El-Gayar",
+        "given": "Omar"
+      }
+    ],
+    "container-title": "Information",
+    "publisher": "MDPI AG",
+    "volume": "16",
+    "issue": "4",
+    "page": "296",
+    "DOI": "10.3390/info16040296",
+    "URL": "https://doi.org/10.3390/info16040296",
+    "issued": {
+      "date-parts": [
+        [
+          2025,
+          4,
+          8
+        ]
+      ]
+    },
+    "ISSN": "2078-2489",
+    "language": "en",
+    "_verificacion": {
+      "fuente": "crossref",
+      "fecha": "2026-11-18",
+      "doi_resuelve": true,
+      "openalex": "https://openalex.org/W4409269614",
+      "citas": 679,
+      "citas_influyentes": 14,
+      "acceso_abierto": "https://www.mdpi.com/2078-2489/16/4/296/pdf?version=1744094887",
+      "puntaje": 14.988,
+      "titulo_original": "Generative AI and Academic Integrity in Higher Education: A Systematic Review and Research Agenda",
+      "revisar_nombres_propios": true
+    },
+    "id": "bittle2025",
+    "abstract": "This systematic literature review rigorously evaluates the impact of Generative AI (GenAI) on academic integrity within higher education settings. The primary objective is to synthesize how GenAI technologies influence student behavior and academic honesty, assessing the benefits and risks associated with their integration. We defined clear inclusion and exclusion criteria, focusing on studies explicitly discussing GenAI’s role in higher education from January 2021 to December 2024. Databases included ABI/INFORM, ACM Digital Library, IEEE Xplore, and JSTOR, with the last search conducted in May 2024. A total of 41 studies met our precise inclusion criteria. Our synthesis methods involved qualitative analysis to identify common themes and quantify trends where applicable. The results indicate that while GenAI can enhance educational engagement and efficiency, it also poses significant risks of academic dishonesty. We critically assessed the risk of bias in included studies and noted a limitation in the diversity of databases, which might have restricted the breadth of perspectives. Key implications suggest enhancing digital literacy and developing robust detection tools to effectively manage GenAI’s dual impacts. No external funding was received for this review. Future research should expand database sources and include more diverse study designs to overcome current limitations and refine policy recommendations."
+  },
+  {
+    "type": "article-journal",
+    "title": "Generative AI in higher education: A global perspective of institutional adoption policies and guidelines",
+    "author": [
+      {
+        "family": "Jin",
+        "given": "Yueqiao"
+      },
+      {
+        "family": "Yan",
+        "given": "Lixiang"
+      },
+      {
+        "family": "Echeverria",
+        "given": "Vanessa"
+      },
+      {
+        "family": "Gašević",
+        "given": "Dragan"
+      },
+      {
+        "family": "Martinez-Maldonado",
+        "given": "Roberto"
+      }
+    ],
+    "container-title": "Computers and Education: Artificial Intelligence",
+    "publisher": "Elsevier BV",
+    "volume": "8",
+    "page": "100348",
+    "DOI": "10.1016/j.caeai.2024.100348",
+    "URL": "https://doi.org/10.1016/j.caeai.2024.100348",
+    "issued": {
+      "date-parts": [
+        [
+          2025,
+          6
+        ]
+      ]
+    },
+    "ISSN": "2666-920X",
+    "language": "en",
+    "number": "100348",
+    "_verificacion": {
+      "fuente": "crossref",
+      "fecha": "2026-11-18",
+      "doi_resuelve": true,
+      "openalex": "https://openalex.org/W4405586205",
+      "citas": 993,
+      "citas_influyentes": null,
+      "acceso_abierto": "https://doi.org/10.1016/j.caeai.2024.100348",
+      "puntaje": 14.767
+    },
+    "id": "jin2025",
+    "abstract": "Integrating generative AI (GAI) into higher education is crucial for preparing a future generation of GAI-literate students. However, a comprehensive understanding of global institutional adoption policies remains absent, with most prior studies focusing on the Global North and lacking a theoretical lens. This study utilizes the Diffusion of Innovations Theory to examine GAI adoption strategies in higher education across 40 universities from six global regions. It explores the characteristics of GAI innovation, including compatibility, trialability, and observability, and analyses the communication channels and roles and responsibilities outlined in university policies and guidelines. The findings reveal that universities are proactively addressing GAI integration by emphasising academic integrity, enhancing teaching and learning practices, and promoting equity. Key policy measures include the development of guidelines for ethical GAI use, the design of authentic assessments to mitigate misuse, and the provision of training programs for faculty and students to foster GAI literacy. Despite these efforts, gaps remain in comprehensive policy frameworks, particularly in addressing data privacy concerns and ensuring equitable access to GAI tools. The study underscores the importance of clear communication channels, stakeholder collaboration, and ongoing evaluation to support effective GAI adoption. These insights provide actionable insights for policymakers to craft inclusive, transparent, and adaptive strategies for integrating GAI into higher education."
+  },
+  {
+    "type": "article-journal",
+    "title": "Generative AI and the future of higher education: a threat to academic integrity or reformation? Evidence from multicultural perspectives",
+    "author": [
+      {
+        "family": "Yusuf",
+        "given": "Abdullahi"
+      },
+      {
+        "family": "Pervin",
+        "given": "Nasrin"
+      },
+      {
+        "family": "Román-González",
+        "given": "Marcos"
+      }
+    ],
+    "container-title": "International Journal of Educational Technology in Higher Education",
+    "publisher": "Springer Science and Business Media LLC",
+    "volume": "21",
+    "issue": "1",
+    "DOI": "10.1186/s41239-024-00453-6",
+    "URL": "https://doi.org/10.1186/s41239-024-00453-6",
+    "issued": {
+      "date-parts": [
+        [
+          2024,
+          3,
+          25
+        ]
+      ]
+    },
+    "ISSN": "2365-9440",
+    "language": "en",
+    "number": "21",
+    "_verificacion": {
+      "fuente": "crossref",
+      "fecha": "2026-11-18",
+      "doi_resuelve": true,
+      "openalex": "https://openalex.org/W4395483946",
+      "citas": 982,
+      "citas_influyentes": 32,
+      "acceso_abierto": "https://link.springer.com/content/pdf/10.1186/s41239-024-00453-6.pdf",
+      "puntaje": 14.757
+    },
+    "id": "yusuf2024",
+    "abstract": "Abstract In recent years, higher education (HE) globally has witnessed extensive adoption of technology, particularly in teaching and research. The emergence of generative Artificial Intelligence (GenAI) further accelerates this trend. However, the increasing sophistication of GenAI tools has raised concerns about their potential to automate teaching and research processes. Despite widespread research on GenAI in various fields, there is a lack of multicultural perspectives on its impact and concerns in HE. This study addresses this gap by examining the usage, benefits, and concerns of GenAI in higher education from a multicultural standpoint. We employed an online survey that collected responses from 1217 participants across 76 countries, encompassing a broad range of gender categories, academic disciplines, geographical locations, and cultural orientations. Our findings revealed a high level of awareness and familiarity with GenAI tools among respondents. A significant portion had prior experience and expressed the intention to continue using these tools, primarily for information retrieval and text paraphrasing. The study emphasizes the importance of GenAI integration in higher education, highlighting both its potential benefits and concerns. Notably, there is a strong correlation between cultural dimensions and respondents’ views on the benefits and concerns related to GenAI, including its potential as academic dishonesty and the need for ethical guidelines. We, therefore, argued that responsible use of GenAI tools can enhance learning processes, but addressing concerns may require robust policies that are responsive to cultural expectations. We discussed the findings and offered recommendations for researchers, educators, and policymakers, aiming to promote the ethical and effective integration of GenAI tools in higher education."
+  },
+  {
+    "type": "article-journal",
+    "title": "The rapid rise of generative AI and its implications for academic integrity: Students’ perceptions and use of chatbots for assistance with assessments",
+    "author": [
+      {
+        "family": "Gruenhagen",
+        "given": "Jan Henrik"
+      },
+      {
+        "family": "Sinclair",
+        "given": "Peter M."
+      },
+      {
+        "family": "Carroll",
+        "given": "Julie-Anne"
+      },
+      {
+        "family": "Baker",
+        "given": "Philip R.A."
+      },
+      {
+        "family": "Wilson",
+        "given": "Ann"
+      },
+      {
+        "family": "Demant",
+        "given": "Daniel"
+      }
+    ],
+    "container-title": "Computers and Education: Artificial Intelligence",
+    "publisher": "Elsevier BV",
+    "volume": "7",
+    "page": "100273",
+    "DOI": "10.1016/j.caeai.2024.100273",
+    "URL": "https://doi.org/10.1016/j.caeai.2024.100273",
+    "issued": {
+      "date-parts": [
+        [
+          2024,
+          12
+        ]
+      ]
+    },
+    "ISSN": "2666-920X",
+    "language": "en",
+    "number": "100273",
+    "_verificacion": {
+      "fuente": "crossref",
+      "fecha": "2026-11-18",
+      "doi_resuelve": true,
+      "openalex": "https://openalex.org/W4401074745",
+      "citas": 408,
+      "citas_influyentes": 15,
+      "acceso_abierto": "https://doi.org/10.1016/j.caeai.2024.100273",
+      "puntaje": 14.124
+    },
+    "id": "gruenhagen2024",
+    "abstract": "The rapid adoption of generative AI tools such as ChatGPT by students has the potential to disrupt the higher education sector, with concerns being raised by academics about potential threats to academic integrity. This paper contributes to the pressing discussion about responses to AI tools by examining students' perceptions and the use of generative AI to assist them with assessments. Based on a survey among 337 Australian university students, this study found that more than a third of students have used a chatbot for assistance with an assessment, and do not necessarily perceive this as a breach of academic integrity. The study further investigated to what extent different psychosocial factors such as learning motivations, distress or resilience are associated with students’ use of AI chatbots in order to ascertain environmental conditions or risk factors driving their use. Findings suggest that the higher education sector faces the challenge of not only defining clear policies and guidelines about ethical and academically honest ways to use and integrate generative AI tools into university education and assessments, but also to rethink the design of assessment pieces."
+  },
+  {
+    "type": "article-journal",
+    "title": "Redesigning assessments for AI-enhanced learning: A framework for educators in the generative AI era",
+    "author": [
+      {
+        "family": "Khlaif",
+        "given": "Zuheir N."
+      },
+      {
+        "family": "Alkouk",
+        "given": "Wejdan Awadallah"
+      },
+      {
+        "family": "Salama",
+        "given": "Nisreen"
+      },
+      {
+        "family": "Abu Eideh",
+        "given": "Belal"
+      }
+    ],
+    "container-title": "Education Sciences",
+    "publisher": "MDPI AG",
+    "volume": "15",
+    "issue": "2",
+    "page": "174",
+    "DOI": "10.3390/educsci15020174",
+    "URL": "https://doi.org/10.3390/educsci15020174",
+    "issued": {
+      "date-parts": [
+        [
+          2025,
+          2,
+          2
+        ]
+      ]
+    },
+    "ISSN": "2227-7102",
+    "language": "en",
+    "_verificacion": {
+      "fuente": "crossref",
+      "fecha": "2026-11-18",
+      "doi_resuelve": true,
+      "openalex": "https://openalex.org/W4407106354",
+      "citas": 212,
+      "citas_influyentes": 10,
+      "acceso_abierto": "https://www.mdpi.com/2227-7102/15/2/174/pdf?version=1738503500",
+      "puntaje": 13.569,
+      "titulo_original": "Redesigning Assessments for AI-Enhanced Learning: A Framework for Educators in the Generative AI Era",
+      "revisar_nombres_propios": true
+    },
+    "id": "khlaif2025",
+    "abstract": "The emergence of generative artificial intelligence (Gen AI) in education offers both opportunities and challenges, particularly in the context of student assessment. This study examines faculty members’ motivations to redesign assessments for their courses in the Gen AI era and introduces a framework for this purpose. A qualitative methodology was employed, gathering data through semi-structured interviews and focus groups, along with examples of redesigned assessments. Sixty-one faculty members participated in the study, and the data were analyzed using both deductive and inductive thematic approaches. Key motivations for redesigning assessments included maintaining academic integrity, preparing learners for future careers, adapting to technological advancements, and aligning with institutional policies. However, the study also highlighted significant challenges, such as the need for professional development and addressing equity and accessibility concerns. The findings identified various innovative assessment approaches tailored to the requirements of the Gen AI era. Based on these insights, the study developed a conceptual framework titled “Against, Avoid, Adopt, and Explore”. Future research is needed to validate this framework and further refine its application in educational contexts."
+  },
+  {
+    "type": "article-journal",
+    "title": "Race with the machines: Assessing the capability of generative AI in solving authentic assessments",
+    "author": [
+      {
+        "family": "Nguyen Thanh",
+        "given": "Binh"
+      },
+      {
+        "family": "Vo",
+        "given": "Diem Thi Hong"
+      },
+      {
+        "family": "Nguyen Nhat",
+        "given": "Minh"
+      },
+      {
+        "family": "Pham",
+        "given": "Thi Thu Tra"
+      },
+      {
+        "family": "Thai Trung",
+        "given": "Hieu"
+      },
+      {
+        "family": "Ha Xuan",
+        "given": "Son"
+      }
+    ],
+    "container-title": "Australasian Journal of Educational Technology",
+    "publisher": "Australasian Society for Computers in Learning in Tertiary Education",
+    "volume": "39",
+    "issue": "5",
+    "page": "59-81",
+    "DOI": "10.14742/ajet.8902",
+    "URL": "https://doi.org/10.14742/ajet.8902",
+    "issued": {
+      "date-parts": [
+        [
+          2023,
+          12,
+          22
+        ]
+      ]
+    },
+    "ISSN": "1449-5554, 1449-3098",
+    "_verificacion": {
+      "fuente": "crossref",
+      "fecha": "2026-11-18",
+      "doi_resuelve": true,
+      "openalex": "https://openalex.org/W4390096766",
+      "citas": 120,
+      "citas_influyentes": 6,
+      "acceso_abierto": "https://ajet.org.au/index.php/AJET/article/download/8902/2051",
+      "puntaje": 12.278
+    },
+    "id": "nguyenthanh2023",
+    "abstract": "In this study, we introduce a framework designed to help educators assess the effectiveness of popular generative artificial intelligence (AI) tools in solving authentic assessments. We employed Bloom’s taxonomy as a guiding principle to create authentic assessments that evaluate the capabilities of generative AI tools. We applied this framework to assess the abilities of ChatGPT-4, ChatGPT-3.5, Google Bard and Microsoft Bing in solving authentic assessments in economics. We found that generative AI tools perform very well at the lower levels of Bloom's taxonomy while still maintaining a decent level of performance at the higher levels, with “create” being the weakest level of performance. Interestingly, these tools are better able to address numeric-based questions than text-based ones. Moreover, all the generative AI tools exhibit weaknesses in building arguments based on theoretical frameworks, maintaining the coherence of different arguments and providing appropriate references. Our study provides educators with a framework to assess the capabilities of generative AI tools, enabling them to make more informed decisions regarding assessments and learning activities. Our findings demand a strategic reimagining of educational goals and assessments, emphasising higher cognitive skills and calling for a concerted effort to enhance the capabilities of educators in preparing students for a rapidly transforming professional environment. Implications for practice or policy Our proposed framework enables educators to systematically evaluate the capabilities of widely used generative AI tools in assessments and assist them in the assessment design process. Tertiary institutions should re-evaluate and redesign programmes and course learning outcomes. The new focus on learning outcomes should address the higher levels of educational goals of Bloom’s taxonomy, specifically the “create” level."
+  },
+  {
+    "type": "article-journal",
+    "title": "Academic Integrity considerations of AI Large Language Models in the post-pandemic era: ChatGPT and beyond",
+    "author": [
+      {
+        "family": "Perkins",
+        "given": "Mike"
+      }
+    ],
+    "container-title": "Journal of University Teaching and Learning Practice",
+    "publisher": "Open Access Publishing Association",
+    "volume": "20",
+    "issue": "2",
+    "DOI": "10.53761/1.20.02.07",
+    "URL": "https://doi.org/10.53761/1.20.02.07",
+    "issued": {
+      "date-parts": [
+        [
+          2023,
+          1,
+          1
+        ]
+      ]
+    },
+    "ISSN": "1449-9789, 1449-9789",
+    "_verificacion": {
+      "fuente": "crossref",
+      "fecha": "2026-11-18",
+      "doi_resuelve": true,
+      "openalex": "https://openalex.org/W4321605350",
+      "citas": 1535,
+      "citas_influyentes": 24,
+      "acceso_abierto": "https://open-publishing.org/journals/index.php/jutlp/article/view/635/635",
+      "puntaje": 13.334
+    },
+    "id": "perkins2023",
+    "abstract": "This paper explores the academic integrity considerations of students’ use of Artificial Intelligence (AI) tools using Large Language Models (LLMs) such as ChatGPT in formal assessments. We examine the evolution of these tools, and highlight the potential ways that LLMs can support in the education of students in digital writing and beyond, including the teaching of writing and composition, the possibilities of co-creation between humans and AI, supporting EFL learners, and improving Automated Writing Evaluations (AWE). We describe and demonstrate the potential that these tools have in creating original, coherent text that can avoid detection by existing technological methods of detection and trained academic staff alike, demonstrating a major academic integrity concern related to the use of these tools by students. Analysing the various issues related to academic integrity that LLMs raise for both Higher Education Institutions (HEIs) and students, we conclude that it is not the student use of any AI tools that defines whether plagiarism or a breach of academic integrity has occurred, but whether any use is made clear by the student. Deciding whether any particular use of LLMs by students can be defined as academic misconduct is determined by the academic integrity policies of any given HEI, which must be updated to consider how these tools will be used in future educational environments."
+  },
+  {
+    "type": "article-journal",
+    "title": "Testing of detection tools for AI-generated text",
+    "author": [
+      {
+        "family": "Weber-Wulff",
+        "given": "Debora"
+      },
+      {
+        "family": "Anohina-Naumeca",
+        "given": "Alla"
+      },
+      {
+        "family": "Bjelobaba",
+        "given": "Sonja"
+      },
+      {
+        "family": "Foltýnek",
+        "given": "Tomáš"
+      },
+      {
+        "family": "Guerrero-Dib",
+        "given": "Jean"
+      },
+      {
+        "family": "Popoola",
+        "given": "Olumide"
+      },
+      {
+        "family": "Šigut",
+        "given": "Petr"
+      },
+      {
+        "family": "Waddington",
+        "given": "Lorna"
+      }
+    ],
+    "container-title": "International Journal for Educational Integrity",
+    "publisher": "Springer Science and Business Media LLC",
+    "volume": "19",
+    "issue": "1",
+    "DOI": "10.1007/s40979-023-00146-z",
+    "URL": "https://doi.org/10.1007/s40979-023-00146-z",
+    "issued": {
+      "date-parts": [
+        [
+          2023,
+          12,
+          25
+        ]
+      ]
+    },
+    "ISSN": "1833-2595",
+    "language": "en",
+    "number": "26",
+    "_verificacion": {
+      "fuente": "crossref",
+      "fecha": "2026-11-18",
+      "doi_resuelve": true,
+      "openalex": "https://openalex.org/W4390175962",
+      "citas": 1106,
+      "citas_influyentes": 35,
+      "acceso_abierto": "https://edintegrity.biomedcentral.com/counter/pdf/10.1007/s40979-023-00146-z",
+      "puntaje": 13.205
+    },
+    "id": "weberwulff2023",
+    "abstract": "Abstract Recent advances in generative pre-trained transformer large language models have emphasised the potential risks of unfair use of artificial intelligence (AI) generated content in an academic environment and intensified efforts in searching for solutions to detect such content. The paper examines the general functionality of detection tools for AI-generated text and evaluates them based on accuracy and error type analysis. Specifically, the study seeks to answer research questions about whether existing detection tools can reliably differentiate between human-written text and ChatGPT-generated text, and whether machine translation and content obfuscation techniques affect the detection of AI-generated text. The research covers 12 publicly available tools and two commercial systems (Turnitin and PlagiarismCheck) that are widely used in the academic setting. The researchers conclude that the available detection tools are neither accurate nor reliable and have a main bias towards classifying the output as human-written rather than detecting AI-generated text. Furthermore, content obfuscation techniques significantly worsen the performance of tools. The study makes several significant contributions. First, it summarises up-to-date similar scientific and non-scientific efforts in the field. Second, it presents the result of one of the most comprehensive tests conducted so far, based on a rigorous research methodology, an original document set, and a broad coverage of tools. Third, it discusses the implications and drawbacks of using detection tools for AI-generated text in academic settings."
+  },
+  {
+    "type": "article-journal",
+    "title": "Evaluating the accuracy and reliability of AI content detectors in academic contexts",
+    "author": [
+      {
+        "family": "Hadra",
+        "given": "Mohammad"
+      },
+      {
+        "family": "Cambridge",
+        "given": "Karleen"
+      },
+      {
+        "family": "Mesbah",
+        "given": "Mostefa"
+      }
+    ],
+    "container-title": "International Journal for Educational Integrity",
+    "publisher": "Springer Science and Business Media LLC",
+    "volume": "22",
+    "issue": "1",
+    "DOI": "10.1007/s40979-026-00213-1",
+    "URL": "https://doi.org/10.1007/s40979-026-00213-1",
+    "issued": {
+      "date-parts": [
+        [
+          2026,
+          2,
+          2
+        ]
+      ]
+    },
+    "ISSN": "1833-2595",
+    "language": "en",
+    "number": "4",
+    "_verificacion": {
+      "fuente": "crossref",
+      "fecha": "2026-11-18",
+      "doi_resuelve": true,
+      "openalex": "https://openalex.org/W7127044430",
+      "citas": 67,
+      "citas_influyentes": 2,
+      "acceso_abierto": "https://link.springer.com/content/pdf/10.1007/s40979-026-00213-1.pdf",
+      "puntaje": 12.402
+    },
+    "id": "hadra2026",
+    "abstract": "The rapid adoption of generative AI (GenAI) in higher education has intensified concerns about academic integrity, particularly for institutions serving English as a Foreign Language (EFL) learners. AI content detectors such as Turnitin and Originality are now widely used to identify potential misuse of GenAI in student writing, yet their accuracy, consistency, and fairness remain to be proven. This study evaluates the reliability of these two commercial detectors using a balanced dataset of 192 texts, composed of authentic EFL student writing produced before the widespread availability of GenAI, professional human-authored texts, AI-generated outputs, and hybrid compositions. Detector outputs were categorized into Human, Hybrid, or AI using established thresholding ranges, and performance was assessed using standard classification metrics alongside statistical tests of significance. Results show that Originality outperformed Turnitin in overall accuracy (0.69 vs. 0.61) and macro-average recall (0.60 vs. 0.51). However, both detectors performed poorly on Hybrid texts, an increasingly common form of student writing, indicating substantial difficulty distinguishing mixed authorship. Performance declined significantly as a result of increased text length and genre variation, with both detectors achieving noticeably lower accuracy on scientific writing than on humanities texts. Originality also showed a borderline trend toward higher accuracy on professionally written texts compared to EFL student writing, suggesting potential fairness concerns. Taken together, the findings demonstrate that while AI detectors may serve as supplementary tools—serve only as indicators that prompt further inquiry, their limitations make them unsuitable as the sole basis for decisions regarding academic misconduct. For EFL-focused institutions in particular, over-reliance on machine-based identification risks misclassifying legitimate student work. The study highlights the need for informed human judgment, clearer institutional policies on acceptable AI use, and continued development of equitable detection methods that account for linguistic diversity."
+  },
+  {
+    "type": "article-journal",
+    "title": "Detection of GPT-4 generated text in higher education: Combining academic judgement and software to identify generative AI tool misuse",
+    "author": [
+      {
+        "family": "Perkins",
+        "given": "Mike"
+      },
+      {
+        "family": "Roe",
+        "given": "Jasper"
+      },
+      {
+        "family": "Postma",
+        "given": "Darius"
+      },
+      {
+        "family": "McGaughran",
+        "given": "James"
+      },
+      {
+        "family": "Hickerson",
+        "given": "Don"
+      }
+    ],
+    "container-title": "Journal of Academic Ethics",
+    "publisher": "Springer Science and Business Media LLC",
+    "volume": "22",
+    "issue": "1",
+    "page": "89-113",
+    "DOI": "10.1007/s10805-023-09492-6",
+    "URL": "https://doi.org/10.1007/s10805-023-09492-6",
+    "issued": {
+      "date-parts": [
+        [
+          2023,
+          10,
+          31
+        ]
+      ]
+    },
+    "ISSN": "1570-1727, 1572-8544",
+    "language": "en",
+    "_verificacion": {
+      "fuente": "crossref",
+      "fecha": "2026-11-18",
+      "doi_resuelve": true,
+      "openalex": "https://openalex.org/W4388108480",
+      "citas": 418,
+      "citas_influyentes": 16,
+      "acceso_abierto": "https://doi.org/10.1007/s10805-023-09492-6",
+      "puntaje": 12.315,
+      "titulo_original": "Detection of GPT-4 Generated Text in Higher Education: Combining Academic Judgement and Software to Identify Generative AI Tool Misuse",
+      "revisar_nombres_propios": true
+    },
+    "id": "perkins2023a",
+    "abstract": "This study explores the capability of academic staff assisted by the Turnitin Artificial Intelligence (AI) detection tool to identify the use of AI-generated content in university assessments. 22 different experimental submissions were produced using Open AI’s ChatGPT tool, with prompting techniques used to reduce the likelihood of AI detectors identifying AI-generated content. These submissions were marked by 15 academic staff members alongside genuine student submissions. Although the AI detection tool identified 91% of the experimental submissions as containing AI-generated content, only 54.8% of the content was identified as AI-generated, underscoring the challenges of detecting AI content when advanced prompting techniques are used. When academic staff members marked the experimental submissions, only 54.5% were reported to the academic misconduct process, emphasising the need for greater awareness of how the results of AI detectors may be interpreted. Similar performance in grades was obtained between student submissions and AI-generated content (AI mean grade: 52.3, Student mean grade: 54.4), showing the capabilities of AI tools in producing human-like responses in real-life assessment situations. Recommendations include adjusting the overall strategies for assessing university students in light of the availability of new Generative AI tools. This may include reducing the overall reliance on assessments where AI tools may be used to mimic human writing, or by using AI-inclusive assessments. Comprehensive training must be provided for both academic staff and students so that academic integrity may be preserved."
+  },
+  {
+    "type": "article-journal",
+    "title": "Simple techniques to bypass GenAI text detectors: implications for inclusive education",
+    "author": [
+      {
+        "family": "Perkins",
+        "given": "Mike"
+      },
+      {
+        "family": "Roe",
+        "given": "Jasper"
+      },
+      {
+        "family": "Vu",
+        "given": "Binh H."
+      },
+      {
+        "family": "Postma",
+        "given": "Darius"
+      },
+      {
+        "family": "Hickerson",
+        "given": "Don"
+      },
+      {
+        "family": "McGaughran",
+        "given": "James"
+      },
+      {
+        "family": "Khuat",
+        "given": "Huy Q."
+      }
+    ],
+    "container-title": "International Journal of Educational Technology in Higher Education",
+    "publisher": "Springer Science and Business Media LLC",
+    "volume": "21",
+    "issue": "1",
+    "DOI": "10.1186/s41239-024-00487-w",
+    "URL": "https://doi.org/10.1186/s41239-024-00487-w",
+    "issued": {
+      "date-parts": [
+        [
+          2024,
+          9,
+          9
+        ]
+      ]
+    },
+    "ISSN": "2365-9440",
+    "language": "en",
+    "number": "53",
+    "_verificacion": {
+      "fuente": "crossref",
+      "fecha": "2026-11-18",
+      "doi_resuelve": true,
+      "openalex": "https://openalex.org/W4402340204",
+      "citas": 227,
+      "citas_influyentes": 9,
+      "acceso_abierto": "https://link.springer.com/content/pdf/10.1186/s41239-024-00487-w.pdf",
+      "puntaje": 11.836
+    },
+    "id": "perkins2024",
+    "abstract": "Abstract This study investigates the efficacy of six major Generative AI (GenAI) text detectors when confronted with machine-generated content modified to evade detection (n = 805). We compare these detectors to assess their reliability in identifying AI-generated text in educational settings, where they are increasingly used to address academic integrity concerns. Results show significant reductions in detector accuracy (17.4%) when faced with simple techniques to manipulate the AI generated content. The varying performances of GenAI tools and detectors indicate they cannot currently be recommended for determining academic integrity violations due to accuracy limitations and the potential for false accusation which undermines inclusive and fair assessment practices. However, these tools may support learning and academic integrity when used non-punitively. This study aims to guide educators and institutions in the critical implementation of AI text detectors in higher education, highlighting the importance of exploring alternatives to maintain inclusivity in the face of emerging technologies."
+  },
+  {
+    "type": "article-journal",
+    "title": "Students’ voices on generative AI: perceptions, benefits, and challenges in higher education",
+    "author": [
+      {
+        "family": "Chan",
+        "given": "Cecilia Ka Yuk"
+      },
+      {
+        "family": "Hu",
+        "given": "Wenjie"
+      }
+    ],
+    "container-title": "International Journal of Educational Technology in Higher Education",
+    "publisher": "Springer Science and Business Media LLC",
+    "volume": "20",
+    "issue": "1",
+    "DOI": "10.1186/s41239-023-00411-8",
+    "URL": "https://doi.org/10.1186/s41239-023-00411-8",
+    "issued": {
+      "date-parts": [
+        [
+          2023,
+          7,
+          17
+        ]
+      ]
+    },
+    "ISSN": "2365-9440",
+    "language": "en",
+    "number": "43",
+    "_verificacion": {
+      "fuente": "crossref",
+      "fecha": "2026-11-18",
+      "doi_resuelve": true,
+      "openalex": "https://openalex.org/W4384464487",
+      "citas": 4520,
+      "citas_influyentes": 203,
+      "acceso_abierto": "https://educationaltechnologyjournal.springeropen.com/counter/pdf/10.1186/s41239-023-00411-8",
+      "puntaje": 15.413
+    },
+    "id": "chan2023",
+    "abstract": "Abstract This study explores university students’ perceptions of generative AI (GenAI) technologies, such as ChatGPT, in higher education, focusing on familiarity, their willingness to engage, potential benefits and challenges, and effective integration. A survey of 399 undergraduate and postgraduate students from various disciplines in Hong Kong revealed a generally positive attitude towards GenAI in teaching and learning. Students recognized the potential for personalized learning support, writing and brainstorming assistance, and research and analysis capabilities. However, concerns about accuracy, privacy, ethical issues, and the impact on personal development, career prospects, and societal values were also expressed. According to John Biggs’ 3P model, student perceptions significantly influence learning approaches and outcomes. By understanding students’ perceptions, educators and policymakers can tailor GenAI technologies to address needs and concerns while promoting effective learning outcomes. Insights from this study can inform policy development around the integration of GenAI technologies into higher education. By understanding students’ perceptions and addressing their concerns, policymakers can create well-informed guidelines and strategies for the responsible and effective implementation of GenAI tools, ultimately enhancing teaching and learning experiences in higher education."
+  },
+  {
+    "type": "article-journal",
+    "title": "Will generative AI replace teachers in higher education? A study of teacher and student perceptions",
+    "author": [
+      {
+        "family": "Chan",
+        "given": "Cecilia Ka Yuk"
+      },
+      {
+        "family": "Tsi",
+        "given": "Louisa H.Y."
+      }
+    ],
+    "container-title": "Studies in Educational Evaluation",
+    "publisher": "Elsevier BV",
+    "volume": "83",
+    "page": "101395",
+    "DOI": "10.1016/j.stueduc.2024.101395",
+    "URL": "https://doi.org/10.1016/j.stueduc.2024.101395",
+    "issued": {
+      "date-parts": [
+        [
+          2024,
+          12
+        ]
+      ]
+    },
+    "ISSN": "0191-491X",
+    "language": "en",
+    "number": "101395",
+    "_verificacion": {
+      "fuente": "crossref",
+      "fecha": "2026-11-18",
+      "doi_resuelve": true,
+      "openalex": "https://openalex.org/W4401988281",
+      "citas": 904,
+      "citas_influyentes": 18,
+      "acceso_abierto": "https://arxiv.org/pdf/2305.01185",
+      "puntaje": 14.311
+    },
+    "id": "chan2024"
+  },
+  {
+    "type": "article-journal",
+    "title": "Investigating the higher education institutions’ guidelines and policies regarding the use of generative AI in teaching, learning, research, and administration",
+    "author": [
+      {
+        "family": "An",
+        "given": "Yunjo"
+      },
+      {
+        "family": "Yu",
+        "given": "Ji Hyun"
+      },
+      {
+        "family": "James",
+        "given": "Shadarra"
+      }
+    ],
+    "container-title": "International Journal of Educational Technology in Higher Education",
+    "publisher": "Springer Science and Business Media LLC",
+    "volume": "22",
+    "issue": "1",
+    "DOI": "10.1186/s41239-025-00507-3",
+    "URL": "https://doi.org/10.1186/s41239-025-00507-3",
+    "issued": {
+      "date-parts": [
+        [
+          2025,
+          2,
+          21
+        ]
+      ]
+    },
+    "ISSN": "2365-9440",
+    "language": "en",
+    "number": "10",
+    "_verificacion": {
+      "fuente": "crossref",
+      "fecha": "2026-11-18",
+      "doi_resuelve": true,
+      "openalex": "https://openalex.org/W4407778399",
+      "citas": 443,
+      "citas_influyentes": 19,
+      "acceso_abierto": "https://educationaltechnologyjournal.springeropen.com/counter/pdf/10.1186/s41239-025-00507-3",
+      "puntaje": 13.991
+    },
+    "id": "an2025",
+    "abstract": "Abstract This study examined the guidelines issued by the top 50 U.S. universities regarding the use of Generative AI (GenAI) in academic and administrative activities. Employing a mixed methods approach, the research combined topic modeling, sentiment analysis, and qualitative thematic analysis to provide a comprehensive understanding of institutional responses to GenAI. Topic modeling identified four core topics: Integration of GenAI in Learning and Assessment, GenAI in Visual and Multimodal Media, Security and Ethical Considerations in GenAI, and GenAI in Academic Integrity. These themes were further explored through sentiment analysis, which revealed highly positive attitudes towards GenAI across all institution types, with significant differences between faculty and student-targeted guidelines. Qualitative thematic analysis corroborated these findings and provided deeper insights, revealing that 94% of universities had faculty guidelines emphasizing the importance of establishing and communicating course-specific GenAI policies. This analysis also highlighted recurring themes such as academic integrity and privacy concerns, which aligned with the security and ethical considerations identified in the topic modeling. The study highlights the rapid evolution of GenAI guidelines in higher education and the need for flexible, stakeholder-specific policies that address both the opportunities and challenges presented by this technology."
+  },
+  {
+    "type": "article-journal",
+    "title": "The impact of generative AI on academic integrity of authentic assessments within a higher education context",
+    "author": [
+      {
+        "family": "Kofinas",
+        "given": "Alexander K."
+      },
+      {
+        "family": "Tsay",
+        "given": "Crystal Han‐Huei"
+      },
+      {
+        "family": "Pike",
+        "given": "David"
+      }
+    ],
+    "container-title": "British Journal of Educational Technology",
+    "publisher": "Wiley",
+    "volume": "56",
+    "issue": "6",
+    "page": "2522-2549",
+    "DOI": "10.1111/bjet.13585",
+    "URL": "https://doi.org/10.1111/bjet.13585",
+    "issued": {
+      "date-parts": [
+        [
+          2025,
+          3,
+          31
+        ]
+      ]
+    },
+    "ISSN": "0007-1013, 1467-8535",
+    "language": "en",
+    "_verificacion": {
+      "fuente": "crossref",
+      "fecha": "2026-11-18",
+      "doi_resuelve": true
+    },
+    "id": "kofinas2025",
+    "abstract": "Generative AI (hereinafter GenAI) technology, such as ChatGPT, is already influencing the higher education sector. In this work, we focused on the impact of GenAI on the academic integrity of assessments within higher education institutions, as GenAI can be used to circumvent assessment approaches within the sector, compromising their quality. The purpose of our research was threefold: first, to determine the extent to which the use of GenAI can be detected via the marking and moderation process; second, to understand whether the presence of GenAI affects the marking process; and finally, to establish whether authentic assessments can safeguard academic integrity. We used a series of experiments in the context of two UK‐based universities to examine these issues. Our findings indicate that markers, in general, are not able to distinguish assessments that have had GenAI input from assessments that did not, even though the presence of GenAI affects the way markers approach the marking process. Our findings also suggest that the level of authenticity in an assessment has no impact on the ability to safeguard against or detect GenAI usage in assessment creation. In conclusion, we suggest that current approaches to assessments in higher education are susceptible to GenAI manipulation and that the higher education sector cannot rely on authentic assessments alone to control the impact of GenAI on academic integrity. Thus, we recommend giving more critical attention to assessment design and placing more emphasis on assessments that rely on social experiential learning and are performative rather than output‐based and asynchronously written. Practitioner notes What is already known about this topic GenAI has enabled students to complete higher education assessments quickly and with good quality, leading to challenges in academic integrity. GenAI has transformed the requirements and considerations in assessment design in higher education. Authentic assessments are seen as a prominent way to tackle the GenAI challenge. What this paper adds We provide quantitative and qualitative experimental evidence suggesting that GenAI can generate authentic assessments that pass the scrutiny of experienced academics. We demonstrate how the use of authentic assessments alone does not protect the academic integrity of students in higher education. Our qualitative analysis indicates that markers may generate false positive and false negative results if they suspect GenAI tampering in an assessment. Thus, students' learning is not assessed correctly. Implications for practice and/or policy When universities and national organisations design policies regarding GenAI, authentic assessments are not the panacea; the focus must remain on assessment design. Assessments of learning need to shift from assessing output to focusing on process and relevance to the workplace. That would mean a paradigmatic shift from written assessments to synchronous interpersonal assessments. The move away from written assessments has implications that are far reaching for the academy if written assessments cannot be trusted as a reliable indicator for and of learning."
+  }
+]

@@ -1,0 +1,118 @@
+id: tesis
+nombre: Tesis o tesina
+front_matter:
+- portada institucional
+- dedicatoria/agradecimientos (opcional)
+- resumen
+- abstract
+- índice
+- lista de tablas y figuras
+secciones:
+- nombre: Resumen
+  alias:
+  - resumen
+  - abstract
+  obligatoria: true
+  proposito: 'Síntesis de 150-250 palabras: objetivo, método, resultados y conclusión'
+  preguntas:
+  - ¿El resumen refleja objetivo, método, resultado principal y conclusión?
+  extension: 150-250 palabras
+- nombre: Introducción
+  alias:
+  - introduccion
+  - introduction
+  - planteamiento
+  - antecedentes
+  obligatoria: true
+  proposito: Planteamiento del problema, justificación, objetivos e hipótesis
+  preguntas:
+  - ¿Qué problema se aborda y por qué importa?
+  - ¿Qué vacío deja la literatura?
+  - ¿Cuál es el objetivo o la pregunta?
+  - ¿Cuál es la hipótesis o supuesto?
+  - ¿Cuáles son los alcances y limitaciones?
+  extension: 10 %
+- nombre: Marco teórico
+  alias:
+  - marco teorico
+  - estado del arte
+  - revision de la literatura
+  - literature review
+  - marco conceptual
+  - marco referencial
+  obligatoria: true
+  proposito: Teorías y estudios que sustentan el problema
+  preguntas:
+  - ¿Qué teorías explican el fenómeno?
+  - ¿Qué se sabe y qué falta?
+  extension: 20-25 %
+- nombre: Método
+  alias:
+  - metodo
+  - metodologia
+  - materiales y metodos
+  - method
+  - methods
+  - methodology
+  - diseño metodológico
+  obligatoria: true
+  proposito: Diseño, participantes o datos, instrumentos y procedimiento reproducibles
+  preguntas:
+  - ¿Qué diseño se usó y por qué?
+  - ¿Quiénes participaron o qué datos se usaron (n, criterios)?
+  - ¿Cómo se recolectaron y analizaron los datos?
+  extension: 15-25 %
+- nombre: Resultados
+  alias:
+  - resultados
+  - results
+  - hallazgos
+  - findings
+  obligatoria: true
+  proposito: Hallazgos sin interpretar, en el orden de los objetivos
+  preguntas:
+  - ¿Qué se encontró para cada objetivo o pregunta?
+  - ¿Los números coinciden con tablas y figuras?
+  extension: 20-30 %
+- nombre: Discusión
+  alias:
+  - discusion
+  - discussion
+  - analisis de resultados
+  obligatoria: true
+  proposito: Interpretación, comparación con la literatura, limitaciones
+  preguntas:
+  - ¿Qué significan los resultados?
+  - ¿Coinciden o difieren de estudios previos?
+  - ¿Cuáles son las limitaciones?
+  extension: 15-25 %
+- nombre: Conclusiones
+  alias:
+  - conclusion
+  - conclusiones
+  - conclusions
+  - consideraciones finales
+  obligatoria: true
+  proposito: Respuesta a cada objetivo e implicaciones
+  preguntas:
+  - ¿Se responde cada objetivo?
+  - ¿Qué implicaciones y trabajo futuro hay?
+  extension: 5-10 %
+- nombre: Referencias
+  alias:
+  - referencias
+  - references
+  - bibliografia
+  - fuentes
+  obligatoria: true
+  proposito: Lista de fuentes citadas
+  preguntas: []
+- nombre: Apéndices
+  alias:
+  - apendices
+  - anexos
+  - appendix
+  - appendices
+  obligatoria: false
+  proposito: Material complementario
+  preguntas: []

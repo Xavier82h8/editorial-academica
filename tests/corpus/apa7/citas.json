@@ -1,0 +1,1816 @@
+[
+ {
+  "id": "apa-cita-001",
+  "tipo": "un-autor",
+  "modo": "parentetica",
+  "items": [
+   {
+    "locator": "",
+    "label": "page",
+    "prefix": "",
+    "suffix": "",
+    "csl": {
+     "id": "luna2020",
+     "type": "article-journal",
+     "author": [
+      {
+       "family": "Luna",
+       "given": "A."
+      }
+     ],
+     "issued": {
+      "date-parts": [
+       [
+        2020
+       ]
+      ]
+     },
+     "title": "Title A",
+     "container-title": "Journal"
+    }
+   }
+  ],
+  "esperado": "(Luna, 2020)",
+  "fuente": "citations__basic-principles__author-date.md",
+  "notas": "Item CSL inline sintetico minimo (autores/anio/titulo ficticios): solo 'esperado' es oficial."
+ },
+ {
+  "id": "apa-cita-002",
+  "tipo": "un-autor",
+  "modo": "narrativa",
+  "items": [
+   {
+    "locator": "",
+    "label": "page",
+    "prefix": "",
+    "suffix": "",
+    "csl": {
+     "id": "luna2020",
+     "type": "article-journal",
+     "author": [
+      {
+       "family": "Luna",
+       "given": "A."
+      }
+     ],
+     "issued": {
+      "date-parts": [
+       [
+        2020
+       ]
+      ]
+     },
+     "title": "Title A",
+     "container-title": "Journal"
+    }
+   }
+  ],
+  "esperado": "Luna (2020)",
+  "fuente": "citations__basic-principles__author-date.md",
+  "notas": "Item CSL inline sintetico minimo (autores/anio/titulo ficticios): solo 'esperado' es oficial."
+ },
+ {
+  "id": "apa-cita-003",
+  "tipo": "dos-autores",
+  "modo": "parentetica",
+  "items": [
+   {
+    "locator": "",
+    "label": "page",
+    "prefix": "",
+    "suffix": "",
+    "csl": {
+     "id": "salas2020",
+     "type": "article-journal",
+     "author": [
+      {
+       "family": "Salas",
+       "given": "A."
+      },
+      {
+       "family": "D’Agostino",
+       "given": "B."
+      }
+     ],
+     "issued": {
+      "date-parts": [
+       [
+        2020
+       ]
+      ]
+     },
+     "title": "Title B",
+     "container-title": "Journal"
+    }
+   }
+  ],
+  "esperado": "(Salas & D’Agostino, 2020)",
+  "fuente": "citations__basic-principles__author-date.md",
+  "notas": "Item CSL inline sintetico minimo (autores/anio/titulo ficticios): solo 'esperado' es oficial."
+ },
+ {
+  "id": "apa-cita-004",
+  "tipo": "dos-autores",
+  "modo": "narrativa",
+  "items": [
+   {
+    "locator": "",
+    "label": "page",
+    "prefix": "",
+    "suffix": "",
+    "csl": {
+     "id": "salas2020",
+     "type": "article-journal",
+     "author": [
+      {
+       "family": "Salas",
+       "given": "A."
+      },
+      {
+       "family": "D’Agostino",
+       "given": "B."
+      }
+     ],
+     "issued": {
+      "date-parts": [
+       [
+        2020
+       ]
+      ]
+     },
+     "title": "Title B",
+     "container-title": "Journal"
+    }
+   }
+  ],
+  "esperado": "Salas and D’Agostino (2020)",
+  "fuente": "citations__basic-principles__author-date.md",
+  "notas": "Item CSL inline sintetico minimo (autores/anio/titulo ficticios): solo 'esperado' es oficial."
+ },
+ {
+  "id": "apa-cita-005",
+  "tipo": "tres-o-mas-autores",
+  "modo": "parentetica",
+  "items": [
+   {
+    "locator": "",
+    "label": "page",
+    "prefix": "",
+    "suffix": "",
+    "csl": {
+     "id": "martin2020",
+     "type": "article-journal",
+     "author": [
+      {
+       "family": "Martin",
+       "given": "A."
+      },
+      {
+       "family": "Lee",
+       "given": "B."
+      },
+      {
+       "family": "Cruz",
+       "given": "C."
+      }
+     ],
+     "issued": {
+      "date-parts": [
+       [
+        2020
+       ]
+      ]
+     },
+     "title": "Title C",
+     "container-title": "Journal"
+    }
+   }
+  ],
+  "esperado": "(Martin et al., 2020)",
+  "fuente": "citations__basic-principles__author-date.md",
+  "notas": "Item CSL inline sintetico minimo (autores/anio/titulo ficticios): solo 'esperado' es oficial."
+ },
+ {
+  "id": "apa-cita-006",
+  "tipo": "tres-o-mas-autores",
+  "modo": "narrativa",
+  "items": [
+   {
+    "locator": "",
+    "label": "page",
+    "prefix": "",
+    "suffix": "",
+    "csl": {
+     "id": "martin2020",
+     "type": "article-journal",
+     "author": [
+      {
+       "family": "Martin",
+       "given": "A."
+      },
+      {
+       "family": "Lee",
+       "given": "B."
+      },
+      {
+       "family": "Cruz",
+       "given": "C."
+      }
+     ],
+     "issued": {
+      "date-parts": [
+       [
+        2020
+       ]
+      ]
+     },
+     "title": "Title C",
+     "container-title": "Journal"
+    }
+   }
+  ],
+  "esperado": "Martin et al. (2020)",
+  "fuente": "citations__basic-principles__author-date.md",
+  "notas": "Item CSL inline sintetico minimo (autores/anio/titulo ficticios): solo 'esperado' es oficial."
+ },
+ {
+  "id": "apa-cita-007",
+  "tipo": "autor-grupal-abreviatura-primera",
+  "modo": "parentetica",
+  "items": [
+   {
+    "locator": "",
+    "label": "page",
+    "prefix": "",
+    "suffix": "",
+    "csl": {
+     "id": "nimh2020",
+     "type": "article-journal",
+     "author": [
+      {
+       "literal": "National Institute of Mental Health"
+      }
+     ],
+     "issued": {
+      "date-parts": [
+       [
+        2020
+       ]
+      ]
+     },
+     "title": "Title D",
+     "container-title": "Journal"
+    }
+   }
+  ],
+  "esperado": "(National Institute of Mental Health [NIMH], 2020)",
+  "fuente": "citations__basic-principles__author-date.md",
+  "posicion": "primera",
+  "abreviatura": "NIMH",
+  "notas": "Item CSL inline sintetico minimo (autores/anio/titulo ficticios): solo 'esperado' es oficial. La abreviatura requiere postproceso (CSL no la genera)."
+ },
+ {
+  "id": "apa-cita-008",
+  "tipo": "autor-grupal-abreviatura-subsecuente",
+  "modo": "parentetica",
+  "items": [
+   {
+    "locator": "",
+    "label": "page",
+    "prefix": "",
+    "suffix": "",
+    "csl": {
+     "id": "nimh2020",
+     "type": "article-journal",
+     "author": [
+      {
+       "literal": "National Institute of Mental Health"
+      }
+     ],
+     "issued": {
+      "date-parts": [
+       [
+        2020
+       ]
+      ]
+     },
+     "title": "Title D",
+     "container-title": "Journal"
+    }
+   }
+  ],
+  "esperado": "(NIMH, 2020)",
+  "fuente": "citations__basic-principles__author-date.md",
+  "posicion": "subsecuente",
+  "abreviatura": "NIMH",
+  "notas": "Item CSL inline sintetico minimo (autores/anio/titulo ficticios): solo 'esperado' es oficial. Abreviatura: postproceso."
+ },
+ {
+  "id": "apa-cita-009",
+  "tipo": "autor-grupal-abreviatura-primera",
+  "modo": "narrativa",
+  "items": [
+   {
+    "locator": "",
+    "label": "page",
+    "prefix": "",
+    "suffix": "",
+    "csl": {
+     "id": "nimh2020",
+     "type": "article-journal",
+     "author": [
+      {
+       "literal": "National Institute of Mental Health"
+      }
+     ],
+     "issued": {
+      "date-parts": [
+       [
+        2020
+       ]
+      ]
+     },
+     "title": "Title D",
+     "container-title": "Journal"
+    }
+   }
+  ],
+  "esperado": "National Institute of Mental Health (NIMH, 2020)",
+  "fuente": "citations__basic-principles__author-date.md",
+  "posicion": "primera",
+  "abreviatura": "NIMH",
+  "notas": "Item CSL inline sintetico minimo (autores/anio/titulo ficticios): solo 'esperado' es oficial."
+ },
+ {
+  "id": "apa-cita-010",
+  "tipo": "autor-grupal-abreviatura-subsecuente",
+  "modo": "narrativa",
+  "items": [
+   {
+    "locator": "",
+    "label": "page",
+    "prefix": "",
+    "suffix": "",
+    "csl": {
+     "id": "nimh2020",
+     "type": "article-journal",
+     "author": [
+      {
+       "literal": "National Institute of Mental Health"
+      }
+     ],
+     "issued": {
+      "date-parts": [
+       [
+        2020
+       ]
+      ]
+     },
+     "title": "Title D",
+     "container-title": "Journal"
+    }
+   }
+  ],
+  "esperado": "NIMH (2020)",
+  "fuente": "citations__basic-principles__author-date.md",
+  "posicion": "subsecuente",
+  "abreviatura": "NIMH",
+  "notas": "Item CSL inline sintetico minimo (autores/anio/titulo ficticios): solo 'esperado' es oficial."
+ },
+ {
+  "id": "apa-cita-011",
+  "tipo": "autor-grupal-sin-abreviatura",
+  "modo": "parentetica",
+  "items": [
+   {
+    "locator": "",
+    "label": "page",
+    "prefix": "",
+    "suffix": "",
+    "csl": {
+     "id": "stan2020",
+     "type": "article-journal",
+     "author": [
+      {
+       "literal": "Stanford University"
+      }
+     ],
+     "issued": {
+      "date-parts": [
+       [
+        2020
+       ]
+      ]
+     },
+     "title": "Title E",
+     "container-title": "Journal"
+    }
+   }
+  ],
+  "esperado": "(Stanford University, 2020)",
+  "fuente": "citations__basic-principles__author-date.md",
+  "notas": "Item CSL inline sintetico minimo (autores/anio/titulo ficticios): solo 'esperado' es oficial."
+ },
+ {
+  "id": "apa-cita-012",
+  "tipo": "autor-grupal-sin-abreviatura",
+  "modo": "narrativa",
+  "items": [
+   {
+    "locator": "",
+    "label": "page",
+    "prefix": "",
+    "suffix": "",
+    "csl": {
+     "id": "stan2020",
+     "type": "article-journal",
+     "author": [
+      {
+       "literal": "Stanford University"
+      }
+     ],
+     "issued": {
+      "date-parts": [
+       [
+        2020
+       ]
+      ]
+     },
+     "title": "Title E",
+     "container-title": "Journal"
+    }
+   }
+  ],
+  "esperado": "Stanford University (2020)",
+  "fuente": "citations__basic-principles__author-date.md",
+  "notas": "Item CSL inline sintetico minimo (autores/anio/titulo ficticios): solo 'esperado' es oficial."
+ },
+ {
+  "id": "apa-cita-013",
+  "tipo": "mismo-apellido-iniciales",
+  "modo": "parentetica",
+  "items": [
+   {
+    "locator": "",
+    "label": "page",
+    "prefix": "",
+    "suffix": "",
+    "csl": {
+     "id": "jtaylor2015",
+     "type": "article-journal",
+     "author": [
+      {
+       "family": "Taylor",
+       "given": "J. M."
+      },
+      {
+       "family": "Neimeyer",
+       "given": "R. A."
+      }
+     ],
+     "issued": {
+      "date-parts": [
+       [
+        2015
+       ]
+      ]
+     },
+     "title": "Title F",
+     "container-title": "Journal"
+    }
+   },
+   {
+    "locator": "",
+    "label": "page",
+    "prefix": "",
+    "suffix": "",
+    "csl": {
+     "id": "ttaylor2014",
+     "type": "article-journal",
+     "author": [
+      {
+       "family": "Taylor",
+       "given": "T."
+      }
+     ],
+     "issued": {
+      "date-parts": [
+       [
+        2014
+       ]
+      ]
+     },
+     "title": "Title G",
+     "container-title": "Journal"
+    }
+   }
+  ],
+  "esperado": "(J. M. Taylor & Neimeyer, 2015; T. Taylor, 2014)",
+  "fuente": "citations__basic-principles__citing-authors-same-surname.md",
+  "notas": "Item CSL inline sintetico minimo (autores/anio/titulo ficticios): solo 'esperado' es oficial. Las iniciales deben aparecer aunque el anio difiera."
+ },
+ {
+  "id": "apa-cita-014",
+  "tipo": "multiples-obras-orden-alfabetico",
+  "modo": "parentetica",
+  "items": [
+   {
+    "locator": "",
+    "label": "page",
+    "prefix": "",
+    "suffix": "",
+    "csl": {
+     "id": "west2017",
+     "type": "article-journal",
+     "author": [
+      {
+       "family": "Westinghouse",
+       "given": "X."
+      }
+     ],
+     "issued": {
+      "date-parts": [
+       [
+        2017
+       ]
+      ]
+     },
+     "title": "T3",
+     "container-title": "Journal"
+    }
+   },
+   {
+    "locator": "",
+    "label": "page",
+    "prefix": "",
+    "suffix": "",
+    "csl": {
+     "id": "adams2019",
+     "type": "article-journal",
+     "author": [
+      {
+       "family": "Adams",
+       "given": "A."
+      },
+      {
+       "family": "Bo",
+       "given": "B."
+      },
+      {
+       "family": "Cy",
+       "given": "C."
+      }
+     ],
+     "issued": {
+      "date-parts": [
+       [
+        2019
+       ]
+      ]
+     },
+     "title": "T1",
+     "container-title": "Journal"
+    }
+   },
+   {
+    "locator": "",
+    "label": "page",
+    "prefix": "",
+    "suffix": "",
+    "csl": {
+     "id": "shum2015",
+     "type": "article-journal",
+     "author": [
+      {
+       "family": "Shumway",
+       "given": "S."
+      },
+      {
+       "family": "Shulman",
+       "given": "T."
+      }
+     ],
+     "issued": {
+      "date-parts": [
+       [
+        2015
+       ]
+      ]
+     },
+     "title": "T2",
+     "container-title": "Journal"
+    }
+   }
+  ],
+  "esperado": "(Adams et al., 2019; Shumway & Shulman, 2015; Westinghouse, 2017)",
+  "fuente": "citations__basic-principles__multiple-works.md",
+  "notas": "Item CSL inline sintetico minimo (autores/anio/titulo ficticios): solo 'esperado' es oficial. Items dados en orden NO alfabetico: el renderizador debe ordenarlos."
+ },
+ {
+  "id": "apa-cita-015",
+  "tipo": "mismo-autor-varias-obras-sin-fecha-primero",
+  "modo": "parentetica",
+  "items": [
+   {
+    "locator": "",
+    "label": "page",
+    "prefix": "",
+    "suffix": "",
+    "csl": {
+     "id": "dva-d",
+     "type": "article-journal",
+     "author": [
+      {
+       "literal": "Department of Veterans Affairs"
+      }
+     ],
+     "title": "Alpha",
+     "container-title": "Journal"
+    }
+   },
+   {
+    "locator": "",
+    "label": "page",
+    "prefix": "",
+    "suffix": "",
+    "csl": {
+     "id": "dva-17a",
+     "type": "article-journal",
+     "author": [
+      {
+       "literal": "Department of Veterans Affairs"
+      }
+     ],
+     "issued": {
+      "date-parts": [
+       [
+        2017
+       ]
+      ]
+     },
+     "title": "Bravo",
+     "container-title": "Journal"
+    }
+   },
+   {
+    "locator": "",
+    "label": "page",
+    "prefix": "",
+    "suffix": "",
+    "csl": {
+     "id": "dva-17b",
+     "type": "article-journal",
+     "author": [
+      {
+       "literal": "Department of Veterans Affairs"
+      }
+     ],
+     "issued": {
+      "date-parts": [
+       [
+        2017
+       ]
+      ]
+     },
+     "title": "Charlie",
+     "container-title": "Journal"
+    }
+   },
+   {
+    "locator": "",
+    "label": "page",
+    "prefix": "",
+    "suffix": "",
+    "csl": {
+     "id": "dva-19",
+     "type": "article-journal",
+     "author": [
+      {
+       "literal": "Department of Veterans Affairs"
+      }
+     ],
+     "issued": {
+      "date-parts": [
+       [
+        2019
+       ]
+      ]
+     },
+     "title": "Delta",
+     "container-title": "Journal"
+    }
+   }
+  ],
+  "esperado": "(Department of Veterans Affairs, n.d., 2017a, 2017b, 2019)",
+  "fuente": "citations__basic-principles__multiple-works.md",
+  "notas": "Item CSL inline sintetico minimo (autores/anio/titulo ficticios): solo 'esperado' es oficial. Sin 'issued' = n.d. Letras a/b por orden alfabetico de titulos (Bravo<Charlie)."
+ },
+ {
+  "id": "apa-cita-016",
+  "tipo": "mismo-autor-en-prensa-ultimo",
+  "modo": "narrativa",
+  "items": [
+   {
+    "locator": "",
+    "label": "page",
+    "prefix": "",
+    "suffix": "",
+    "csl": {
+     "id": "z-nd",
+     "type": "article-journal",
+     "author": [
+      {
+       "family": "Zhou",
+       "given": "X."
+      }
+     ],
+     "title": "A1",
+     "container-title": "Journal"
+    }
+   },
+   {
+    "locator": "",
+    "label": "page",
+    "prefix": "",
+    "suffix": "",
+    "csl": {
+     "id": "z-00",
+     "type": "article-journal",
+     "author": [
+      {
+       "family": "Zhou",
+       "given": "X."
+      }
+     ],
+     "issued": {
+      "date-parts": [
+       [
+        2000
+       ]
+      ]
+     },
+     "title": "A2",
+     "container-title": "Journal"
+    }
+   },
+   {
+    "locator": "",
+    "label": "page",
+    "prefix": "",
+    "suffix": "",
+    "csl": {
+     "id": "z-16",
+     "type": "article-journal",
+     "author": [
+      {
+       "family": "Zhou",
+       "given": "X."
+      }
+     ],
+     "issued": {
+      "date-parts": [
+       [
+        2016
+       ]
+      ]
+     },
+     "title": "A3",
+     "container-title": "Journal"
+    }
+   },
+   {
+    "locator": "",
+    "label": "page",
+    "prefix": "",
+    "suffix": "",
+    "csl": {
+     "id": "z-ip",
+     "type": "article-journal",
+     "author": [
+      {
+       "family": "Zhou",
+       "given": "X."
+      }
+     ],
+     "title": "A4",
+     "container-title": "Journal",
+     "status": "in press"
+    }
+   }
+  ],
+  "esperado": "Zhou (n.d., 2000, 2016, in press)",
+  "fuente": "citations__basic-principles__multiple-works.md",
+  "notas": "Item CSL inline sintetico minimo (autores/anio/titulo ficticios): solo 'esperado' es oficial. 'in press' via variable `status`."
+ },
+ {
+  "id": "apa-cita-017",
+  "tipo": "mismo-autor-mismo-anio",
+  "modo": "parentetica",
+  "items": [
+   {
+    "locator": "",
+    "label": "page",
+    "prefix": "",
+    "suffix": "",
+    "csl": {
+     "id": "bo-a",
+     "type": "article-journal",
+     "author": [
+      {
+       "family": "Blondaux",
+       "given": "A."
+      },
+      {
+       "family": "O’Hanrahan",
+       "given": "B."
+      }
+     ],
+     "issued": {
+      "date-parts": [
+       [
+        2018
+       ]
+      ]
+     },
+     "title": "Alpha study",
+     "container-title": "Journal"
+    }
+   }
+  ],
+  "esperado": "(Blondaux & O’Hanrahan, 2018a)",
+  "fuente": "citations__basic-principles__same-year-author.md",
+  "contexto": [
+   {
+    "id": "bo-b",
+    "type": "article-journal",
+    "author": [
+     {
+      "family": "Blondaux",
+      "given": "A."
+     },
+     {
+      "family": "O’Hanrahan",
+      "given": "B."
+     }
+    ],
+    "issued": {
+     "date-parts": [
+      [
+       2018
+      ]
+     ]
+    },
+    "title": "Beta study",
+    "container-title": "Journal"
+   }
+  ],
+  "notas": "Item CSL inline sintetico minimo (autores/anio/titulo ficticios): solo 'esperado' es oficial. Sufijo a/b por orden alfabetico de titulo; ambos items deben estar en la bibliografia (`contexto`)."
+ },
+ {
+  "id": "apa-cita-018",
+  "tipo": "mismo-autor-mismo-anio",
+  "modo": "narrativa",
+  "items": [
+   {
+    "locator": "",
+    "label": "page",
+    "prefix": "",
+    "suffix": "",
+    "csl": {
+     "id": "bo-b",
+     "type": "article-journal",
+     "author": [
+      {
+       "family": "Blondaux",
+       "given": "A."
+      },
+      {
+       "family": "O’Hanrahan",
+       "given": "B."
+      }
+     ],
+     "issued": {
+      "date-parts": [
+       [
+        2018
+       ]
+      ]
+     },
+     "title": "Beta study",
+     "container-title": "Journal"
+    }
+   }
+  ],
+  "esperado": "Blondaux and O’Hanrahan (2018b)",
+  "fuente": "citations__basic-principles__same-year-author.md",
+  "contexto": [
+   {
+    "id": "bo-a",
+    "type": "article-journal",
+    "author": [
+     {
+      "family": "Blondaux",
+      "given": "A."
+     },
+     {
+      "family": "O’Hanrahan",
+      "given": "B."
+     }
+    ],
+    "issued": {
+     "date-parts": [
+      [
+       2018
+      ]
+     ]
+    },
+    "title": "Alpha study",
+    "container-title": "Journal"
+   }
+  ],
+  "notas": "Item CSL inline sintetico minimo (autores/anio/titulo ficticios): solo 'esperado' es oficial."
+ },
+ {
+  "id": "apa-cita-019",
+  "tipo": "mismo-autor-sin-fecha",
+  "modo": "parentetica",
+  "items": [
+   {
+    "locator": "",
+    "label": "page",
+    "prefix": "",
+    "suffix": "",
+    "csl": {
+     "id": "dr-a",
+     "type": "article-journal",
+     "author": [
+      {
+       "family": "Dreschke",
+       "given": "X."
+      }
+     ],
+     "title": "Alpha",
+     "container-title": "Journal"
+    }
+   },
+   {
+    "locator": "",
+    "label": "page",
+    "prefix": "",
+    "suffix": "",
+    "csl": {
+     "id": "dr-b",
+     "type": "article-journal",
+     "author": [
+      {
+       "family": "Dreschke",
+       "given": "X."
+      }
+     ],
+     "title": "Beta",
+     "container-title": "Journal"
+    }
+   }
+  ],
+  "esperado": "(Dreschke, n.d.-a, n.d.-b)",
+  "fuente": "citations__basic-principles__same-year-author.md",
+  "notas": "Item CSL inline sintetico minimo (autores/anio/titulo ficticios): solo 'esperado' es oficial. 'n.d.-a' / 'n.d.-b'."
+ },
+ {
+  "id": "apa-cita-020",
+  "tipo": "et-al-ambiguo-desambiguar",
+  "modo": "narrativa",
+  "items": [
+   {
+    "locator": "",
+    "label": "page",
+    "prefix": "",
+    "suffix": "",
+    "csl": {
+     "id": "kap1",
+     "type": "article-journal",
+     "author": [
+      {
+       "family": "Kapoor",
+       "given": "A."
+      },
+      {
+       "family": "Bloom",
+       "given": "B."
+      },
+      {
+       "family": "Montez",
+       "given": "C."
+      },
+      {
+       "family": "Ng",
+       "given": "D."
+      }
+     ],
+     "issued": {
+      "date-parts": [
+       [
+        2017
+       ]
+      ]
+     },
+     "title": "K1",
+     "container-title": "Journal"
+    }
+   }
+  ],
+  "esperado": "Kapoor, Bloom, Montez, et al. (2017)",
+  "fuente": "citations__basic-principles__same-year-first-author.md",
+  "contexto": [
+   {
+    "id": "kap2",
+    "type": "article-journal",
+    "author": [
+     {
+      "family": "Kapoor",
+      "given": "A."
+     },
+     {
+      "family": "Bloom",
+      "given": "B."
+     },
+     {
+      "family": "Zucker",
+      "given": "C."
+     },
+     {
+      "family": "Ng",
+      "given": "D."
+     }
+    ],
+    "issued": {
+     "date-parts": [
+      [
+       2017
+      ]
+     ]
+    },
+    "title": "K2",
+    "container-title": "Journal"
+   }
+  ],
+  "notas": "Item CSL inline sintetico minimo (autores/anio/titulo ficticios): solo 'esperado' es oficial. Requiere ambos items en la bibliografia (disambiguate-add-names)."
+ },
+ {
+  "id": "apa-cita-021",
+  "tipo": "et-al-ambiguo-desambiguar",
+  "modo": "narrativa",
+  "items": [
+   {
+    "locator": "",
+    "label": "page",
+    "prefix": "",
+    "suffix": "",
+    "csl": {
+     "id": "kap2",
+     "type": "article-journal",
+     "author": [
+      {
+       "family": "Kapoor",
+       "given": "A."
+      },
+      {
+       "family": "Bloom",
+       "given": "B."
+      },
+      {
+       "family": "Zucker",
+       "given": "C."
+      },
+      {
+       "family": "Ng",
+       "given": "D."
+      }
+     ],
+     "issued": {
+      "date-parts": [
+       [
+        2017
+       ]
+      ]
+     },
+     "title": "K2",
+     "container-title": "Journal"
+    }
+   }
+  ],
+  "esperado": "Kapoor, Bloom, Zucker, et al. (2017)",
+  "fuente": "citations__basic-principles__same-year-first-author.md",
+  "contexto": [
+   {
+    "id": "kap1",
+    "type": "article-journal",
+    "author": [
+     {
+      "family": "Kapoor",
+      "given": "A."
+     },
+     {
+      "family": "Bloom",
+      "given": "B."
+     },
+     {
+      "family": "Montez",
+      "given": "C."
+     },
+     {
+      "family": "Ng",
+      "given": "D."
+     }
+    ],
+    "issued": {
+     "date-parts": [
+      [
+       2017
+      ]
+     ]
+    },
+    "title": "K1",
+    "container-title": "Journal"
+   }
+  ],
+  "notas": "Item CSL inline sintetico minimo (autores/anio/titulo ficticios): solo 'esperado' es oficial."
+ },
+ {
+  "id": "apa-cita-022",
+  "tipo": "fuente-secundaria",
+  "modo": "parentetica",
+  "items": [
+   {
+    "locator": "",
+    "label": "page",
+    "prefix": "Rabbitt, 1982, as cited in ",
+    "suffix": "",
+    "csl": {
+     "id": "lyon2014",
+     "type": "article-journal",
+     "author": [
+      {
+       "family": "Lyon",
+       "given": "A."
+      },
+      {
+       "family": "Mo",
+       "given": "B."
+      },
+      {
+       "family": "Ng",
+       "given": "C."
+      }
+     ],
+     "issued": {
+      "date-parts": [
+       [
+        2014
+       ]
+      ]
+     },
+     "title": "Lyon work",
+     "container-title": "Journal"
+    }
+   }
+  ],
+  "esperado": "(Rabbitt, 1982, as cited in Lyon et al., 2014)",
+  "fuente": "citations__secondary-sources.md",
+  "notas": "Item CSL inline sintetico minimo (autores/anio/titulo ficticios): solo 'esperado' es oficial. CSL no soporta 'as cited in': se emula con `prefix` (item = Lyon et al.; solo Lyon va en la lista)."
+ },
+ {
+  "id": "apa-cita-023",
+  "tipo": "comunicacion-personal",
+  "modo": "parentetica",
+  "items": [],
+  "esperado": "(T. Nguyen, personal communication, February 24, 2020)",
+  "fuente": "citations__personal-communications.md",
+  "notas": "Sin entrada en la lista ni item CSL: se compone como texto literal (render.py necesita plantilla propia)."
+ },
+ {
+  "id": "apa-cita-024",
+  "tipo": "comunicacion-personal",
+  "modo": "narrativa",
+  "items": [],
+  "esperado": "E.-M. Paradis (personal communication, August 8, 2019)",
+  "fuente": "citations__personal-communications.md",
+  "notas": "Texto literal; sin entrada en la lista."
+ },
+ {
+  "id": "apa-cita-025",
+  "tipo": "cita-textual-con-pagina",
+  "modo": "parentetica",
+  "items": [
+   {
+    "locator": "470",
+    "label": "page",
+    "prefix": "",
+    "suffix": "",
+    "csl": {
+     "id": "ervin2018",
+     "type": "article-journal",
+     "author": [
+      {
+       "family": "Ervin",
+       "given": "A."
+      },
+      {
+       "family": "Bo",
+       "given": "B."
+      },
+      {
+       "family": "Cy",
+       "given": "C."
+      }
+     ],
+     "issued": {
+      "date-parts": [
+       [
+        2018
+       ]
+      ]
+     },
+     "title": "E",
+     "container-title": "Journal"
+    }
+   }
+  ],
+  "esperado": "(Ervin et al., 2018, p. 470)",
+  "fuente": "citations__quotations.md",
+  "notas": "Item CSL inline sintetico minimo (autores/anio/titulo ficticios): solo 'esperado' es oficial."
+ },
+ {
+  "id": "apa-cita-026",
+  "tipo": "cita-textual-sin-pagina-parrafo",
+  "modo": "parentetica",
+  "items": [
+   {
+    "locator": "1",
+    "label": "paragraph",
+    "prefix": "",
+    "suffix": "",
+    "csl": {
+     "id": "chamb2014",
+     "type": "article-journal",
+     "author": [
+      {
+       "family": "Chamberlin",
+       "given": "X."
+      }
+     ],
+     "issued": {
+      "date-parts": [
+       [
+        2014
+       ]
+      ]
+     },
+     "title": "C",
+     "container-title": "Journal"
+    }
+   }
+  ],
+  "esperado": "(Chamberlin, 2014, para. 1)",
+  "fuente": "citations__quotations__no-page-numbers.md",
+  "notas": "Item CSL inline sintetico minimo (autores/anio/titulo ficticios): solo 'esperado' es oficial."
+ },
+ {
+  "id": "apa-cita-027",
+  "tipo": "cita-textual-sin-pagina-seccion",
+  "modo": "parentetica",
+  "items": [
+   {
+    "locator": "",
+    "label": "page",
+    "prefix": "",
+    "suffix": ", Osteoarthritis section",
+    "csl": {
+     "id": "gecht2015",
+     "type": "article-journal",
+     "author": [
+      {
+       "family": "Gecht-Silver",
+       "given": "M."
+      },
+      {
+       "family": "Duncombe",
+       "given": "D."
+      }
+     ],
+     "issued": {
+      "date-parts": [
+       [
+        2015
+       ]
+      ]
+     },
+     "title": "G",
+     "container-title": "Journal"
+    }
+   }
+  ],
+  "esperado": "(Gecht-Silver & Duncombe, 2015, Osteoarthritis section)",
+  "fuente": "citations__quotations__no-page-numbers.md",
+  "notas": "Item CSL inline sintetico minimo (autores/anio/titulo ficticios): solo 'esperado' es oficial. Encabezado de seccion via `suffix`."
+ },
+ {
+  "id": "apa-cita-028",
+  "tipo": "cita-textual-sin-pagina-seccion-y-parrafo",
+  "modo": "parentetica",
+  "items": [
+   {
+    "locator": "",
+    "label": "page",
+    "prefix": "",
+    "suffix": ", Musical Forays section, para. 4",
+    "csl": {
+     "id": "dean2018",
+     "type": "article-journal",
+     "author": [
+      {
+       "family": "DeAngelis",
+       "given": "X."
+      }
+     ],
+     "issued": {
+      "date-parts": [
+       [
+        2018
+       ]
+      ]
+     },
+     "title": "D",
+     "container-title": "Journal"
+    }
+   }
+  ],
+  "esperado": "(DeAngelis, 2018, Musical Forays section, para. 4)",
+  "fuente": "citations__quotations__no-page-numbers.md",
+  "notas": "Item CSL inline sintetico minimo (autores/anio/titulo ficticios): solo 'esperado' es oficial."
+ },
+ {
+  "id": "apa-cita-029",
+  "tipo": "cita-textual-marca-de-tiempo",
+  "modo": "parentetica",
+  "items": [
+   {
+    "locator": "",
+    "label": "page",
+    "prefix": "",
+    "suffix": ", 2:12",
+    "ref": "apa-ref-079"
+   }
+  ],
+  "esperado": "(Cuddy, 2012, 2:12)",
+  "fuente": "citations__quotations__no-page-numbers.md",
+  "notas": "Usa la referencia de charla TED del corpus (Cuddy 2012). Marca de tiempo via `suffix`."
+ },
+ {
+  "id": "apa-cita-030",
+  "tipo": "parte-de-la-fuente-page",
+  "modo": "parentetica",
+  "items": [
+   {
+    "locator": "47",
+    "label": "page",
+    "prefix": "",
+    "suffix": "",
+    "csl": {
+     "id": "part0",
+     "type": "article-journal",
+     "author": [
+      {
+       "family": "Stoddard",
+       "given": "A."
+      },
+      {
+       "family": "Bo",
+       "given": "B."
+      },
+      {
+       "family": "Cy",
+       "given": "C."
+      }
+     ],
+     "issued": {
+      "date-parts": [
+       [
+        2020
+       ]
+      ]
+     },
+     "title": "P0",
+     "container-title": "Journal"
+    }
+   }
+  ],
+  "esperado": "(Stoddard et al., 2020, p. 47)",
+  "fuente": "citations__basic-principles__parts-source.md",
+  "notas": "Item CSL inline sintetico minimo (autores/anio/titulo ficticios): solo 'esperado' es oficial. Label CSL 'page'; 'table'/'figure' no son locators CSL estandar: usar suffix si el CSL no los soporta."
+ },
+ {
+  "id": "apa-cita-031",
+  "tipo": "parte-de-la-fuente-page",
+  "modo": "parentetica",
+  "items": [
+   {
+    "locator": "202–205",
+    "label": "page",
+    "prefix": "",
+    "suffix": "",
+    "csl": {
+     "id": "part1",
+     "type": "article-journal",
+     "author": [
+      {
+       "literal": "World Health Organization"
+      }
+     ],
+     "issued": {
+      "date-parts": [
+       [
+        2019
+       ]
+      ]
+     },
+     "title": "P1",
+     "container-title": "Journal"
+    }
+   }
+  ],
+  "esperado": "(World Health Organization, 2019, pp. 202–205)",
+  "fuente": "citations__basic-principles__parts-source.md",
+  "notas": "Item CSL inline sintetico minimo (autores/anio/titulo ficticios): solo 'esperado' es oficial. Label CSL 'page'; 'table'/'figure' no son locators CSL estandar: usar suffix si el CSL no los soporta."
+ },
+ {
+  "id": "apa-cita-032",
+  "tipo": "parte-de-la-fuente-chapter",
+  "modo": "parentetica",
+  "items": [
+   {
+    "locator": "14",
+    "label": "chapter",
+    "prefix": "",
+    "suffix": "",
+    "csl": {
+     "id": "part2",
+     "type": "article-journal",
+     "author": [
+      {
+       "family": "Merenda",
+       "given": "X."
+      }
+     ],
+     "issued": {
+      "date-parts": [
+       [
+        2018
+       ]
+      ]
+     },
+     "title": "P2",
+     "container-title": "Journal"
+    }
+   }
+  ],
+  "esperado": "(Merenda, 2018, Chapter 14)",
+  "fuente": "citations__basic-principles__parts-source.md",
+  "notas": "Item CSL inline sintetico minimo (autores/anio/titulo ficticios): solo 'esperado' es oficial. Label CSL 'chapter'; 'table'/'figure' no son locators CSL estandar: usar suffix si el CSL no los soporta."
+ },
+ {
+  "id": "apa-cita-033",
+  "tipo": "parte-de-la-fuente-paragraph",
+  "modo": "parentetica",
+  "items": [
+   {
+    "locator": "3",
+    "label": "paragraph",
+    "prefix": "",
+    "suffix": "",
+    "csl": {
+     "id": "part3",
+     "type": "article-journal",
+     "author": [
+      {
+       "family": "Liu",
+       "given": "A."
+      },
+      {
+       "family": "Bo",
+       "given": "B."
+      },
+      {
+       "family": "Cy",
+       "given": "C."
+      }
+     ],
+     "issued": {
+      "date-parts": [
+       [
+        2020
+       ]
+      ]
+     },
+     "title": "P3",
+     "container-title": "Journal"
+    }
+   }
+  ],
+  "esperado": "(Liu et al., 2020, para. 3)",
+  "fuente": "citations__basic-principles__parts-source.md",
+  "notas": "Item CSL inline sintetico minimo (autores/anio/titulo ficticios): solo 'esperado' es oficial. Label CSL 'paragraph'; 'table'/'figure' no son locators CSL estandar: usar suffix si el CSL no los soporta."
+ },
+ {
+  "id": "apa-cita-034",
+  "tipo": "parte-de-la-fuente-paragraph",
+  "modo": "parentetica",
+  "items": [
+   {
+    "locator": "4–5",
+    "label": "paragraph",
+    "prefix": "",
+    "suffix": "",
+    "csl": {
+     "id": "part4",
+     "type": "article-journal",
+     "author": [
+      {
+       "family": "Bassie",
+       "given": "A."
+      },
+      {
+       "family": "Meagher",
+       "given": "B."
+      }
+     ],
+     "issued": {
+      "date-parts": [
+       [
+        2020
+       ]
+      ]
+     },
+     "title": "P4",
+     "container-title": "Journal"
+    }
+   }
+  ],
+  "esperado": "(Bassie & Meagher, 2020, paras. 4–5)",
+  "fuente": "citations__basic-principles__parts-source.md",
+  "notas": "Item CSL inline sintetico minimo (autores/anio/titulo ficticios): solo 'esperado' es oficial. Label CSL 'paragraph'; 'table'/'figure' no son locators CSL estandar: usar suffix si el CSL no los soporta."
+ },
+ {
+  "id": "apa-cita-035",
+  "tipo": "parte-de-la-fuente-table",
+  "modo": "parentetica",
+  "items": [
+   {
+    "locator": "3",
+    "label": "table",
+    "prefix": "",
+    "suffix": "",
+    "csl": {
+     "id": "part5",
+     "type": "article-journal",
+     "author": [
+      {
+       "literal": "National Institute of Mental Health"
+      }
+     ],
+     "issued": {
+      "date-parts": [
+       [
+        2019
+       ]
+      ]
+     },
+     "title": "P5",
+     "container-title": "Journal"
+    }
+   }
+  ],
+  "esperado": "(National Institute of Mental Health, 2019, Table 3)",
+  "fuente": "citations__basic-principles__parts-source.md",
+  "notas": "Item CSL inline sintetico minimo (autores/anio/titulo ficticios): solo 'esperado' es oficial. Label CSL 'table'; 'table'/'figure' no son locators CSL estandar: usar suffix si el CSL no los soporta."
+ },
+ {
+  "id": "apa-cita-036",
+  "tipo": "parte-de-la-fuente-figure",
+  "modo": "parentetica",
+  "items": [
+   {
+    "locator": "4",
+    "label": "figure",
+    "prefix": "",
+    "suffix": "",
+    "csl": {
+     "id": "part6",
+     "type": "article-journal",
+     "author": [
+      {
+       "family": "Lazer",
+       "given": "X."
+      }
+     ],
+     "issued": {
+      "date-parts": [
+       [
+        2020
+       ]
+      ]
+     },
+     "title": "P6",
+     "container-title": "Journal"
+    }
+   }
+  ],
+  "esperado": "(Lazer, 2020, Figure 4)",
+  "fuente": "citations__basic-principles__parts-source.md",
+  "notas": "Item CSL inline sintetico minimo (autores/anio/titulo ficticios): solo 'esperado' es oficial. Label CSL 'figure'; 'table'/'figure' no son locators CSL estandar: usar suffix si el CSL no los soporta."
+ },
+ {
+  "id": "apa-cita-037",
+  "tipo": "parentetica-con-texto-comas",
+  "modo": "parentetica",
+  "items": [
+   {
+    "locator": "",
+    "label": "page",
+    "prefix": "see ",
+    "suffix": " for more detail",
+    "csl": {
+     "id": "koehler2016",
+     "type": "article-journal",
+     "author": [
+      {
+       "family": "Koehler",
+       "given": "X."
+      }
+     ],
+     "issued": {
+      "date-parts": [
+       [
+        2016
+       ]
+      ]
+     },
+     "title": "K",
+     "container-title": "Journal"
+    }
+   }
+  ],
+  "esperado": "(see Koehler, 2016, for more detail)",
+  "fuente": "citations__basic-principles__parenthetical-versus-narrative.md",
+  "notas": "Item CSL inline sintetico minimo (autores/anio/titulo ficticios): solo 'esperado' es oficial. Coma tras el anio al haber texto posterior."
+ },
+ {
+  "id": "apa-cita-038",
+  "tipo": "parentetica-con-texto-punto-y-coma",
+  "modo": "parentetica",
+  "items": [
+   {
+    "locator": "",
+    "label": "page",
+    "prefix": "e.g., falsely balanced news coverage; ",
+    "suffix": "",
+    "csl": {
+     "id": "koehler2016",
+     "type": "article-journal",
+     "author": [
+      {
+       "family": "Koehler",
+       "given": "X."
+      }
+     ],
+     "issued": {
+      "date-parts": [
+       [
+        2016
+       ]
+      ]
+     },
+     "title": "K",
+     "container-title": "Journal"
+    }
+   }
+  ],
+  "esperado": "(e.g., falsely balanced news coverage; Koehler, 2016)",
+  "fuente": "citations__basic-principles__parenthetical-versus-narrative.md",
+  "notas": "Item CSL inline sintetico minimo (autores/anio/titulo ficticios): solo 'esperado' es oficial."
+ },
+ {
+  "id": "apa-cita-039",
+  "tipo": "un-autor",
+  "modo": "parentetica",
+  "items": [
+   {
+    "locator": "",
+    "label": "page",
+    "prefix": "",
+    "suffix": "",
+    "csl": {
+     "id": "koehler2016",
+     "type": "article-journal",
+     "author": [
+      {
+       "family": "Koehler",
+       "given": "X."
+      }
+     ],
+     "issued": {
+      "date-parts": [
+       [
+        2016
+       ]
+      ]
+     },
+     "title": "K",
+     "container-title": "Journal"
+    }
+   }
+  ],
+  "esperado": "(Koehler, 2016)",
+  "fuente": "citations__basic-principles__parenthetical-versus-narrative.md",
+  "notas": "Item CSL inline sintetico minimo (autores/anio/titulo ficticios): solo 'esperado' es oficial."
+ },
+ {
+  "id": "apa-cita-040",
+  "tipo": "multiples-obras-con-referencias-reales",
+  "modo": "parentetica",
+  "items": [
+   {
+    "locator": "",
+    "label": "page",
+    "prefix": "",
+    "suffix": "",
+    "ref": "apa-ref-003"
+   },
+   {
+    "locator": "",
+    "label": "page",
+    "prefix": "",
+    "suffix": "",
+    "ref": "apa-ref-001"
+   },
+   {
+    "locator": "",
+    "label": "page",
+    "prefix": "",
+    "suffix": "",
+    "ref": "apa-ref-002"
+   }
+  ],
+  "esperado": "(Grady et al., 2019; Pope & Wall, 2025; Rybaczewska & Sparks, 2022)",
+  "fuente": "references__examples__journal-article-references.md",
+  "notas": "Usa apa-ref-001/002/003 del corpus; fuente de la cita: ejemplos de articulos de revista. Items en orden no alfabetico."
+ },
+ {
+  "id": "apa-cita-041",
+  "tipo": "multiples-obras-narrativa",
+  "modo": "narrativa",
+  "items": [
+   {
+    "locator": "",
+    "label": "page",
+    "prefix": "",
+    "suffix": "",
+    "ref": "apa-ref-001"
+   },
+   {
+    "locator": "",
+    "label": "page",
+    "prefix": "",
+    "suffix": "",
+    "ref": "apa-ref-002"
+   },
+   {
+    "locator": "",
+    "label": "page",
+    "prefix": "",
+    "suffix": "",
+    "ref": "apa-ref-003"
+   }
+  ],
+  "esperado": "Grady et al. (2019), Pope and Wall (2025), and Rybaczewska and Sparks (2022)",
+  "fuente": "references__examples__journal-article-references.md",
+  "notas": "Narrativa multiple: se compone concatenando narrativas individuales (pandoc no la genera nativamente)."
+ },
+ {
+  "id": "apa-cita-042",
+  "tipo": "autor-anonimo",
+  "modo": "parentetica",
+  "items": [
+   {
+    "locator": "",
+    "label": "page",
+    "prefix": "",
+    "suffix": "",
+    "ref": "apa-ref-082"
+   }
+  ],
+  "esperado": "(Anonymous, 2017)",
+  "fuente": "references__missing-information.md",
+  "notas": "Solo si la obra esta firmada 'Anonymous'."
+ }
+]

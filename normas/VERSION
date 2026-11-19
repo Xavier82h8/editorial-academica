@@ -1,0 +1,8 @@
+snapshot: 2026-11-18
+apa: apastyle.apa.org/style-grammar-guidelines (162 páginas) + blog IA (3 posts); APA 7.ª ed. vigente, sin 8.ª anunciada
+ieee_reference_guide: V 3.28.2025 (Google Doc oficial enlazado desde IEEE Author Center) -> normas/ieee/actual/reference-guide.txt
+ieee_style_manual: versión actual Google Doc (Author Center) -> normas/ieee/actual/style-manual.txt; PDF "Updated 29 July 2024" como respaldo
+ieee_math_guide: V 10.27.2023 -> normas/ieee/actual/math-guide.txt
+ieee_abreviaturas: normas/ieee/actual/abreviaturas-revistas.csv
+historico: normas/ieee/IEEE-Reference-Guide.pdf (V 11.12.2018), IEEE_Reference_Guide_2023.pdf (V 11.29.2023)
+csl: plantillas/csl/apa.csl (updated 2026-02-07), ieee.csl (basado en Ref Guide 11.29.2023; sin collapse => ya emite [1], [2], [3] conforme a 2025)

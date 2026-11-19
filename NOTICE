@@ -1,0 +1,50 @@
+editorial-academica
+Copyright (c) 2026 Javier Karim Andrade Talamante. Código bajo licencia MIT (ver LICENSE).
+
+Este archivo lista los componentes de terceros y los materiales que no están
+cubiertos por la licencia MIT del código.
+
+1. Estilos CSL (plantillas/csl/)
+   - apa.csl: «American Psychological Association 7th edition», del proyecto
+     Citation Style Language (https://citationstyles.org/, repositorio
+     https://github.com/citation-style-language/styles). Autores: Brenton M.
+     Wiernik, Andrew Dunning, Jay Pfaffman y demás colaboradores indicados en el
+     elemento <info> del propio archivo.
+   - ieee.csl: «IEEE Reference Guide version 11.29.2023», del proyecto CSL.
+     Autores: Michael Berkowitz, Julian Onions, Rintze Zelle, Stephen Frank,
+     Sebastian Karcher, Giuseppe Silano, Patrick O'Brien, Brenton M. Wiernik,
+     Oliver Couch, Andrew Dunning y demás colaboradores indicados en <info>.
+   - apa-editorial.csl e ieee-editorial.csl: obras derivadas y modificadas de
+     los anteriores (ajustes de este proyecto; ver el historial de cambios).
+     Conservan la atribución original en su <info>.
+   Licencia de los cuatro: Creative Commons Atribución-CompartirIgual 3.0
+   (CC BY-SA 3.0, https://creativecommons.org/licenses/by-sa/3.0/). Las obras
+   derivadas se distribuyen bajo la misma licencia. Estos archivos NO están
+   bajo licencia MIT.
+
+2. Plantillas Word (no se distribuyen)
+   Los archivos .docx de estilos NO forman parte de este repositorio. Se
+   generan localmente con scripts/crear_plantillas.py a partir del
+   reference.docx del pandoc que tiene instalado cada usuario (`pandoc
+   --print-default-data-file reference.docx`), modificando estilos con
+   python-docx; se guardan en la caché del usuario. Así este repositorio no
+   redistribuye material de pandoc (GPL-2.0-o-posterior).
+
+3. Corpus de prueba (tests/corpus/)
+   Ejemplos breves de citas y referencias citados de la guía «APA Style»
+   (https://apastyle.apa.org) y de la «IEEE Reference Guide» con fines de
+   prueba y de investigación. Pertenecen a sus titulares y no se relicencian.
+
+4. Normas oficiales (normas/)
+   Las normas, muestras y guías oficiales de APA e IEEE no se distribuyen con
+   este proyecto. Se obtienen del origen oficial con
+   `python scripts/obtener_normas.py`, que verifica su integridad.
+
+5. Marcas
+   APA® es marca de la American Psychological Association. IEEE® es marca del
+   Institute of Electrical and Electronics Engineers, Inc. Este proyecto es
+   independiente y no está afiliado ni respaldado por ellas.
+
+6. Dependencias (no incluidas; se instalan por separado)
+   python-docx (MIT), PyYAML (MIT), lxml (BSD-3), pandoc (GPL-2.0+),
+   matplotlib (licencia PSF/BSD, solo desarrollo).

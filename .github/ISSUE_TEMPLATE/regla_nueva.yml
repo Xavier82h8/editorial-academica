@@ -1,0 +1,44 @@
+name: Regla nueva
+description: Propón una regla de APA 7 o IEEE que el juez aún no cubre
+title: "[Regla] "
+labels: ["regla-nueva"]
+body:
+  - type: dropdown
+    id: norma
+    attributes:
+      label: Norma
+      options:
+        - APA 7
+        - IEEE
+        - Congruencia
+        - Estructura / maquetación
+    validations:
+      required: true
+  - type: textarea
+    id: regla
+    attributes:
+      label: Qué debe comprobar la regla
+    validations:
+      required: true
+  - type: input
+    id: fuente
+    attributes:
+      label: Sección oficial
+      placeholder: "APA 7 § 2.21"
+    validations:
+      required: true
+  - type: dropdown
+    id: tipo
+    attributes:
+      label: Se puede comprobar de forma mecánica
+      options:
+        - Sí (determinista)
+        - No (juicio del agente)
+        - No lo sé
+    validations:
+      required: true
+  - type: textarea
+    id: ejemplo
+    attributes:
+      label: Ejemplo correcto e incorrecto
+      description: Texto anónimo y breve.

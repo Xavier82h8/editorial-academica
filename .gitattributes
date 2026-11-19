@@ -1,0 +1,5 @@
+*.pdf binary
+*.docx binary
+*.png binary
+* text=auto eol=lf
+normas/muestras/** -text

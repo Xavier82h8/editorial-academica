@@ -1,0 +1,10 @@
+id: ieee
+nombre: IEEE completo
+base: ieee
+citas: ieee
+csl: plantillas/csl/ieee-editorial.csl
+checklists: [skills/ieee/references/checklist.md]
+opciones:
+  idioma: es
+  columnas: 2               # 2 = conferencia IEEEtran (por defecto, decisión 18-nov); 1 para tesis/informe
+overrides: {}

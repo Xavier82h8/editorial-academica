@@ -1,0 +1,19 @@
+# Perfil de equipo de ejemplo. Cópialo como `.editorial.yaml` en la raíz del proyecto (tesis, informe…).
+# Precedencia: perfil de equipo > norma base > estructura de género.
+# Cada excepción convierte los hallazgos de esa regla en «excepción institucional» (no cuentan como error
+# en /auditar ni en /puntuar) y quedan registradas con su motivo.
+institucion: "Instituto Tecnológico (ejemplo genérico)"
+perfil: apa7                 # perfil de formato por defecto
+estructura: tesis            # género por defecto (estructuras/<id>.yaml)
+idioma: es
+voz: impersonal              # impersonal | primera_plural
+minimo_fuentes: 20
+anios_fuentes: 10            # antigüedad máxima orientativa
+excepciones:
+  - regla: APA-001           # márgenes
+    si_contiene: "1.5"       # solo si la evidencia menciona 1.5 in (margen de encuadernación)
+    motivo: "La guía institucional pide margen izquierdo de 1.5 in para encuadernar"
+  - regla: APA-017           # portada
+    motivo: "Portada institucional con logotipo y datos del programa"
+  - regla: APA-022
+    motivo: "Portada institucional con logotipo y datos del programa"

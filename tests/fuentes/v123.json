@@ -1,0 +1,179 @@
+[
+  {
+    "id": "hu2025",
+    "type": "article",
+    "title": "MusicScaffold: Bridging machine efficiency and human growth in adolescent creative education through generative AI",
+    "author": [
+      {
+        "family": "Hu",
+        "given": "Z."
+      }
+    ],
+    "issued": {
+      "date-parts": [
+        [
+          2025
+        ]
+      ]
+    },
+    "DOI": "10.48550/arXiv.2509.10327",
+    "_esperado": {
+      "ok": true,
+      "preprint": true,
+      "version_publicada": "10.1145/3772318.3790440"
+    }
+  },
+  {
+    "id": "retractado",
+    "type": "article-journal",
+    "title": "PLACEHOLDER",
+    "author": [
+      {
+        "family": "X"
+      }
+    ],
+    "issued": {
+      "date-parts": [
+        [
+          2019
+        ]
+      ]
+    },
+    "DOI": "10.1177/1758835919874651",
+    "_esperado": {
+      "ok": false,
+      "aviso": "retractado"
+    }
+  },
+  {
+    "id": "weberwulff2023",
+    "type": "article-journal",
+    "title": "Testing of detection tools for AI-generated text",
+    "author": [
+      {
+        "family": "Weber-Wulff"
+      }
+    ],
+    "issued": {
+      "date-parts": [
+        [
+          2023
+        ]
+      ]
+    },
+    "container-title": "International Journal for Educational Integrity",
+    "DOI": "10.1007/s40979-023-00146-z",
+    "_esperado": {
+      "ok": true
+    }
+  },
+  {
+    "id": "autormal",
+    "type": "article-journal",
+    "title": "Testing of detection tools for AI-generated text",
+    "author": [
+      {
+        "family": "Gómez"
+      }
+    ],
+    "issued": {
+      "date-parts": [
+        [
+          2019
+        ]
+      ]
+    },
+    "DOI": "10.1007/s40979-023-00146-z",
+    "_esperado": {
+      "ok": false,
+      "v2": [
+        "primer autor",
+        "año"
+      ]
+    }
+  },
+  {
+    "id": "noexiste",
+    "type": "article-journal",
+    "title": "Inventado",
+    "author": [
+      {
+        "family": "Nadie"
+      }
+    ],
+    "issued": {
+      "date-parts": [
+        [
+          2021
+        ]
+      ]
+    },
+    "DOI": "10.1234/no.existe.2021",
+    "_esperado": {
+      "ok": false
+    }
+  },
+  {
+    "id": "hamari2014",
+    "type": "paper-conference",
+    "title": "Does gamification work? A literature review of empirical studies on gamification",
+    "author": [
+      {
+        "family": "Hamari"
+      }
+    ],
+    "issued": {
+      "date-parts": [
+        [
+          2014
+        ]
+      ]
+    },
+    "DOI": "10.1109/HICSS.2014.377",
+    "_esperado": {
+      "ok": true
+    }
+  },
+  {
+    "id": "nist2023",
+    "type": "report",
+    "title": "Artificial intelligence risk management framework (AI RMF 1.0)",
+    "author": [
+      {
+        "literal": "National Institute of Standards and Technology"
+      }
+    ],
+    "issued": {
+      "date-parts": [
+        [
+          2023
+        ]
+      ]
+    },
+    "DOI": "10.6028/NIST.AI.100-1",
+    "_esperado": {
+      "ok": true
+    }
+  },
+  {
+    "id": "muller2015",
+    "type": "book",
+    "title": "Fundamentals of music processing: Audio, analysis, algorithms, applications",
+    "author": [
+      {
+        "family": "Müller"
+      }
+    ],
+    "issued": {
+      "date-parts": [
+        [
+          2015
+        ]
+      ]
+    },
+    "DOI": "10.1007/978-3-319-21945-5",
+    "_esperado": {
+      "ok": true
+    }
+  }
+]

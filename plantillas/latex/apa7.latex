@@ -1,0 +1,152 @@
+$document-metadata.latex()$
+$passoptions.latex()$
+% Plantilla pandoc APA 7 (trabajo de estudiante; profesional con -V profesional=true).
+% Requiere xelatex + filtro plantillas/filtros/latex-base.lua + -V indent=true.
+\documentclass[
+$for(babel-otherlangs)$
+  $babel-otherlangs$,
+$endfor$
+$if(babel-lang)$
+  $babel-lang$,
+$endif$
+  12pt,
+  letterpaper,
+$for(classoption)$
+  $classoption$$sep$,
+$endfor$
+]{article}
+\usepackage{xcolor}
+\usepackage[margin=1in,headheight=14pt,headsep=0.3in,footskip=0.5in]{geometry}
+\usepackage{amsmath,amssymb}
+\setcounter{secnumdepth}{-\maxdimen} % APA: encabezados sin numerar
+$fonts.latex()$
+$font-settings.latex()$
+$common.latex()$
+% --- APA 7: doble espacio, sangria de 0.5 in, sin espacio entre parrafos
+\usepackage{setspace}
+\doublespacing
+\usepackage{indentfirst}
+\setlength{\parindent}{0.5in}
+\setlength{\parskip}{0pt}
+\usepackage{etoolbox}
+% --- numero de pagina arriba a la derecha (profesional: encabezado de pagina a la izquierda)
+\usepackage{fancyhdr}
+\newcommand{\apaheadL}{$if(profesional)$$if(running-head)$\MakeUppercase{$running-head$}$endif$$endif$}
+\pagestyle{fancy}
+\fancyhf{}
+\fancyhead[L]{\apaheadL}
+\fancyhead[R]{\thepage}
+\renewcommand{\headrulewidth}{0pt}
+\fancypagestyle{plain}{\fancyhf{}\fancyhead[L]{\apaheadL}\fancyhead[R]{\thepage}\renewcommand{\headrulewidth}{0pt}}
+% --- tablas y figuras APA 7: "Tabla 1"/"Figura 1" en negrita en su renglon, titulo debajo en cursiva (version
+% titulo), a la izquierda; la nota ("Nota.") va bajo la tabla/figura. El filtro pone el titulo de las figuras arriba.
+\usepackage{caption}
+\captionsetup{labelsep=newline,labelfont=bf,textfont=it,justification=raggedright,singlelinecheck=false,
+  format=plain,skip=0pt,parskip=0pt,indention=0pt}
+\captionsetup[table]{position=top}
+\captionsetup[figure]{position=top}
+\captionsetup{font={stretch=1.667}} % titulo a doble espacio como el resto
+\usepackage{float}
+\usepackage{longtable}
+\setlength{\LTleft}{0pt}\setlength{\LTright}{0pt} % tablas alineadas a la izquierda
+\usepackage{needspace}
+\makeatletter
+\@ifundefined{captionsspanish}{}{\addto\captionsspanish{\renewcommand{\tablename}{Tabla}}}
+\@ifundefined{captionsmexican}{}{\addto\captionsmexican{\renewcommand{\tablename}{Tabla}}}
+\makeatother
+% --- encabezados niveles 1-5
+\usepackage{titlesec}
+\titleformat{\section}{\normalfont\normalsize\bfseries\centering}{}{0pt}{}
+\titleformat{\subsection}{\normalfont\normalsize\bfseries}{}{0pt}{}
+\titleformat{\subsubsection}{\normalfont\normalsize\bfseries\itshape}{}{0pt}{}
+\titleformat{\paragraph}[runin]{\normalfont\normalsize\bfseries}{}{0pt}{}[.]
+\titleformat{\subparagraph}[runin]{\normalfont\normalsize\bfseries\itshape}{}{0pt}{}[.]
+\titlespacing*{\section}{0pt}{0pt}{0pt}
+\titlespacing*{\subsection}{0pt}{0pt}{0pt}
+\titlespacing*{\subsubsection}{0pt}{0pt}{0pt}
+\titlespacing*{\paragraph}{0.5in}{0pt}{1em}
+\titlespacing*{\subparagraph}{0.5in}{0pt}{1em}
+% --- lista de referencias: sangria francesa 0.5 in, doble espacio, sin separacion extra
+\ifdefined\cslhangindent
+\setlength{\cslhangindent}{0.5in}
+\fi
+% --- citas en bloque: 0.5 in a la izquierda, sin comillas
+\renewenvironment{quote}{\list{}{\leftmargin0.5in\rightmargin0pt\itemindent0pt\listparindent0.5in\topsep0pt\parsep0pt}\item\relax}{\endlist}
+$for(header-includes)$
+$header-includes$
+$endfor$
+$after-header-includes.latex()$
+$hypersetup.latex()$
+$if(pdf-trailer-id)$
+
+\ifXeTeX
+\special{pdf:trailerid [ $pdf-trailer-id$ ]}
+\fi
+$endif$
+
+\begin{document}
+\raggedright % APA: alineado a la izquierda, sin justificar
+\setlength{\parindent}{0.5in} % \raggedright pone \parindent a 0
+$if(title)$
+% ---- portada
+\thispagestyle{plain}
+{\centering\parindent0pt
+\vspace*{3\baselineskip}
+{\bfseries $title$\par}
+$if(subtitle)$
+{\bfseries $subtitle$\par}
+$endif$
+\mbox{}\par
+$if(authorsline)$
+$authorsline$\par
+$endif$
+$if(affiliation)$
+$affiliation$\par
+$endif$
+$if(institute)$
+$institute$\par
+$endif$
+$if(course)$
+$course$\par
+$endif$
+$if(instructor)$
+$instructor$\par
+$endif$
+$if(date)$
+$date$\par
+$endif$
+$if(author-note)$
+\vfill
+{\raggedright\setlength{\parindent}{0.5in}
+{\centering\bfseries $if(author-note-title)$$author-note-title$$else$Nota del autor$endif$\par}
+$author-note$\par}
+$endif$
+\par}
+\clearpage
+$endif$
+$if(abstract)$
+% ---- resumen
+{\centering\bfseries \abstractname\par}
+{\parindent0pt $abstract$\par}
+$if(keywords)$
+{\parindent0.5in\textit{$kwlabel$:} $for(keywords)$$keywords$$sep$, $endfor$\par}
+$endif$
+\clearpage
+$endif$
+$for(include-before)$
+$include-before$
+
+$endfor$
+$if(title)$
+{\centering\bfseries $title$\par}
+$endif$
+$body$
+
+$if(nocite-ids)$
+\nocite{$for(nocite-ids)$$it$$sep$, $endfor$}
+$endif$
+$for(include-after)$
+$include-after$
+
+$endfor$
+\end{document}

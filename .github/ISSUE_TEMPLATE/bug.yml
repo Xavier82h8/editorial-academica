@@ -1,0 +1,38 @@
+name: Error
+description: Algo falla o se comporta distinto de lo documentado
+title: "[Error] "
+labels: ["bug"]
+body:
+  - type: textarea
+    id: pasos
+    attributes:
+      label: Comando ejecutado y resultado
+      description: Comando completo y salida (sin rutas ni datos personales).
+      render: shell
+    validations:
+      required: true
+  - type: textarea
+    id: esperado
+    attributes:
+      label: Qué esperabas
+    validations:
+      required: true
+  - type: input
+    id: entorno
+    attributes:
+      label: Versión, sistema, Python y pandoc
+      placeholder: "0.4.0, Ubuntu 24.04, Python 3.12, pandoc 3.x"
+    validations:
+      required: true
+  - type: dropdown
+    id: cli
+    attributes:
+      label: CLI de agente
+      options:
+        - Claude Code
+        - Gemini CLI
+        - Codex
+        - Cursor
+        - Copilot CLI
+        - OpenCode
+        - CLI pura

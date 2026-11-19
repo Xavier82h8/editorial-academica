@@ -1,0 +1,102 @@
+[
+  {
+    "n": 1,
+    "oracion": "Un estudio probó 12 herramientas de detección y concluyó que no son precisas ni fiables [@weberwulff2023].",
+    "ids": [
+      "weberwulff2023"
+    ],
+    "veredicto": "respaldada",
+    "evidencia": "The researchers conclude that the available detection tools are neither accurate nor reliable",
+    "sugerencia": ""
+  },
+  {
+    "n": 2,
+    "oracion": "En una encuesta a 337 estudiantes, más de un tercio declaró haber usado un chatbot en sus evaluaciones [@gruenhagen2024].",
+    "ids": [
+      "gruenhagen2024"
+    ],
+    "veredicto": "respaldada",
+    "evidencia": "Based on a survey among 337 Australian university students, this study found that more than a third of students have used a chatbot for assistance with an assessment",
+    "sugerencia": ""
+  },
+  {
+    "n": 3,
+    "oracion": "Una encuesta a 399 estudiantes de Hong Kong mostró una actitud en general positiva hacia la IA generativa [@chan2023].",
+    "ids": [
+      "chan2023"
+    ],
+    "veredicto": "respaldada",
+    "evidencia": "A survey of 399 undergraduate and postgraduate students from various disciplines in Hong Kong revealed a generally positive attitude towards GenAI",
+    "sugerencia": ""
+  },
+  {
+    "n": 4,
+    "oracion": "Un análisis de 40 universidades de seis regiones examinó sus políticas de adopción de la IA generativa [@jin2025].",
+    "ids": [
+      "jin2025"
+    ],
+    "veredicto": "respaldada",
+    "evidencia": "examine GAI adoption strategies in higher education across 40 universities from six global regions",
+    "sugerencia": ""
+  },
+  {
+    "n": 5,
+    "oracion": "Una revisión de 50 universidades de Estados Unidos analizó sus guías sobre IA generativa [@an2025].",
+    "ids": [
+      "an2025"
+    ],
+    "veredicto": "respaldada",
+    "evidencia": "This study examined the guidelines issued by the top 50 U.S. universities regarding the use of Generative AI",
+    "sugerencia": ""
+  },
+  {
+    "n": 6,
+    "oracion": "Un estudio con 2500 participantes de 76 países describió los usos de la IA generativa [@yusuf2024].",
+    "ids": [
+      "yusuf2024"
+    ],
+    "veredicto": "contradicha",
+    "evidencia": "online survey that collected responses from 1217 participants across 76 countries",
+    "sugerencia": "Un estudio con 1217 participantes de 76 países describió los usos de la IA generativa [@yusuf2024]."
+  },
+  {
+    "n": 7,
+    "oracion": "Se analizaron 500 textos para evaluar la exactitud de los detectores de contenido [@hadra2026].",
+    "ids": [
+      "hadra2026"
+    ],
+    "veredicto": "contradicha",
+    "evidencia": "using a balanced dataset of 192 texts",
+    "sugerencia": "Se analizaron 192 textos para evaluar la exactitud de los detectores de contenido [@hadra2026]."
+  },
+  {
+    "n": 8,
+    "oracion": "Turnitin identificó el 99 % de las entregas generadas con IA [@perkins2023a].",
+    "ids": [
+      "perkins2023a"
+    ],
+    "veredicto": "contradicha",
+    "evidencia": "the AI detection tool identified 91% of the experimental submissions as containing AI-generated content, only 54.8% of the content was identified as AI-generated",
+    "sugerencia": "Turnitin identificó el 91 % de las entregas experimentales como con contenido generado por IA, aunque solo el 54.8 % del contenido [@perkins2023a]."
+  },
+  {
+    "n": 9,
+    "oracion": "Las pruebas concluyeron que los detectores de texto generado por IA son fiables y precisos [@weberwulff2023].",
+    "ids": [
+      "weberwulff2023"
+    ],
+    "veredicto": "contradicha",
+    "evidencia": "the available detection tools are neither accurate nor reliable",
+    "sugerencia": "Las pruebas concluyeron que los detectores de texto generado por IA no son fiables ni precisos [@weberwulff2023]."
+  },
+  {
+    "n": 10,
+    "oracion": "Los evaluadores distinguieron con facilidad las entregas hechas con IA generativa de las demás [@kofinas2025].",
+    "ids": [
+      "kofinas2025"
+    ],
+    "veredicto": "contradicha",
+    "evidencia": "markers, in general, are not able to distinguish assessments that have had GenAI input from assessments that did not",
+    "sugerencia": "Los evaluadores, en general, no lograron distinguir las entregas con apoyo de IA generativa de las demás [@kofinas2025]."
+  }
+]

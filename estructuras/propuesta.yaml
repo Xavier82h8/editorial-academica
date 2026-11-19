@@ -1,0 +1,82 @@
+id: propuesta
+nombre: Propuesta (de proyecto o financiamiento)
+front_matter:
+- portada
+- resumen ejecutivo
+secciones:
+- nombre: Resumen ejecutivo
+  alias:
+  - resumen ejecutivo
+  - resumen
+  - executive summary
+  - abstract
+  obligatoria: true
+  proposito: Síntesis de la propuesta
+  preguntas: []
+- nombre: Antecedentes
+  alias:
+  - antecedentes
+  - introduccion
+  - contexto
+  - background
+  - planteamiento del problema
+  obligatoria: true
+  proposito: Problema y contexto
+  preguntas: []
+- nombre: Objetivos
+  alias:
+  - objetivos
+  - objectives
+  - aims
+  obligatoria: true
+  proposito: Metas medibles
+  preguntas: []
+- nombre: Metodología
+  alias:
+  - metodo
+  - metodologia
+  - materiales y metodos
+  - method
+  - methods
+  - methodology
+  - diseño metodológico
+  - plan de trabajo
+  obligatoria: true
+  proposito: Cómo se logrará
+  preguntas: []
+- nombre: Resultados esperados
+  alias:
+  - resultados esperados
+  - productos
+  - entregables
+  - impacto esperado
+  - expected results
+  - deliverables
+  obligatoria: true
+  proposito: Productos e impacto
+  preguntas: []
+- nombre: Cronograma
+  alias:
+  - cronograma
+  - calendario
+  - timeline
+  obligatoria: true
+  proposito: Tiempos
+  preguntas: []
+- nombre: Presupuesto
+  alias:
+  - presupuesto
+  - budget
+  - recursos
+  obligatoria: false
+  proposito: Costos
+  preguntas: []
+- nombre: Referencias
+  alias:
+  - referencias
+  - references
+  - bibliografia
+  - fuentes
+  obligatoria: true
+  proposito: Lista de fuentes citadas
+  preguntas: []

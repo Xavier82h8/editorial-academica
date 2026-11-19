@@ -1,0 +1,12 @@
+.playwright-mcp/
+__pycache__/
+*.pyc
+/fuentes.json
+tests/docs/
+tests/resultados/
+tests/ciegos/docs/
+tests/ciegos/docs2/
+.cache/
+tests/reales/privado/
+plantillas/docx/
+tests/ciegos/docs3/

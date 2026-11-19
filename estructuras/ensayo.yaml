@@ -1,0 +1,46 @@
+id: ensayo
+nombre: Ensayo académico
+front_matter:
+- portada o encabezado
+secciones:
+- nombre: Introducción
+  alias:
+  - introduccion
+  - introduction
+  - planteamiento
+  - antecedentes
+  obligatoria: true
+  proposito: Tesis o postura del autor
+  preguntas:
+  - ¿Se enuncia una tesis clara?
+- nombre: Desarrollo
+  alias:
+  - desarrollo
+  - argumentacion
+  - cuerpo
+  - discusion
+  obligatoria: true
+  proposito: Argumentos con evidencia y contraargumentos
+  preguntas:
+  - ¿Cada argumento se apoya en fuentes?
+  - ¿Se consideran objeciones?
+  comodin: true
+- nombre: Conclusión
+  alias:
+  - conclusion
+  - conclusiones
+  - conclusions
+  - consideraciones finales
+  obligatoria: true
+  proposito: Cierre que retoma la tesis
+  preguntas:
+  - ¿La conclusión retoma la tesis sin añadir argumentos nuevos?
+- nombre: Referencias
+  alias:
+  - referencias
+  - references
+  - bibliografia
+  - fuentes
+  obligatoria: true
+  proposito: Lista de fuentes citadas
+  preguntas: []

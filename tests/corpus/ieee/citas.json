@@ -1,0 +1,430 @@
+[
+ {
+  "id": "ieee-cita-001",
+  "modo": "bracket",
+  "lista": [
+   "ieee-ref-003",
+   "ieee-ref-004",
+   "ieee-ref-005",
+   "ieee-ref-006",
+   "ieee-ref-007",
+   "ieee-ref-008",
+   "ieee-ref-018",
+   "ieee-ref-010",
+   "ieee-ref-012"
+  ],
+  "items": [
+   {
+    "ref": "ieee-ref-003",
+    "locator": "",
+    "label": ""
+   }
+  ],
+  "esperado": "[1]",
+  "contexto": "According to [1]",
+  "fuente": "reference-guide.txt:90",
+  "notas": ""
+ },
+ {
+  "id": "ieee-cita-002",
+  "modo": "bracket",
+  "lista": [
+   "ieee-ref-003",
+   "ieee-ref-004",
+   "ieee-ref-005",
+   "ieee-ref-006",
+   "ieee-ref-007",
+   "ieee-ref-008",
+   "ieee-ref-018",
+   "ieee-ref-010",
+   "ieee-ref-012"
+  ],
+  "items": [
+   {
+    "ref": "ieee-ref-004",
+    "locator": "",
+    "label": ""
+   }
+  ],
+  "esperado": "[2]",
+  "contexto": "as demonstrated in [2]",
+  "fuente": "reference-guide.txt:90",
+  "notas": ""
+ },
+ {
+  "id": "ieee-cita-003",
+  "modo": "bracket",
+  "lista": [
+   "ieee-ref-003",
+   "ieee-ref-004",
+   "ieee-ref-005",
+   "ieee-ref-006",
+   "ieee-ref-007",
+   "ieee-ref-008",
+   "ieee-ref-018",
+   "ieee-ref-010",
+   "ieee-ref-012"
+  ],
+  "items": [
+   {
+    "ref": "ieee-ref-006",
+    "locator": "",
+    "label": ""
+   },
+   {
+    "ref": "ieee-ref-007",
+    "locator": "",
+    "label": ""
+   }
+  ],
+  "esperado": "[4], [5]",
+  "contexto": "as shown by Brown [4], [5]",
+  "fuente": "reference-guide.txt:90",
+  "notas": "Cita multiple. Solo se verifica el bloque entre corchetes; \"Brown\" es prosa del autor."
+ },
+ {
+  "id": "ieee-cita-004",
+  "modo": "bracket",
+  "lista": [
+   "ieee-ref-003",
+   "ieee-ref-004",
+   "ieee-ref-005",
+   "ieee-ref-006",
+   "ieee-ref-007",
+   "ieee-ref-008",
+   "ieee-ref-018",
+   "ieee-ref-010",
+   "ieee-ref-012"
+  ],
+  "items": [
+   {
+    "ref": "ieee-ref-004",
+    "locator": "",
+    "label": ""
+   },
+   {
+    "ref": "ieee-ref-006",
+    "locator": "",
+    "label": ""
+   },
+   {
+    "ref": "ieee-ref-007",
+    "locator": "",
+    "label": ""
+   },
+   {
+    "ref": "ieee-ref-008",
+    "locator": "",
+    "label": ""
+   },
+   {
+    "ref": "ieee-ref-018",
+    "locator": "",
+    "label": ""
+   },
+   {
+    "ref": "ieee-ref-012",
+    "locator": "",
+    "label": ""
+   }
+  ],
+  "esperado": "[2], [4], [5], [6], [7], [9]",
+  "contexto": "as mentioned earlier [2], [4], [5], [6], [7], [9]",
+  "fuente": "reference-guide.txt:90",
+  "notas": "Lista no consecutiva: cada numero separado por coma, sin rangos."
+ },
+ {
+  "id": "ieee-cita-005",
+  "modo": "narrativa",
+  "lista": [
+   "ieee-ref-003",
+   "ieee-ref-004",
+   "ieee-ref-005",
+   "ieee-ref-006",
+   "ieee-ref-007",
+   "ieee-ref-008",
+   "ieee-ref-018",
+   "ieee-ref-010",
+   "ieee-ref-012"
+  ],
+  "items": [
+   {
+    "ref": "ieee-ref-006",
+    "locator": "",
+    "label": ""
+   }
+  ],
+  "esperado": "[4]",
+  "contexto": "Smith [4] and Brown and Jones [5]",
+  "fuente": "reference-guide.txt:90",
+  "notas": "Cita como sustantivo (narrativa). Solo se verifica el numero."
+ },
+ {
+  "id": "ieee-cita-006",
+  "modo": "narrativa",
+  "lista": [
+   "ieee-ref-003",
+   "ieee-ref-004",
+   "ieee-ref-005",
+   "ieee-ref-006",
+   "ieee-ref-007",
+   "ieee-ref-008",
+   "ieee-ref-018",
+   "ieee-ref-010",
+   "ieee-ref-012"
+  ],
+  "items": [
+   {
+    "ref": "ieee-ref-007",
+    "locator": "",
+    "label": ""
+   }
+  ],
+  "esperado": "[5]",
+  "contexto": "Smith [4] and Brown and Jones [5]",
+  "fuente": "reference-guide.txt:90",
+  "notas": "Segunda mitad de la misma frase de la guia: nombres de dos autores unidos con \"and\" (prosa)."
+ },
+ {
+  "id": "ieee-cita-007",
+  "modo": "narrativa",
+  "lista": [
+   "ieee-ref-003",
+   "ieee-ref-004",
+   "ieee-ref-005",
+   "ieee-ref-006",
+   "ieee-ref-007",
+   "ieee-ref-008",
+   "ieee-ref-018",
+   "ieee-ref-010",
+   "ieee-ref-012"
+  ],
+  "items": [
+   {
+    "ref": "ieee-ref-018",
+    "locator": "",
+    "label": ""
+   }
+  ],
+  "esperado": "[7]",
+  "contexto": "Wood et al. [7]",
+  "fuente": "reference-guide.txt:90",
+  "notas": "Cita como sustantivo con \"et al.\": la referencia 7 (Li, Yang, Li) tiene 3 nombres, asi que en prosa debe ir \"Li et al. [7]\" (nota de la guia, linea 94). El render CSL solo produce [7]; la forma \"et al.\" en prosa la comprueba el juez."
+ },
+ {
+  "id": "ieee-cita-008",
+  "modo": "bracket",
+  "lista": [
+   "ieee-ref-003",
+   "ieee-ref-004",
+   "ieee-ref-005",
+   "ieee-ref-006"
+  ],
+  "items": [
+   {
+    "ref": "ieee-ref-003",
+    "locator": "",
+    "label": ""
+   },
+   {
+    "ref": "ieee-ref-004",
+    "locator": "",
+    "label": ""
+   },
+   {
+    "ref": "ieee-ref-005",
+    "locator": "",
+    "label": ""
+   },
+   {
+    "ref": "ieee-ref-006",
+    "locator": "",
+    "label": ""
+   }
+  ],
+  "esperado": "[1], [2], [3], [4]",
+  "contexto": "For example, \"[1]–[4]\" will now be \"[1], [2], [3], [4]\".",
+  "fuente": "reference-guide.txt:92",
+  "notas": "Regla 2025: sin rangos con en dash. Debe fallar \"[1]–[4]\" y \"[1]-[4]\"."
+ },
+ {
+  "id": "ieee-cita-009",
+  "modo": "bracket",
+  "lista": [
+   "ieee-ref-003",
+   "ieee-ref-004",
+   "ieee-ref-005"
+  ],
+  "items": [
+   {
+    "ref": "ieee-ref-005",
+    "locator": "Thm. 1",
+    "label": ""
+   }
+  ],
+  "esperado": "[3, Thm. 1]",
+  "contexto": "[3, Thm. 1]",
+  "fuente": "reference-guide.txt:99",
+  "notas": "CSL 1.0.2 no tiene label para este tipo de locator: el texto va literal en \"locator\" y label vacio (pandoc: [@ieee-ref-xxx, Thm. 1])."
+ },
+ {
+  "id": "ieee-cita-010",
+  "modo": "bracket",
+  "lista": [
+   "ieee-ref-003",
+   "ieee-ref-004",
+   "ieee-ref-005"
+  ],
+  "items": [
+   {
+    "ref": "ieee-ref-005",
+    "locator": "Lemma 2",
+    "label": ""
+   }
+  ],
+  "esperado": "[3, Lemma 2]",
+  "contexto": "[3, Lemma 2]",
+  "fuente": "reference-guide.txt:99",
+  "notas": "CSL 1.0.2 no tiene label para este tipo de locator: el texto va literal en \"locator\" y label vacio (pandoc: [@ieee-ref-xxx, Lemma 2])."
+ },
+ {
+  "id": "ieee-cita-011",
+  "modo": "bracket",
+  "lista": [
+   "ieee-ref-003",
+   "ieee-ref-004",
+   "ieee-ref-005"
+  ],
+  "items": [
+   {
+    "ref": "ieee-ref-005",
+    "locator": "5–10",
+    "label": "page"
+   }
+  ],
+  "esperado": "[3, pp. 5–10]",
+  "contexto": "[3, pp. 5–10]",
+  "fuente": "reference-guide.txt:99",
+  "notas": "Locator CSL con label page: debe renderizar \"pp.\" (rango)."
+ },
+ {
+  "id": "ieee-cita-012",
+  "modo": "bracket",
+  "lista": [
+   "ieee-ref-003",
+   "ieee-ref-004",
+   "ieee-ref-005"
+  ],
+  "items": [
+   {
+    "ref": "ieee-ref-005",
+    "locator": "eq. (2)",
+    "label": ""
+   }
+  ],
+  "esperado": "[3, eq. (2)]",
+  "contexto": "[3, eq. (2)]",
+  "fuente": "reference-guide.txt:99",
+  "notas": "CSL 1.0.2 no tiene label para este tipo de locator: el texto va literal en \"locator\" y label vacio (pandoc: [@ieee-ref-xxx, eq. (2)])."
+ },
+ {
+  "id": "ieee-cita-013",
+  "modo": "bracket",
+  "lista": [
+   "ieee-ref-003",
+   "ieee-ref-004",
+   "ieee-ref-005"
+  ],
+  "items": [
+   {
+    "ref": "ieee-ref-005",
+    "locator": "Fig. 1",
+    "label": ""
+   }
+  ],
+  "esperado": "[3, Fig. 1]",
+  "contexto": "[3, Fig. 1]",
+  "fuente": "reference-guide.txt:99",
+  "notas": "CSL 1.0.2 no tiene label para este tipo de locator: el texto va literal en \"locator\" y label vacio (pandoc: [@ieee-ref-xxx, Fig. 1])."
+ },
+ {
+  "id": "ieee-cita-014",
+  "modo": "bracket",
+  "lista": [
+   "ieee-ref-003",
+   "ieee-ref-004",
+   "ieee-ref-005"
+  ],
+  "items": [
+   {
+    "ref": "ieee-ref-005",
+    "locator": "Appendix I",
+    "label": ""
+   }
+  ],
+  "esperado": "[3, Appendix I]",
+  "contexto": "[3, Appendix I]",
+  "fuente": "reference-guide.txt:99",
+  "notas": "CSL 1.0.2 no tiene label para este tipo de locator: el texto va literal en \"locator\" y label vacio (pandoc: [@ieee-ref-xxx, Appendix I])."
+ },
+ {
+  "id": "ieee-cita-015",
+  "modo": "bracket",
+  "lista": [
+   "ieee-ref-003",
+   "ieee-ref-004",
+   "ieee-ref-005"
+  ],
+  "items": [
+   {
+    "ref": "ieee-ref-005",
+    "locator": "Sect. 4.5",
+    "label": ""
+   }
+  ],
+  "esperado": "[3, Sect. 4.5]",
+  "contexto": "[3, Sect. 4.5]",
+  "fuente": "reference-guide.txt:99",
+  "notas": "CSL 1.0.2 no tiene label para este tipo de locator: el texto va literal en \"locator\" y label vacio (pandoc: [@ieee-ref-xxx, Sect. 4.5])."
+ },
+ {
+  "id": "ieee-cita-016",
+  "modo": "bracket",
+  "lista": [
+   "ieee-ref-003",
+   "ieee-ref-004",
+   "ieee-ref-005"
+  ],
+  "items": [
+   {
+    "ref": "ieee-ref-005",
+    "locator": "Ch. 2, pp. 5–10",
+    "label": ""
+   }
+  ],
+  "esperado": "[3, Ch. 2, pp. 5–10]",
+  "contexto": "[3, Ch. 2, pp. 5–10]",
+  "fuente": "reference-guide.txt:100",
+  "notas": "CSL 1.0.2 no tiene label para este tipo de locator: el texto va literal en \"locator\" y label vacio (pandoc: [@ieee-ref-xxx, Ch. 2, pp. 5–10])."
+ },
+ {
+  "id": "ieee-cita-017",
+  "modo": "bracket",
+  "lista": [
+   "ieee-ref-003",
+   "ieee-ref-004",
+   "ieee-ref-005"
+  ],
+  "items": [
+   {
+    "ref": "ieee-ref-005",
+    "locator": "Algorithm 5",
+    "label": ""
+   }
+  ],
+  "esperado": "[3, Algorithm 5]",
+  "contexto": "[3, Algorithm 5]",
+  "fuente": "reference-guide.txt:100",
+  "notas": "CSL 1.0.2 no tiene label para este tipo de locator: el texto va literal en \"locator\" y label vacio (pandoc: [@ieee-ref-xxx, Algorithm 5])."
+ }
+]

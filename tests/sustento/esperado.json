@@ -1,0 +1,52 @@
+[
+  {
+    "n": 1,
+    "esperado": "respaldada",
+    "cifra_falsa": false
+  },
+  {
+    "n": 2,
+    "esperado": "respaldada",
+    "cifra_falsa": false
+  },
+  {
+    "n": 3,
+    "esperado": "respaldada",
+    "cifra_falsa": false
+  },
+  {
+    "n": 4,
+    "esperado": "respaldada",
+    "cifra_falsa": false
+  },
+  {
+    "n": 5,
+    "esperado": "respaldada",
+    "cifra_falsa": false
+  },
+  {
+    "n": 6,
+    "esperado": "no-respaldada",
+    "cifra_falsa": true
+  },
+  {
+    "n": 7,
+    "esperado": "no-respaldada",
+    "cifra_falsa": true
+  },
+  {
+    "n": 8,
+    "esperado": "no-respaldada",
+    "cifra_falsa": true
+  },
+  {
+    "n": 9,
+    "esperado": "no-respaldada",
+    "cifra_falsa": false
+  },
+  {
+    "n": 10,
+    "esperado": "no-respaldada",
+    "cifra_falsa": false
+  }
+]

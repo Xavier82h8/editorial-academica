@@ -1,0 +1,101 @@
+id: protocolo
+nombre: Protocolo o anteproyecto de investigación
+front_matter:
+- portada
+- resumen (opcional)
+secciones:
+- nombre: Planteamiento del problema
+  alias:
+  - planteamiento del problema
+  - problema
+  - introduccion
+  - antecedentes
+  - problem statement
+  obligatoria: true
+  proposito: Problema, antecedentes y vacío
+  preguntas:
+  - ¿Qué problema se investigará?
+  - ¿Qué antecedentes lo sustentan?
+- nombre: Justificación
+  alias:
+  - justificacion
+  - relevancia
+  - justification
+  - rationale
+  obligatoria: true
+  proposito: Por qué vale la pena el estudio
+  preguntas:
+  - ¿A quién beneficia y por qué ahora?
+  orden_libre: true
+- nombre: Objetivos
+  alias:
+  - objetivos
+  - objetivo general
+  - objetivos especificos
+  - objectives
+  - aims
+  obligatoria: true
+  proposito: Objetivo general y específicos medibles
+  preguntas:
+  - ¿Cada objetivo es medible y tiene método asociado?
+- nombre: Preguntas o hipótesis
+  alias:
+  - preguntas de investigacion
+  - hipotesis
+  - hypotheses
+  - research questions
+  obligatoria: false
+  proposito: Preguntas e hipótesis
+  preguntas: []
+  orden_libre: true
+- nombre: Marco teórico
+  alias:
+  - marco teorico
+  - estado del arte
+  - marco referencial
+  - revision de la literatura
+  obligatoria: true
+  proposito: Sustento conceptual
+  preguntas: []
+- nombre: Metodología
+  alias:
+  - metodo
+  - metodologia
+  - materiales y metodos
+  - method
+  - methods
+  - methodology
+  - diseño metodológico
+  obligatoria: true
+  proposito: Diseño, participantes o datos, instrumentos y procedimiento reproducibles
+  preguntas:
+  - ¿Qué diseño se usó y por qué?
+  - ¿Quiénes participaron o qué datos se usaron (n, criterios)?
+  - ¿Cómo se recolectaron y analizaron los datos?
+- nombre: Cronograma
+  alias:
+  - cronograma
+  - plan de trabajo
+  - calendario
+  - timeline
+  obligatoria: true
+  proposito: Actividades y tiempos
+  preguntas:
+  - ¿Cada objetivo tiene actividades y fechas?
+- nombre: Recursos
+  alias:
+  - recursos
+  - presupuesto
+  - budget
+  obligatoria: false
+  proposito: Recursos y presupuesto
+  preguntas: []
+- nombre: Referencias
+  alias:
+  - referencias
+  - references
+  - bibliografia
+  - fuentes
+  obligatoria: true
+  proposito: Lista de fuentes citadas
+  preguntas: []

@@ -1,0 +1,5 @@
+# Dependencias de ejecución (Python >= 3.10). Probado con python-docx 1.2.0, PyYAML 6.0.2, lxml 6.1.1.
+# Además: pandoc >= 3 (render/convertir) y, para PDF, xelatex; ver README.
+python-docx>=1.1
+PyYAML>=6.0
+lxml>=5.0

@@ -1,0 +1,2865 @@
+[
+ {
+  "id": "apa-ref-001",
+  "tipo": "articulo-revista-doi",
+  "fuente": "references__examples__journal-article-references.md#1. Journal article",
+  "csl": {
+   "id": "apa-ref-001",
+   "type": "article-journal",
+   "author": [
+    {
+     "family": "Grady",
+     "given": "J. S."
+    },
+    {
+     "family": "Her",
+     "given": "M."
+    },
+    {
+     "family": "Moreno",
+     "given": "G."
+    },
+    {
+     "family": "Perez",
+     "given": "C."
+    },
+    {
+     "family": "Yelinek",
+     "given": "J."
+    }
+   ],
+   "issued": {
+    "date-parts": [
+     [
+      2019
+     ]
+    ]
+   },
+   "title": "Emotions in storybooks: A comparison of storybooks that represent ethnic and racial groups in the United States",
+   "container-title": "Psychology of Popular Media Culture",
+   "volume": "8",
+   "issue": "3",
+   "page": "207-217",
+   "DOI": "10.1037/ppm0000185"
+  },
+  "esperado": "Grady, J. S., Her, M., Moreno, G., Perez, C., & Yelinek, J. (2019). Emotions in storybooks: A comparison of storybooks that represent ethnic and racial groups in the United States. *Psychology of Popular Media Culture*, *8*(3), 207–217. https://doi.org/10.1037/ppm0000185",
+  "notas": "Cinco autores; cursiva en revista y volumen."
+ },
+ {
+  "id": "apa-ref-002",
+  "tipo": "articulo-revista-doi-titulo-bilingue",
+  "fuente": "references__examples__journal-article-references.md#1. Journal article",
+  "csl": {
+   "id": "apa-ref-002",
+   "type": "article-journal",
+   "author": [
+    {
+     "family": "Pope",
+     "given": "J. P."
+    },
+    {
+     "family": "Wall",
+     "given": "H."
+    }
+   ],
+   "issued": {
+    "date-parts": [
+     [
+      2025
+     ]
+    ]
+   },
+   "title": "Is the goal intrinsic or extrinsic? Examining self-determination theory researchers’ and the general publics’ perceptions of exercise goals",
+   "container-title": "Canadian Journal of Behavioural Science/Revue canadienne des sciences du comportement",
+   "volume": "57",
+   "issue": "3",
+   "page": "239-248",
+   "DOI": "10.1037/cbs0000411",
+   "language": "fr-CA"
+  },
+  "esperado": "Pope, J. P., & Wall, H. (2025). Is the goal intrinsic or extrinsic? Examining self-determination theory researchers’ and the general publics’ perceptions of exercise goals. *Canadian Journal of Behavioural Science/Revue canadienne des sciences du comportement*, *57*(3), 239–248. https://doi.org/10.1037/cbs0000411",
+  "notas": "Dos autores (&). Titulo de revista con barra y ortografia original. | modelado: language no inglés evita el title case automático del CSL"
+ },
+ {
+  "id": "apa-ref-003",
+  "tipo": "articulo-revista-doi",
+  "fuente": "references__examples__journal-article-references.md#1. Journal article",
+  "csl": {
+   "id": "apa-ref-003",
+   "type": "article-journal",
+   "author": [
+    {
+     "family": "Rybaczewska",
+     "given": "M."
+    },
+    {
+     "family": "Sparks",
+     "given": "L."
+    }
+   ],
+   "issued": {
+    "date-parts": [
+     [
+      2022
+     ]
+    ]
+   },
+   "title": "Ageing consumers and e-commerce activities",
+   "container-title": "Ageing and Society",
+   "volume": "42",
+   "issue": "8",
+   "page": "1879-1898",
+   "DOI": "10.1017/S0144686X20001932"
+  },
+  "esperado": "Rybaczewska, M., & Sparks, L. (2022). Ageing consumers and e-commerce activities. *Ageing and Society*, *42*(8), 1879–1898. https://doi.org/10.1017/S0144686X20001932",
+  "notas": "Ortografia britanica conservada."
+ },
+ {
+  "id": "apa-ref-004",
+  "tipo": "articulo-revista-numero-articulo",
+  "fuente": "references__examples__journal-article-references.md#2. Journal article with an article number",
+  "csl": {
+   "id": "apa-ref-004",
+   "type": "article-journal",
+   "author": [
+    {
+     "family": "Jerrentrup",
+     "given": "A."
+    },
+    {
+     "family": "Mueller",
+     "given": "T."
+    },
+    {
+     "family": "Glowalla",
+     "given": "U."
+    },
+    {
+     "family": "Herder",
+     "given": "M."
+    },
+    {
+     "family": "Henrichs",
+     "given": "N."
+    },
+    {
+     "family": "Neubauer",
+     "given": "A."
+    },
+    {
+     "family": "Schaefer",
+     "given": "J. R."
+    }
+   ],
+   "issued": {
+    "date-parts": [
+     [
+      2018
+     ]
+    ]
+   },
+   "title": "Teaching medicine with the help of “Dr. House.”",
+   "container-title": "PLoS ONE",
+   "volume": "13",
+   "issue": "3",
+   "number": "e0193972",
+   "DOI": "10.1371/journal.pone.0193972"
+  },
+  "esperado": "Jerrentrup, A., Mueller, T., Glowalla, U., Herder, M., Henrichs, N., Neubauer, A., & Schaefer, J. R. (2018). Teaching medicine with the help of “Dr. House.” *PLoS ONE*, *13*(3), Article e0193972. https://doi.org/10.1371/journal.pone.0193972",
+  "notas": "Siete autores. Numero de articulo en `number` (apa.csl emite 'Article <number>'; verificar). Titulo termina en comillas con punto interno: riesgo de doble punto."
+ },
+ {
+  "id": "apa-ref-005",
+  "tipo": "articulo-revista-numero-articulo",
+  "fuente": "references__examples__journal-article-references.md#2. Journal article with an article number",
+  "csl": {
+   "id": "apa-ref-005",
+   "type": "article-journal",
+   "author": [
+    {
+     "family": "Schlesselmann",
+     "given": "A. J."
+    },
+    {
+     "family": "McNally",
+     "given": "R. J."
+    },
+    {
+     "family": "Held",
+     "given": "P."
+    }
+   ],
+   "issued": {
+    "date-parts": [
+     [
+      2025
+     ]
+    ]
+   },
+   "title": "Using network analysis to characterize clinical improvement during cognitive processing therapy",
+   "container-title": "Behaviour Research and Therapy",
+   "volume": "185",
+   "number": "104678",
+   "DOI": "10.1016/j.brat.2024.104678"
+  },
+  "esperado": "Schlesselmann, A. J., McNally, R. J., & Held, P. (2025). Using network analysis to characterize clinical improvement during cognitive processing therapy. *Behaviour Research and Therapy*, *185*, Article 104678. https://doi.org/10.1016/j.brat.2024.104678",
+  "notas": "Sin issue."
+ },
+ {
+  "id": "apa-ref-006",
+  "tipo": "articulo-revista-sin-volumen-con-url",
+  "fuente": "references__examples__journal-article-references.md#Missing volume number",
+  "csl": {
+   "id": "apa-ref-006",
+   "type": "article-journal",
+   "author": [
+    {
+     "family": "Lipscomb",
+     "given": "A. Y."
+    }
+   ],
+   "issued": {
+    "date-parts": [
+     [
+      2021,
+      24
+     ]
+    ]
+   },
+   "title": "Addressing trauma in the college essay writing process",
+   "container-title": "The Journal of College Admission",
+   "issue": "249",
+   "page": "30-33",
+   "URL": "https://www.catholiccollegesonline.org/pdf/national_ccaa_in_the_news_-_nacac_journal_of_college_admission_winter_2021.pdf"
+  },
+  "esperado": "Lipscomb, A. Y. (2021, Winter). Addressing trauma in the college essay writing process. *The Journal of College Admission*, (249), 30–33. https://www.catholiccollegesonline.org/pdf/national_ccaa_in_the_news_-_nacac_journal_of_college_admission_winter_2021.pdf",
+  "notas": "Sin DOI: URL. Fecha con estacion 'Winter' (CSL month 24 = invierno; en espanol 'Invierno'). Sin volumen: issue entre parentesis sin cursiva. Modelado: estacion como mes 24 en date-parts; el CSL la imprime solo en articulos con issue/volume/page."
+ },
+ {
+  "id": "apa-ref-007",
+  "tipo": "articulo-revista-sin-issue",
+  "fuente": "references__examples__journal-article-references.md#Missing issue number",
+  "csl": {
+   "id": "apa-ref-007",
+   "type": "article-journal",
+   "author": [
+    {
+     "family": "Bosco",
+     "given": "G."
+    },
+    {
+     "family": "Rizzato",
+     "given": "A."
+    },
+    {
+     "family": "Moon",
+     "given": "R. E."
+    },
+    {
+     "family": "Camporesi",
+     "given": "E. M."
+    }
+   ],
+   "issued": {
+    "date-parts": [
+     [
+      2018
+     ]
+    ]
+   },
+   "title": "Environmental physiology and diving medicine",
+   "container-title": "Frontiers in Psychology",
+   "volume": "9",
+   "number": "72",
+   "DOI": "10.3389/fpsyg.2018.00072"
+  },
+  "esperado": "Bosco, G., Rizzato, A., Moon, R. E., & Camporesi, E. M. (2018). Environmental physiology and diving medicine. *Frontiers in Psychology*, *9*, Article 72. https://doi.org/10.3389/fpsyg.2018.00072",
+  "notas": "Falta issue; numero de articulo."
+ },
+ {
+  "id": "apa-ref-008",
+  "tipo": "articulo-revista-solo-url-sin-paginas",
+  "fuente": "references__examples__journal-article-references.md#Missing page or article number",
+  "csl": {
+   "id": "apa-ref-008",
+   "type": "article-journal",
+   "author": [
+    {
+     "family": "Butler",
+     "given": "J."
+    }
+   ],
+   "issued": {
+    "date-parts": [
+     [
+      2017
+     ]
+    ]
+   },
+   "title": "Where access meets multimodality: The case of ASL music videos",
+   "container-title": "Kairos: A Journal of Rhetoric, Technology, and Pedagogy",
+   "volume": "21",
+   "issue": "1",
+   "URL": "https://technorhetoric.net/21.1/topoi/butler/index.html"
+  },
+  "esperado": "Butler, J. (2017). Where access meets multimodality: The case of ASL music videos. *Kairos: A Journal of Rhetoric, Technology, and Pedagogy*, *21*(1). https://technorhetoric.net/21.1/topoi/butler/index.html",
+  "notas": "Sin DOI ni paginas: URL del articulo."
+ },
+ {
+  "id": "apa-ref-009",
+  "tipo": "articulo-retractado",
+  "fuente": "references__examples__journal-article-references.md#4. Retracted journal article",
+  "csl": {
+   "id": "apa-ref-009",
+   "type": "article-journal",
+   "author": [
+    {
+     "family": "Joly",
+     "given": "J. F."
+    },
+    {
+     "family": "Stapel",
+     "given": "D. A."
+    },
+    {
+     "family": "Lindenberg",
+     "given": "S. M."
+    }
+   ],
+   "issued": {
+    "date-parts": [
+     [
+      2008
+     ]
+    ]
+   },
+   "title": "Silence and table manners: When environments activate norms",
+   "container-title": "Personality and Social Psychology Bulletin",
+   "volume": "34",
+   "issue": "8",
+   "page": "1047-1056",
+   "DOI": "10.1177/0146167208318401",
+   "references": "Retraction published 2012, <i>Personality and Social Psychology Bulletin, 38</i>[10], 1378"
+  },
+  "esperado": "Joly, J. F., Stapel, D. A., & Lindenberg, S. M. (2008). Silence and table manners: When environments activate norms. *Personality and Social Psychology Bulletin*, *34*(8), 1047–1056. https://doi.org/10.1177/0146167208318401 (Retraction published 2012, *Personality and Social Psychology Bulletin, 38*[10], 1378)",
+  "notas": "El texto '(Retraction published ...)' no tiene variable CSL estandar: requiere postproceso. Modelado: nota de historial en `references` (APA 9.39; <i> para cursivas). Sin postproceso."
+ },
+ {
+  "id": "apa-ref-010",
+  "tipo": "aviso-de-retractacion",
+  "fuente": "references__examples__journal-article-references.md#5. Retraction notice for a journal article",
+  "csl": {
+   "id": "apa-ref-010",
+   "type": "article-journal",
+   "author": [
+    {
+     "family": "de la Fuente",
+     "given": "R."
+    },
+    {
+     "family": "Bernad",
+     "given": "A."
+    },
+    {
+     "family": "Garcia-Castro",
+     "given": "J."
+    },
+    {
+     "family": "Martin",
+     "given": "M. C."
+    },
+    {
+     "family": "Cigudosa",
+     "given": "J. C."
+    }
+   ],
+   "issued": {
+    "date-parts": [
+     [
+      2010
+     ]
+    ]
+   },
+   "title": "Retraction: Spontaneous human adult stem cell transformation",
+   "container-title": "Cancer Research",
+   "volume": "70",
+   "issue": "16",
+   "page": "6682",
+   "DOI": "10.1158/0008-5472.CAN-10-2451"
+  },
+  "esperado": "de la Fuente, R., Bernad, A., Garcia-Castro, J., Martin, M. C., & Cigudosa, J. C. (2010). Retraction: Spontaneous human adult stem cell transformation. *Cancer Research*, *70*(16), 6682. https://doi.org/10.1158/0008-5472.CAN-10-2451",
+  "notas": "Particula 'de la' en family completo para evitar reordenamiento."
+ },
+ {
+  "id": "apa-ref-011",
+  "tipo": "aviso-de-retractacion-autor-grupal",
+  "fuente": "references__examples__journal-article-references.md#5. Retraction notice for a journal article",
+  "csl": {
+   "id": "apa-ref-011",
+   "type": "article-journal",
+   "author": [
+    {
+     "literal": "The Editors of the Lancet"
+    }
+   ],
+   "issued": {
+    "date-parts": [
+     [
+      2010
+     ]
+    ]
+   },
+   "title": "Retraction—Ileal-lymphoid-nodular hyperplasia, non-specific colitis, and pervasive developmental disorder in children",
+   "container-title": "The Lancet",
+   "volume": "375",
+   "issue": "9713",
+   "page": "445",
+   "DOI": "10.1016/S0140-6736(10)60175-4"
+  },
+  "esperado": "The Editors of the Lancet. (2010). Retraction—Ileal-lymphoid-nodular hyperplasia, non-specific colitis, and pervasive developmental disorder in children. *The Lancet*, *375*(9713), 445. https://doi.org/10.1016/S0140-6736(10)60175-4",
+  "notas": "Autor grupal literal con 'The'. Cita: (The Editors of the Lancet, 2010)."
+ },
+ {
+  "id": "apa-ref-012",
+  "tipo": "resumen-articulo-base-indexadora",
+  "fuente": "references__examples__journal-article-references.md#6. Abstract of a journal article from an abstract indexing database",
+  "csl": {
+   "id": "apa-ref-012",
+   "type": "article-journal",
+   "author": [
+    {
+     "family": "Hare",
+     "given": "L. R."
+    },
+    {
+     "family": "O’Neill",
+     "given": "K."
+    }
+   ],
+   "issued": {
+    "date-parts": [
+     [
+      2000
+     ]
+    ]
+   },
+   "title": "Effectiveness and efficiency in small academic peer groups: A case study (Accession No. 200010185)",
+   "genre": "Abstract from Sociological Abstracts",
+   "container-title": "Small Group Research",
+   "volume": "31",
+   "issue": "1",
+   "page": "24-53",
+   "DOI": "10.1177/104649640003100102"
+  },
+  "esperado": "Hare, L. R., & O’Neill, K. (2000). Effectiveness and efficiency in small academic peer groups: A case study (Accession No. 200010185) [Abstract from Sociological Abstracts]. *Small Group Research*, *31*(1), 24–53. https://doi.org/10.1177/104649640003100102",
+  "notas": "Numero de acceso incrustado en el titulo; genre entre corchetes."
+ },
+ {
+  "id": "apa-ref-013",
+  "tipo": "monografia-en-revista",
+  "fuente": "references__examples__journal-article-references.md#7. Monograph as part of a journal issue",
+  "csl": {
+   "id": "apa-ref-013",
+   "type": "article-journal",
+   "author": [
+    {
+     "family": "Ganster",
+     "given": "D. C."
+    },
+    {
+     "family": "Schaubroeck",
+     "given": "J."
+    },
+    {
+     "family": "Sime",
+     "given": "W. E."
+    },
+    {
+     "family": "Mayes",
+     "given": "B. T."
+    }
+   ],
+   "issued": {
+    "date-parts": [
+     [
+      1991
+     ]
+    ]
+   },
+   "title": "The nomological validity of the Type A personality among employed adults",
+   "genre": "Monograph",
+   "container-title": "Journal of Applied Psychology",
+   "volume": "76",
+   "issue": "1",
+   "page": "143-168",
+   "DOI": "10.1037/0021-9010.76.1.143"
+  },
+  "esperado": "Ganster, D. C., Schaubroeck, J., Sime, W. E., & Mayes, B. T. (1991). The nomological validity of the Type A personality among employed adults [Monograph]. *Journal of Applied Psychology*, *76*(1), 143–168. https://doi.org/10.1037/0021-9010.76.1.143",
+  "notas": ""
+ },
+ {
+  "id": "apa-ref-014",
+  "tipo": "material-suplementario-en-linea",
+  "fuente": "references__examples__journal-article-references.md#8. Online-only supplemental material to a journal article",
+  "csl": {
+   "id": "apa-ref-014",
+   "type": "article-journal",
+   "author": [
+    {
+     "family": "Freeberg",
+     "given": "T. M."
+    }
+   ],
+   "issued": {
+    "date-parts": [
+     [
+      2019
+     ]
+    ]
+   },
+   "title": "From simple rules of individual proximity, complex and coordinated collective movement",
+   "genre": "Supplemental material",
+   "container-title": "Journal of Comparative Psychology",
+   "volume": "133",
+   "issue": "2",
+   "page": "141-142",
+   "DOI": "10.1037/com0000181"
+  },
+  "esperado": "Freeberg, T. M. (2019). From simple rules of individual proximity, complex and coordinated collective movement [Supplemental material]. *Journal of Comparative Psychology*, *133*(2), 141–142. https://doi.org/10.1037/com0000181",
+  "notas": ""
+ },
+ {
+  "id": "apa-ref-015",
+  "tipo": "articulo-revista-herramienta-cursiva-inconsistente",
+  "fuente": "references__examples__toolbox-references.md#Toolbox references",
+  "csl": {
+   "id": "apa-ref-015",
+   "type": "article-journal",
+   "author": [
+    {
+     "family": "Shi",
+     "given": "Y."
+    },
+    {
+     "family": "Ma",
+     "given": "X."
+    },
+    {
+     "family": "Ma",
+     "given": "Z."
+    },
+    {
+     "family": "Wang",
+     "given": "J."
+    },
+    {
+     "family": "Yao",
+     "given": "N."
+    },
+    {
+     "family": "Gu",
+     "given": "Q."
+    },
+    {
+     "family": "Wang",
+     "given": "C."
+    },
+    {
+     "family": "Gao",
+     "given": "Z."
+    }
+   ],
+   "issued": {
+    "date-parts": [
+     [
+      2018
+     ]
+    ]
+   },
+   "title": "Using a Kinect sensor to acquire biological motion: Toolbox and evaluation",
+   "container-title": "Behavior Research Methods",
+   "volume": "50",
+   "issue": "2",
+   "page": "518-529",
+   "DOI": "10.3758/s13428-017-0883-9"
+  },
+  "esperado": "Shi, Y., Ma, X., Ma, Z., Wang, J., Yao, N., Gu, Q., Wang, C., & Gao, Z. (2018). Using a Kinect sensor to acquire biological motion: Toolbox and evaluation. *Behavior Research Methods, 50*(2), 518–529. https://doi.org/10.3758/s13428-017-0883-9",
+  "notas": "Ocho autores. En el snapshot el '(2)' queda dentro de la cursiva ('*Behavior Research Methods, 50*(2)'), distinto de las demas paginas: comparar cursivas con tolerancia.",
+  "esperado_corregido": "Shi, Y., Ma, X., Ma, Z., Wang, J., Yao, N., Gu, Q., Wang, C., & Gao, Z. (2018). Using a Kinect sensor to acquire biological motion: Toolbox and evaluation. *Behavior Research Methods*, *50*(2), 518–529. https://doi.org/10.3758/s13428-017-0883-9",
+  "errata_oficial": "Snapshot pone en cursiva la coma entre revista y volumen (*Revista, 50*); el resto de ejemplos del manual los separa (*Revista*, *50*). El CSL sigue la forma mayoritaria."
+ },
+ {
+  "id": "apa-ref-016",
+  "tipo": "revista-impresa-sin-doi",
+  "fuente": "references__examples__magazine-article-references.md#Magazine article references",
+  "csl": {
+   "id": "apa-ref-016",
+   "type": "article-magazine",
+   "author": [
+    {
+     "family": "Lyons",
+     "given": "D."
+    }
+   ],
+   "issued": {
+    "date-parts": [
+     [
+      2009,
+      6,
+      15
+     ]
+    ]
+   },
+   "title": "Don’t ‘iTune’ us: It’s geeks versus writers. Guess who’s winning",
+   "container-title": "Newsweek",
+   "volume": "153",
+   "issue": "24",
+   "page": "27"
+  },
+  "esperado": "Lyons, D. (2009, June 15). Don’t ‘iTune’ us: It’s geeks versus writers. Guess who’s winning. *Newsweek*, *153*(24), 27.",
+  "notas": ""
+ },
+ {
+  "id": "apa-ref-017",
+  "tipo": "revista-con-doi",
+  "fuente": "references__examples__magazine-article-references.md#Magazine article references",
+  "csl": {
+   "id": "apa-ref-017",
+   "type": "article-magazine",
+   "author": [
+    {
+     "family": "Schaefer",
+     "given": "N. K."
+    },
+    {
+     "family": "Shapiro",
+     "given": "B."
+    }
+   ],
+   "issued": {
+    "date-parts": [
+     [
+      2019,
+      9,
+      6
+     ]
+    ]
+   },
+   "title": "New middle chapter in the story of human evolution",
+   "container-title": "Science",
+   "volume": "365",
+   "issue": "6457",
+   "page": "981-982",
+   "DOI": "10.1126/science.aay3550"
+  },
+  "esperado": "Schaefer, N. K., & Shapiro, B. (2019, September 6). New middle chapter in the story of human evolution. *Science*, *365*(6457), 981–982. https://doi.org/10.1126/science.aay3550",
+  "notas": ""
+ },
+ {
+  "id": "apa-ref-018",
+  "tipo": "revista-en-linea-url",
+  "fuente": "references__examples__magazine-article-references.md#Magazine article references",
+  "csl": {
+   "id": "apa-ref-018",
+   "type": "article-magazine",
+   "author": [
+    {
+     "family": "Schulman",
+     "given": "M."
+    }
+   ],
+   "issued": {
+    "date-parts": [
+     [
+      2019,
+      9,
+      9
+     ]
+    ]
+   },
+   "title": "Superfans: A love story",
+   "container-title": "The New Yorker",
+   "URL": "https://www.newyorker.com/magazine/2019/09/16/superfans-a-love-story"
+  },
+  "esperado": "Schulman, M. (2019, September 9). Superfans: A love story. *The New Yorker*. https://www.newyorker.com/magazine/2019/09/16/superfans-a-love-story",
+  "notas": "Sin volumen ni paginas."
+ },
+ {
+  "id": "apa-ref-019",
+  "tipo": "periodico-en-linea-url",
+  "fuente": "references__examples__newspaper-article-references.md#1. Newspaper article",
+  "csl": {
+   "id": "apa-ref-019",
+   "type": "article-newspaper",
+   "author": [
+    {
+     "family": "Carey",
+     "given": "B."
+    }
+   ],
+   "issued": {
+    "date-parts": [
+     [
+      2019,
+      3,
+      22
+     ]
+    ]
+   },
+   "title": "Can we get better at forgetting?",
+   "container-title": "The New York Times",
+   "URL": "https://www.nytimes.com/2019/03/22/health/memory-forgetting-psychology.html"
+  },
+  "esperado": "Carey, B. (2019, March 22). Can we get better at forgetting? *The New York Times*. https://www.nytimes.com/2019/03/22/health/memory-forgetting-psychology.html",
+  "notas": ""
+ },
+ {
+  "id": "apa-ref-020",
+  "tipo": "periodico-impreso-paginas-discontinuas",
+  "fuente": "references__examples__newspaper-article-references.md#1. Newspaper article",
+  "csl": {
+   "id": "apa-ref-020",
+   "type": "article-newspaper",
+   "author": [
+    {
+     "family": "Harlan",
+     "given": "C."
+    }
+   ],
+   "issued": {
+    "date-parts": [
+     [
+      2013,
+      4,
+      2
+     ]
+    ]
+   },
+   "title": "North Korea vows to restart shuttered nuclear reactor that can make bomb-grade plutonium",
+   "container-title": "The Washington Post",
+   "page": "A1, A4"
+  },
+  "esperado": "Harlan, C. (2013, April 2). North Korea vows to restart shuttered nuclear reactor that can make bomb-grade plutonium. *The Washington Post*, A1, A4.",
+  "notas": "Paginas sin 'pp.'."
+ },
+ {
+  "id": "apa-ref-021",
+  "tipo": "periodico-sin-paginas-ni-url",
+  "fuente": "references__examples__newspaper-article-references.md#1. Newspaper article",
+  "csl": {
+   "id": "apa-ref-021",
+   "type": "article-newspaper",
+   "author": [
+    {
+     "family": "Stobbe",
+     "given": "M."
+    }
+   ],
+   "issued": {
+    "date-parts": [
+     [
+      2020,
+      1,
+      8
+     ]
+    ]
+   },
+   "title": "Cancer death rate in U.S. sees largest one-year drop ever",
+   "container-title": "Chicago Tribune"
+  },
+  "esperado": "Stobbe, M. (2020, January 8). Cancer death rate in U.S. sees largest one-year drop ever. *Chicago Tribune*.",
+  "notas": ""
+ },
+ {
+  "id": "apa-ref-022",
+  "tipo": "libro-con-doi-edicion",
+  "fuente": "references__examples__book-references.md#1. Whole authored book",
+  "csl": {
+   "id": "apa-ref-022",
+   "type": "book",
+   "author": [
+    {
+     "family": "Jackson",
+     "given": "L. M."
+    }
+   ],
+   "issued": {
+    "date-parts": [
+     [
+      2019
+     ]
+    ]
+   },
+   "title": "The psychology of prejudice: From attitudes to social action",
+   "edition": "2",
+   "publisher": "American Psychological Association",
+   "DOI": "10.1037/0000168-000"
+  },
+  "esperado": "Jackson, L. M. (2019). *The psychology of prejudice: From attitudes to social action* (2nd ed.). American Psychological Association. https://doi.org/10.1037/0000168-000",
+  "notas": ""
+ },
+ {
+  "id": "apa-ref-023",
+  "tipo": "libro-sin-doi",
+  "fuente": "references__examples__book-references.md#1. Whole authored book",
+  "csl": {
+   "id": "apa-ref-023",
+   "type": "book",
+   "author": [
+    {
+     "family": "Sapolsky",
+     "given": "R. M."
+    }
+   ],
+   "issued": {
+    "date-parts": [
+     [
+      2017
+     ]
+    ]
+   },
+   "title": "Behave: The biology of humans at our best and worst",
+   "publisher": "Penguin Books"
+  },
+  "esperado": "Sapolsky, R. M. (2017). *Behave: The biology of humans at our best and worst*. Penguin Books.",
+  "notas": ""
+ },
+ {
+  "id": "apa-ref-024",
+  "tipo": "libro-edicion-digital-url",
+  "fuente": "references__examples__book-references.md#1. Whole authored book",
+  "csl": {
+   "id": "apa-ref-024",
+   "type": "book",
+   "author": [
+    {
+     "family": "Svendsen",
+     "given": "S."
+    },
+    {
+     "family": "Løber",
+     "given": "L."
+    }
+   ],
+   "issued": {
+    "date-parts": [
+     [
+      2020
+     ]
+    ]
+   },
+   "title": "The big picture/Academic writing: The one-hour guide",
+   "edition": "3rd digital ed.",
+   "publisher": "Hans Reitzel Forlag",
+   "URL": "https://thebigpicture-academicwriting.digi.hansreitzel.dk/"
+  },
+  "esperado": "Svendsen, S., & Løber, L. (2020). *The big picture/Academic writing: The one-hour guide* (3rd digital ed.). Hans Reitzel Forlag. https://thebigpicture-academicwriting.digi.hansreitzel.dk/",
+  "notas": "edition '3rd digital' no es ordinal puro: apa.csl probablemente no lo ordinaliza. | modelado: edición no numérica se escribe literal con \"ed.\""
+ },
+ {
+  "id": "apa-ref-025",
+  "tipo": "libro-editado-completo-url",
+  "fuente": "references__examples__book-references.md#2. Whole edited book",
+  "csl": {
+   "id": "apa-ref-025",
+   "type": "book",
+   "editor": [
+    {
+     "family": "Hygum",
+     "given": "E."
+    },
+    {
+     "family": "Pedersen",
+     "given": "P. M."
+    }
+   ],
+   "issued": {
+    "date-parts": [
+     [
+      2010
+     ]
+    ]
+   },
+   "title": "Early childhood education: Values and practices in Denmark",
+   "publisher": "Hans Reitzels Forlag",
+   "URL": "https://earlychildhoodeducation.digi.hansreitzel.dk/"
+  },
+  "esperado": "Hygum, E., & Pedersen, P. M. (Eds.). (2010). *Early childhood education: Values and practices in Denmark*. Hans Reitzels Forlag. https://earlychildhoodeducation.digi.hansreitzel.dk/",
+  "notas": "Editores en lugar de autores: '(Eds.)'."
+ },
+ {
+  "id": "apa-ref-026",
+  "tipo": "libro-editado-completo-un-editor",
+  "fuente": "references__examples__book-references.md#2. Whole edited book",
+  "csl": {
+   "id": "apa-ref-026",
+   "type": "book",
+   "editor": [
+    {
+     "family": "Kesharwani",
+     "given": "P."
+    }
+   ],
+   "issued": {
+    "date-parts": [
+     [
+      2020
+     ]
+    ]
+   },
+   "title": "Nanotechnology based approaches for tuberculosis treatment",
+   "publisher": "Academic Press"
+  },
+  "esperado": "Kesharwani, P. (Ed.). (2020). *Nanotechnology based approaches for tuberculosis treatment*. Academic Press.",
+  "notas": "Un editor: '(Ed.)'."
+ },
+ {
+  "id": "apa-ref-027",
+  "tipo": "libro-editado-completo-doi",
+  "fuente": "references__examples__book-references.md#2. Whole edited book",
+  "csl": {
+   "id": "apa-ref-027",
+   "type": "book",
+   "editor": [
+    {
+     "family": "Torino",
+     "given": "G. C."
+    },
+    {
+     "family": "Rivera",
+     "given": "D. P."
+    },
+    {
+     "family": "Capodilupo",
+     "given": "C. M."
+    },
+    {
+     "family": "Nadal",
+     "given": "K. L."
+    },
+    {
+     "family": "Sue",
+     "given": "D. W."
+    }
+   ],
+   "issued": {
+    "date-parts": [
+     [
+      2019
+     ]
+    ]
+   },
+   "title": "Microaggression theory: Influence and implications",
+   "publisher": "John Wiley & Sons",
+   "DOI": "10.1002/9781119466642"
+  },
+  "esperado": "Torino, G. C., Rivera, D. P., Capodilupo, C. M., Nadal, K. L., & Sue, D. W. (Eds.). (2019). *Microaggression theory: Influence and implications*. John Wiley & Sons. https://doi.org/10.1002/9781119466642",
+  "notas": ""
+ },
+ {
+  "id": "apa-ref-028",
+  "tipo": "libro-reeditado-con-editor",
+  "fuente": "references__examples__book-references.md#3. Republished book, with editor",
+  "csl": {
+   "id": "apa-ref-028",
+   "type": "book",
+   "author": [
+    {
+     "family": "Watson",
+     "given": "J. B."
+    },
+    {
+     "family": "Rayner",
+     "given": "R."
+    }
+   ],
+   "editor": [
+    {
+     "family": "Webb",
+     "given": "D."
+    }
+   ],
+   "issued": {
+    "date-parts": [
+     [
+      2013
+     ]
+    ]
+   },
+   "original-date": {
+    "date-parts": [
+     [
+      1920
+     ]
+    ]
+   },
+   "title": "Conditioned emotional reactions: The case of Little Albert",
+   "publisher": "CreateSpace Independent Publishing Platform",
+   "URL": "https://a.co/06Se6Na"
+  },
+  "esperado": "Watson, J. B., & Rayner, R. (2013). *Conditioned emotional reactions: The case of Little Albert* (D. Webb, Ed.). CreateSpace Independent Publishing Platform. https://a.co/06Se6Na (Original work published 1920)",
+  "notas": "Cierre '(Original work published 1920)' tras la URL: verificar orden en el CSL."
+ },
+ {
+  "id": "apa-ref-029",
+  "tipo": "libro-con-prologo-de-otro-autor",
+  "fuente": "references__examples__book-references.md#4. Book published with new foreword by another author",
+  "csl": {
+   "id": "apa-ref-029",
+   "type": "book",
+   "author": [
+    {
+     "family": "Kübler-Ross",
+     "given": "E."
+    }
+   ],
+   "issued": {
+    "date-parts": [
+     [
+      2014
+     ]
+    ]
+   },
+   "original-date": {
+    "date-parts": [
+     [
+      1969
+     ]
+    ]
+   },
+   "title": "On death & dying: What the dying have to teach doctors, nurses, clergy & their own families",
+   "edition": "50th anniversary ed.",
+   "publisher": "Scribner",
+   "contributor": [
+    {
+     "family": "Byock",
+     "given": "I."
+    }
+   ]
+  },
+  "esperado": "Kübler-Ross, E. (with Byock, I.). (2014). *On death & dying: What the dying have to teach doctors, nurses, clergy & their own families* (50th anniversary ed.). Scribner. (Original work published 1969)",
+  "notas": "'(with Byock, I.)' no existe en CSL: postproceso. Modelado: coautor de portada en `contributor`; el CSL imprime \"(with ...)\" tras el autor."
+ },
+ {
+  "id": "apa-ref-030",
+  "tipo": "obra-multivolumen",
+  "fuente": "references__examples__book-references.md#5. Several volumes of a multivolume work",
+  "csl": {
+   "id": "apa-ref-030",
+   "type": "book",
+   "editor": [
+    {
+     "family": "Harris",
+     "given": "K. R."
+    },
+    {
+     "family": "Graham",
+     "given": "S."
+    },
+    {
+     "family": "Urdan",
+     "given": "T."
+    }
+   ],
+   "issued": {
+    "date-parts": [
+     [
+      2012
+     ]
+    ]
+   },
+   "title": "APA educational psychology handbook",
+   "volume": "1–3",
+   "publisher": "American Psychological Association"
+  },
+  "esperado": "Harris, K. R., Graham, S., & Urdan T. (Eds.). (2012). *APA educational psychology handbook* (Vols. 1–3). American Psychological Association.",
+  "notas": "El snapshot oficial escribe 'Urdan T.' sin coma ni punto; el CSL generara 'Urdan, T.'. Discrepancia conocida del ejemplo oficial.",
+  "errata_oficial": "APA omite la coma en \"Urdan T.\"; la salida correcta es \"Urdan, T.\"",
+  "esperado_corregido": "Harris, K. R., Graham, S., & Urdan, T. (Eds.). (2012). *APA educational psychology handbook* (Vols. 1–3). American Psychological Association."
+ },
+ {
+  "id": "apa-ref-031",
+  "tipo": "capitulo-libro-editado-doi",
+  "fuente": "references__examples__edited-book-chapter-references.md#1. Chapter in an edited book",
+  "csl": {
+   "id": "apa-ref-031",
+   "type": "chapter",
+   "author": [
+    {
+     "family": "Aron",
+     "given": "L."
+    },
+    {
+     "family": "Botella",
+     "given": "M."
+    },
+    {
+     "family": "Lubart",
+     "given": "T."
+    }
+   ],
+   "editor": [
+    {
+     "family": "Subotnik",
+     "given": "R. F."
+    },
+    {
+     "family": "Olszewski-Kubilius",
+     "given": "P."
+    },
+    {
+     "family": "Worrell",
+     "given": "F. C."
+    }
+   ],
+   "issued": {
+    "date-parts": [
+     [
+      2019
+     ]
+    ]
+   },
+   "title": "Culinary arts: Talent and their development",
+   "container-title": "The psychology of high performance: Developing human potential into domain-specific talent",
+   "page": "345-359",
+   "publisher": "American Psychological Association",
+   "DOI": "10.1037/0000120-016"
+  },
+  "esperado": "Aron, L., Botella, M., & Lubart, T. (2019). Culinary arts: Talent and their development. In R. F. Subotnik, P. Olszewski-Kubilius, & F. C. Worrell (Eds.), *The psychology of high performance: Developing human potential into domain-specific talent* (pp. 345–359). American Psychological Association. https://doi.org/10.1037/0000120-016",
+  "notas": ""
+ },
+ {
+  "id": "apa-ref-032",
+  "tipo": "capitulo-libro-editado-edicion",
+  "fuente": "references__examples__edited-book-chapter-references.md#1. Chapter in an edited book",
+  "csl": {
+   "id": "apa-ref-032",
+   "type": "chapter",
+   "author": [
+    {
+     "family": "Dillard",
+     "given": "J. P."
+    }
+   ],
+   "editor": [
+    {
+     "family": "Oliver",
+     "given": "M. B."
+    },
+    {
+     "family": "Raney",
+     "given": "A. A."
+    },
+    {
+     "family": "Bryant",
+     "given": "J."
+    }
+   ],
+   "issued": {
+    "date-parts": [
+     [
+      2020
+     ]
+    ]
+   },
+   "title": "Currents in the study of persuasion",
+   "container-title": "Media effects: Advances in theory and research",
+   "edition": "4",
+   "page": "115-129",
+   "publisher": "Routledge"
+  },
+  "esperado": "Dillard, J. P. (2020). Currents in the study of persuasion. In M. B. Oliver, A. A. Raney, & J. Bryant (Eds.), *Media effects: Advances in theory and research* (4th ed., pp. 115–129). Routledge.",
+  "notas": ""
+ },
+ {
+  "id": "apa-ref-033",
+  "tipo": "capitulo-sin-paginas-url",
+  "fuente": "references__examples__edited-book-chapter-references.md#1. Chapter in an edited book",
+  "csl": {
+   "id": "apa-ref-033",
+   "type": "chapter",
+   "author": [
+    {
+     "family": "Thestrup",
+     "given": "K."
+    }
+   ],
+   "editor": [
+    {
+     "family": "Hygum",
+     "given": "E."
+    },
+    {
+     "family": "Pedersen",
+     "given": "P. M."
+    }
+   ],
+   "issued": {
+    "date-parts": [
+     [
+      2010
+     ]
+    ]
+   },
+   "title": "To transform, to communicate, to play—The experimenting community in action",
+   "container-title": "Early childhood education: Values and practices in Denmark",
+   "publisher": "Hans Reitzels Forlag",
+   "URL": "https://earlychildhoodeducation.digi.hansreitzel.dk/?id=192"
+  },
+  "esperado": "Thestrup, K. (2010). To transform, to communicate, to play—The experimenting community in action. In E. Hygum & P. M. Pedersen (Eds.), *Early childhood education: Values and practices in Denmark*. Hans Reitzels Forlag. https://earlychildhoodeducation.digi.hansreitzel.dk/?id=192",
+  "notas": ""
+ },
+ {
+  "id": "apa-ref-034",
+  "tipo": "capitulo-reimpreso",
+  "fuente": "references__examples__edited-book-chapter-references.md#2. Chapter in an edited book, reprinted from another book",
+  "csl": {
+   "id": "apa-ref-034",
+   "type": "chapter",
+   "author": [
+    {
+     "family": "Bronfenbrenner",
+     "given": "U."
+    }
+   ],
+   "editor": [
+    {
+     "family": "Bronfenbrenner",
+     "given": "U."
+    }
+   ],
+   "issued": {
+    "date-parts": [
+     [
+      2005
+     ]
+    ]
+   },
+   "title": "The social ecology of human development: A retrospective conclusion",
+   "container-title": "Making human beings human: Bioecological perspectives on human development",
+   "page": "27-40",
+   "publisher": "SAGE Publications",
+   "references": "Reprinted from <i>Brain and intelligence: The ecology of child development</i>, pp. 113–123, by F. Richardson, Ed., 1973, National Educational Press"
+  },
+  "esperado": "Bronfenbrenner, U. (2005). The social ecology of human development: A retrospective conclusion. In U. Bronfenbrenner (Ed.), *Making human beings human: Bioecological perspectives on human development* (pp. 27–40). SAGE Publications. (Reprinted from *Brain and intelligence: The ecology of child development*, pp. 113–123, by F. Richardson, Ed., 1973, National Educational Press)",
+  "notas": "Cierre '(Reprinted from ...)' requiere postproceso. Modelado: cierre en `references`. Sin postproceso."
+ },
+ {
+  "id": "apa-ref-035",
+  "tipo": "informe-agencia-gubernamental",
+  "fuente": "references__examples__report-government-agency-references.md#Report by a government agency",
+  "csl": {
+   "id": "apa-ref-035",
+   "type": "report",
+   "author": [
+    {
+     "literal": "National Cancer Institute"
+    }
+   ],
+   "issued": {
+    "date-parts": [
+     [
+      2019
+     ]
+    ]
+   },
+   "title": "Taking time: Support for people with cancer",
+   "genre": "NIH Publication",
+   "number": "18-2059",
+   "publisher": "U.S. Department of Health and Human Services, National Institutes of Health",
+   "URL": "https://www.cancer.gov/publications/patient-education/takingtime.pdf"
+  },
+  "esperado": "National Cancer Institute. (2019). *Taking time: Support for people with cancer* (NIH Publication No. 18-2059). U.S. Department of Health and Human Services, National Institutes of Health. https://www.cancer.gov/publications/patient-education/takingtime.pdf",
+  "notas": "Autor grupal; editorial distinta del autor; numero de informe entre parentesis."
+ },
+ {
+  "id": "apa-ref-036",
+  "tipo": "informe-autores-individuales",
+  "fuente": "references__examples__report-individual-authors-references.md#Report with individual authors references",
+  "csl": {
+   "id": "apa-ref-036",
+   "type": "report",
+   "author": [
+    {
+     "family": "Baral",
+     "given": "P."
+    },
+    {
+     "family": "Larsen",
+     "given": "M."
+    },
+    {
+     "family": "Archer",
+     "given": "M."
+    }
+   ],
+   "issued": {
+    "date-parts": [
+     [
+      2019
+     ]
+    ]
+   },
+   "title": "Does money grow on trees? Restoration financing in Southeast Asia",
+   "publisher": "Atlantic Council",
+   "URL": "https://www.atlanticcouncil.org/in-depth-research-reports/report/does-money-grow-on-trees-restoring-financing-in-southeast-asia/"
+  },
+  "esperado": "Baral, P., Larsen, M., & Archer, M. (2019). *Does money grow on trees? Restoration financing in Southeast Asia*. Atlantic Council. https://www.atlanticcouncil.org/in-depth-research-reports/report/does-money-grow-on-trees-restoring-financing-in-southeast-asia/",
+  "notas": ""
+ },
+ {
+  "id": "apa-ref-037",
+  "tipo": "informe-autores-individuales-con-numero",
+  "fuente": "references__examples__report-individual-authors-references.md#Report with individual authors references",
+  "csl": {
+   "id": "apa-ref-037",
+   "type": "report",
+   "author": [
+    {
+     "family": "Stuster",
+     "given": "J."
+    },
+    {
+     "family": "Adolf",
+     "given": "J."
+    },
+    {
+     "family": "Byrne",
+     "given": "V."
+    },
+    {
+     "family": "Greene",
+     "given": "M."
+    }
+   ],
+   "issued": {
+    "date-parts": [
+     [
+      2018
+     ]
+    ]
+   },
+   "title": "Human exploration of Mars: Preliminary lists of crew tasks",
+   "genre": "Report",
+   "number": "NASA/CR-2018-220043",
+   "publisher": "National Aeronautics and Space Administration",
+   "URL": "https://ntrs.nasa.gov/archive/nasa/casi.ntrs.nasa.gov/20190001401.pdf"
+  },
+  "esperado": "Stuster, J., Adolf, J., Byrne, V., & Greene, M. (2018). *Human exploration of Mars: Preliminary lists of crew tasks* (Report No. NASA/CR-2018-220043). National Aeronautics and Space Administration. https://ntrs.nasa.gov/archive/nasa/casi.ntrs.nasa.gov/20190001401.pdf",
+  "notas": ""
+ },
+ {
+  "id": "apa-ref-038",
+  "tipo": "tesis-doctoral-publicada-base-datos",
+  "fuente": "references__examples__published-dissertation-references.md#Published dissertation or thesis references",
+  "csl": {
+   "id": "apa-ref-038",
+   "type": "thesis",
+   "author": [
+    {
+     "family": "Kabir",
+     "given": "J. M."
+    }
+   ],
+   "issued": {
+    "date-parts": [
+     [
+      2016
+     ]
+    ]
+   },
+   "title": "Factors influencing customer satisfaction at a fast food hamburger chain: The relationship between customer satisfaction and customer loyalty",
+   "genre": "Doctoral dissertation",
+   "publisher": "Wilmington University",
+   "number": "10169573",
+   "archive": "ProQuest Dissertations & Theses Global"
+  },
+  "esperado": "Kabir, J. M. (2016). *Factors influencing customer satisfaction at a fast food hamburger chain: The relationship between customer satisfaction and customer loyalty* (Publication No. 10169573) [Doctoral dissertation, Wilmington University]. ProQuest Dissertations & Theses Global.",
+  "notas": "Numero de publicacion y base de datos: mapeo CSL no estandar (number/archive)."
+ },
+ {
+  "id": "apa-ref-039",
+  "tipo": "tesis-doctoral-publicada-url",
+  "fuente": "references__examples__published-dissertation-references.md#Published dissertation or thesis references",
+  "csl": {
+   "id": "apa-ref-039",
+   "type": "thesis",
+   "author": [
+    {
+     "family": "Miranda",
+     "given": "C."
+    }
+   ],
+   "issued": {
+    "date-parts": [
+     [
+      2019
+     ]
+    ]
+   },
+   "title": "Exploring the lived experiences of foster youth who obtained graduate level degrees: Self-efficacy, resilience, and the impact on identity development",
+   "genre": "Doctoral dissertation",
+   "publisher": "Pepperdine University",
+   "number": "27542827",
+   "archive": "PQDT Open",
+   "URL": "https://pqdtopen.proquest.com/doc/2309521814.html?FMT=AI"
+  },
+  "esperado": "Miranda, C. (2019). *Exploring the lived experiences of foster youth who obtained graduate level degrees: Self-efficacy, resilience, and the impact on identity development* (Publication No. 27542827) [Doctoral dissertation, Pepperdine University]. PQDT Open. https://pqdtopen.proquest.com/doc/2309521814.html?FMT=AI",
+  "notas": ""
+ },
+ {
+  "id": "apa-ref-040",
+  "tipo": "tesis-doctoral-repositorio-institucional",
+  "fuente": "references__examples__published-dissertation-references.md#Published dissertation or thesis references",
+  "csl": {
+   "id": "apa-ref-040",
+   "type": "thesis",
+   "author": [
+    {
+     "family": "Zambrano-Vazquez",
+     "given": "L."
+    }
+   ],
+   "issued": {
+    "date-parts": [
+     [
+      2016
+     ]
+    ]
+   },
+   "title": "The interaction of state and trait worry on response monitoring in those with worry and obsessive-compulsive symptoms",
+   "genre": "Doctoral dissertation",
+   "publisher": "University of Arizona",
+   "archive": "UA Campus Repository",
+   "URL": "https://repository.arizona.edu/handle/10150/620615"
+  },
+  "esperado": "Zambrano-Vazquez, L. (2016). *The interaction of state and trait worry on response monitoring in those with worry and obsessive-compulsive symptoms* [Doctoral dissertation, University of Arizona]. UA Campus Repository. https://repository.arizona.edu/handle/10150/620615",
+  "notas": "Sin numero de publicacion."
+ },
+ {
+  "id": "apa-ref-041",
+  "tipo": "tesis-doctoral-no-publicada",
+  "fuente": "references__examples__unpublished-dissertation-references.md#Unpublished dissertation or thesis references",
+  "csl": {
+   "id": "apa-ref-041",
+   "type": "thesis",
+   "author": [
+    {
+     "family": "Harris",
+     "given": "L."
+    }
+   ],
+   "issued": {
+    "date-parts": [
+     [
+      2014
+     ]
+    ]
+   },
+   "title": "Instructional leadership perceptions and practices of elementary school leaders",
+   "genre": "Unpublished doctoral dissertation",
+   "publisher": "University of Virginia"
+  },
+  "esperado": "Harris, L. (2014). *Instructional leadership perceptions and practices of elementary school leaders* [Unpublished doctoral dissertation]. University of Virginia.",
+  "notas": ""
+ },
+ {
+  "id": "apa-ref-042",
+  "tipo": "ponencia-congreso",
+  "fuente": "references__examples__conference-presentation-references.md#1. Conference presentation",
+  "csl": {
+   "id": "apa-ref-042",
+   "type": "speech",
+   "author": [
+    {
+     "family": "Evans",
+     "given": "A. C.",
+     "suffix": "Jr."
+    },
+    {
+     "family": "Garbarino",
+     "given": "J."
+    },
+    {
+     "family": "Bocanegra",
+     "given": "E."
+    },
+    {
+     "family": "Kinscherff",
+     "given": "R. T."
+    },
+    {
+     "family": "Márquez-Greene",
+     "given": "N."
+    }
+   ],
+   "issued": {
+    "date-parts": [
+     [
+      2019,
+      8,
+      8
+     ],
+     [
+      2019,
+      8,
+      11
+     ]
+    ]
+   },
+   "title": "Gun violence: An event on the power of community",
+   "genre": "Conference presentation",
+   "event-title": "APA 2019 Convention",
+   "event-place": "Chicago, IL, United States",
+   "URL": "https://convention.apa.org/2019-video"
+  },
+  "esperado": "Evans, A. C., Jr., Garbarino, J., Bocanegra, E., Kinscherff, R. T., & Márquez-Greene, N. (2019, August 8–11). *Gun violence: An event on the power of community* [Conference presentation]. APA 2019 Convention, Chicago, IL, United States. https://convention.apa.org/2019-video",
+  "notas": "Sufijo Jr. y rango de fechas (8–11 de agosto)."
+ },
+ {
+  "id": "apa-ref-043",
+  "tipo": "resumen-ponencia-congreso",
+  "fuente": "references__examples__conference-presentation-references.md#2. Abstract of a conference presentation",
+  "csl": {
+   "id": "apa-ref-043",
+   "type": "speech",
+   "author": [
+    {
+     "family": "Cacioppo",
+     "given": "S."
+    }
+   ],
+   "issued": {
+    "date-parts": [
+     [
+      2019,
+      4,
+      25
+     ],
+     [
+      2019,
+      4,
+      28
+     ]
+    ]
+   },
+   "title": "Evolutionary theory of social connections: Past, present, and future",
+   "genre": "Conference presentation abstract",
+   "event-title": "Ninety-ninth annual convention of the Western Psychological Association",
+   "event-place": "Pasadena, CA, United States",
+   "URL": "https://westernpsych.org/wp-content/uploads/2019/04/WPA-Program-2019-Final-2.pdf"
+  },
+  "esperado": "Cacioppo, S. (2019, April 25–28). *Evolutionary theory of social connections: Past, present, and future* [Conference presentation abstract]. Ninety-ninth annual convention of the Western Psychological Association, Pasadena, CA, United States. https://westernpsych.org/wp-content/uploads/2019/04/WPA-Program-2019-Final-2.pdf",
+  "notas": ""
+ },
+ {
+  "id": "apa-ref-044",
+  "tipo": "actas-publicadas-en-revista",
+  "fuente": "references__examples__conference-proceeding-references.md#1. Conference proceedings published in a journal",
+  "csl": {
+   "id": "apa-ref-044",
+   "type": "article-journal",
+   "author": [
+    {
+     "family": "Duckworth",
+     "given": "A. L."
+    },
+    {
+     "family": "Quirk",
+     "given": "A."
+    },
+    {
+     "family": "Gallop",
+     "given": "R."
+    },
+    {
+     "family": "Hoyle",
+     "given": "R. H."
+    },
+    {
+     "family": "Kelly",
+     "given": "D. R."
+    },
+    {
+     "family": "Matthews",
+     "given": "M. D."
+    }
+   ],
+   "issued": {
+    "date-parts": [
+     [
+      2019
+     ]
+    ]
+   },
+   "title": "Cognitive and noncognitive predictors of success",
+   "container-title": "Proceedings of the National Academy of Sciences, USA",
+   "volume": "116",
+   "issue": "47",
+   "page": "23499-23504",
+   "DOI": "10.1073/pnas.1910510116"
+  },
+  "esperado": "Duckworth, A. L., Quirk, A., Gallop, R., Hoyle, R. H., Kelly, D. R., & Matthews, M. D. (2019). Cognitive and noncognitive predictors of success. *Proceedings of the National Academy of Sciences*, *USA*, *116*(47), 23499–23504. https://doi.org/10.1073/pnas.1910510116",
+  "notas": "En el snapshot la cursiva se parte en dos tramos ('...Sciences*, *USA*'): la coma intermedia queda sin cursiva.",
+  "esperado_corregido": "Duckworth, A. L., Quirk, A., Gallop, R., Hoyle, R. H., Kelly, D. R., & Matthews, M. D. (2019). Cognitive and noncognitive predictors of success. *Proceedings of the National Academy of Sciences, USA*, *116*(47), 23499–23504. https://doi.org/10.1073/pnas.1910510116",
+  "errata_oficial": "\", USA\" es parte del titulo de la revista: debe ir dentro de la misma cursiva; el snapshot la parte en dos."
+ },
+ {
+  "id": "apa-ref-045",
+  "tipo": "actas-libro-completo-serie",
+  "fuente": "references__examples__conference-proceeding-references.md#2. Conference proceedings published as a whole book",
+  "csl": {
+   "id": "apa-ref-045",
+   "type": "book",
+   "editor": [
+    {
+     "family": "Kushilevitz",
+     "given": "E."
+    },
+    {
+     "family": "Malkin",
+     "given": "T."
+    }
+   ],
+   "issued": {
+    "date-parts": [
+     [
+      2016
+     ]
+    ]
+   },
+   "title": "Theory of cryptography",
+   "collection-title": "Lecture notes in computer science",
+   "collection-number": "9562",
+   "publisher": "Springer",
+   "DOI": "10.1007/978-3-662-49096-9"
+  },
+  "esperado": "Kushilevitz, E., & Malkin, T. (Eds.). (2016). *Lecture notes in computer science: Vol. 9562. Theory of cryptography*. Springer. https://doi.org/10.1007/978-3-662-49096-9",
+  "notas": "El titulo de serie con 'Vol. 9562.' antecede al titulo en el formato oficial: probable postproceso. Modelado: collection-title + collection-number; el CSL antepone \"Serie: Vol. N.\" al titulo (parche CSL)."
+ },
+ {
+  "id": "apa-ref-046",
+  "tipo": "actas-capitulo-libro",
+  "fuente": "references__examples__conference-proceeding-references.md#3. Conference proceedings published as a book chapter",
+  "csl": {
+   "id": "apa-ref-046",
+   "type": "paper-conference",
+   "author": [
+    {
+     "family": "Bedenel",
+     "given": "A.-L."
+    },
+    {
+     "family": "Jourdan",
+     "given": "L."
+    },
+    {
+     "family": "Biernacki",
+     "given": "C."
+    }
+   ],
+   "editor": [
+    {
+     "family": "Battiti",
+     "given": "R."
+    },
+    {
+     "family": "Brunato",
+     "given": "M."
+    },
+    {
+     "family": "Kotsireas",
+     "given": "I."
+    },
+    {
+     "family": "Pardalos",
+     "given": "P."
+    }
+   ],
+   "issued": {
+    "date-parts": [
+     [
+      2019
+     ]
+    ]
+   },
+   "title": "Probability estimation by an adapted genetic algorithm in web insurance",
+   "container-title": "Learning and intelligent optimization",
+   "collection-title": "Lecture notes in computer science",
+   "collection-number": "11353",
+   "page": "225-240",
+   "publisher": "Springer",
+   "DOI": "10.1007/978-3-030-05348-2_21"
+  },
+  "esperado": "Bedenel, A.-L., Jourdan, L., & Biernacki, C. (2019). Probability estimation by an adapted genetic algorithm in web insurance. In R. Battiti, M. Brunato, I. Kotsireas, & P. Pardalos (Eds.), *Lecture notes in computer science: Vol. 11353. Learning and intelligent optimization* (pp. 225–240). Springer. https://doi.org/10.1007/978-3-030-05348-2_21",
+  "notas": "Modelado: collection-title + collection-number; el CSL antepone \"Serie: Vol. N.\" al titulo (parche CSL)."
+ },
+ {
+  "id": "apa-ref-047",
+  "tipo": "conjunto-de-datos",
+  "fuente": "references__examples__data-set-references.md#Data set references",
+  "csl": {
+   "id": "apa-ref-047",
+   "type": "dataset",
+   "author": [
+    {
+     "family": "O’Donohue",
+     "given": "W."
+    }
+   ],
+   "issued": {
+    "date-parts": [
+     [
+      2017
+     ]
+    ]
+   },
+   "title": "Content analysis of undergraduate psychology textbooks",
+   "number": "ICPSR 36966",
+   "version": "V1",
+   "publisher": "ICPSR",
+   "DOI": "10.3886/ICPSR36966.v1",
+   "medium": "Data set"
+  },
+  "esperado": "O’Donohue, W. (2017). *Content analysis of undergraduate psychology textbooks* (ICPSR 36966; Version V1) [Data set]. ICPSR. https://doi.org/10.3886/ICPSR36966.v1",
+  "notas": "Numero y version dentro del mismo parentesis, separados por ';'. | modelado: descriptor entre corchetes va en `medium` cuando hay `number` (apa.csl)"
+ },
+ {
+  "id": "apa-ref-048",
+  "tipo": "pagina-web-sitio-noticias",
+  "fuente": "references__examples__webpage-website-references.md#1. Webpage on a news website",
+  "csl": {
+   "id": "apa-ref-048",
+   "type": "webpage",
+   "author": [
+    {
+     "family": "Bologna",
+     "given": "C."
+    }
+   ],
+   "issued": {
+    "date-parts": [
+     [
+      2019,
+      10,
+      31
+     ]
+    ]
+   },
+   "title": "Why some people with anxiety love watching horror movies",
+   "container-title": "HuffPost",
+   "URL": "https://www.huffpost.com/entry/anxiety-love-watching-horror-movies_l_5d277587e4b02a5a5d57b59e"
+  },
+  "esperado": "Bologna, C. (2019, October 31). *Why some people with anxiety love watching horror movies*. HuffPost. https://www.huffpost.com/entry/anxiety-love-watching-horror-movies_l_5d277587e4b02a5a5d57b59e",
+  "notas": ""
+ },
+ {
+  "id": "apa-ref-049",
+  "tipo": "pagina-web-autor-grupal-gobierno",
+  "fuente": "references__examples__webpage-website-references.md#3. Webpage on a website with a government agency group author",
+  "csl": {
+   "id": "apa-ref-049",
+   "type": "webpage",
+   "author": [
+    {
+     "literal": "National Institute of Mental Health"
+    }
+   ],
+   "issued": {
+    "date-parts": [
+     [
+      2018,
+      7
+     ]
+    ]
+   },
+   "title": "Anxiety disorders",
+   "publisher": "U.S. Department of Health and Human Services, National Institutes of Health",
+   "URL": "https://www.nimh.nih.gov/health/topics/anxiety-disorders/index.shtml"
+  },
+  "esperado": "National Institute of Mental Health. (2018, July). *Anxiety disorders*. U.S. Department of Health and Human Services, National Institutes of Health. https://www.nimh.nih.gov/health/topics/anxiety-disorders/index.shtml",
+  "notas": "Fecha solo mes y anio."
+ },
+ {
+  "id": "apa-ref-050",
+  "tipo": "pagina-web-autor-individual",
+  "fuente": "references__examples__webpage-website-references.md#5. Webpage on a website with an individual author",
+  "csl": {
+   "id": "apa-ref-050",
+   "type": "webpage",
+   "author": [
+    {
+     "family": "Mantel",
+     "given": "B."
+    }
+   ],
+   "issued": {
+    "date-parts": [
+     [
+      2025,
+      4,
+      24
+     ]
+    ]
+   },
+   "title": "How to be a caregiver for someone with multiple sclerosis",
+   "container-title": "AARP",
+   "URL": "https://www.aarp.org/caregiving/health/info-2025/multiple-sclerosis-care-plan/"
+  },
+  "esperado": "Mantel, B. (2025, April 24). *How to be a caregiver for someone with multiple sclerosis*. AARP. https://www.aarp.org/caregiving/health/info-2025/multiple-sclerosis-care-plan/",
+  "notas": ""
+ },
+ {
+  "id": "apa-ref-051",
+  "tipo": "pagina-web-sin-fecha-con-fecha-de-recuperacion",
+  "fuente": "references__examples__webpage-website-references.md#6. Webpage on a website with a retrieval date",
+  "csl": {
+   "id": "apa-ref-051",
+   "type": "webpage",
+   "author": [
+    {
+     "literal": "U.S. Census Bureau"
+    }
+   ],
+   "title": "U.S. and world population clock",
+   "publisher": "U.S. Department of Commerce",
+   "accessed": {
+    "date-parts": [
+     [
+      2020,
+      1,
+      9
+     ]
+    ]
+   },
+   "URL": "https://www.census.gov/popclock/"
+  },
+  "esperado": "U.S. Census Bureau. (n.d.). *U.S. and world population clock*. U.S. Department of Commerce. Retrieved January 9, 2020, from https://www.census.gov/popclock/",
+  "notas": "Sin fecha: '(n.d.)' + 'Retrieved ... from' (es: 's.f.', 'Recuperado el ... de')."
+ },
+ {
+  "id": "apa-ref-052",
+  "tipo": "comentario-en-pagina-web",
+  "fuente": "references__examples__webpage-website-references.md#2. Comment on a webpage on a news website",
+  "csl": {
+   "id": "apa-ref-052",
+   "type": "webpage",
+   "author": [
+    {
+     "family": "Owens",
+     "given": "L."
+    }
+   ],
+   "issued": {
+    "date-parts": [
+     [
+      2020,
+      10,
+      7
+     ]
+    ]
+   },
+   "title": "I propose a bicycle race between Biden and Trump",
+   "genre": "Comment on the webpage *Here’s what voters make of President Trump’s COVID-19 diagnosis*",
+   "container-title": "HuffPost",
+   "URL": "https://www.spot.im/s/00QeiyApEIFa"
+  },
+  "esperado": "Owens, L. (2020, October 7). *I propose a bicycle race between Biden and Trump* [Comment on the webpage *Here’s what voters make of President Trump’s COVID-19 diagnosis*]. HuffPost. https://www.spot.im/s/00QeiyApEIFa",
+  "notas": "Cursiva anidada dentro de los corchetes: sin soporte CSL directo."
+ },
+ {
+  "id": "apa-ref-053",
+  "tipo": "wikipedia",
+  "fuente": "references__examples__wikipedia-references.md#Wikipedia entry references",
+  "csl": {
+   "id": "apa-ref-053",
+   "type": "entry-encyclopedia",
+   "title": "Oil painting",
+   "container-title": "Wikipedia",
+   "issued": {
+    "date-parts": [
+     [
+      2019,
+      12,
+      8
+     ]
+    ]
+   },
+   "URL": "https://en.wikipedia.org/w/index.php?title=Oil_painting&oldid=929802398"
+  },
+  "esperado": "Oil painting. (2019, December 8). In *Wikipedia*. https://en.wikipedia.org/w/index.php?title=Oil_painting&oldid=929802398",
+  "notas": "Sin autor: el titulo pasa a la posicion de autor; 'In *Wikipedia*'."
+ },
+ {
+  "id": "apa-ref-054",
+  "tipo": "video-youtube",
+  "fuente": "references__examples__youtube-references.md#1. YouTube video",
+  "csl": {
+   "id": "apa-ref-054",
+   "type": "motion_picture",
+   "author": [
+    {
+     "literal": "Asian Boss"
+    }
+   ],
+   "issued": {
+    "date-parts": [
+     [
+      2020,
+      6,
+      5
+     ]
+    ]
+   },
+   "title": "World’s leading vaccine expert fact-checks COVID-19 vaccine conspiracy: Stay curious #22",
+   "medium": "Video",
+   "publisher": "YouTube",
+   "URL": "https://www.youtube.com/watch?v=WQdLDMLrYIA"
+  },
+  "esperado": "Asian Boss. (2020, June 5). *World’s leading vaccine expert fact-checks COVID-19 vaccine conspiracy: Stay curious #22* [Video]. YouTube. https://www.youtube.com/watch?v=WQdLDMLrYIA",
+  "notas": "modelado: \"video\" no es tipo CSL 1.0.2; usar motion_picture"
+ },
+ {
+  "id": "apa-ref-055",
+  "tipo": "video-youtube-autor-institucional",
+  "fuente": "references__examples__youtube-references.md#1. YouTube video",
+  "csl": {
+   "id": "apa-ref-055",
+   "type": "motion_picture",
+   "author": [
+    {
+     "literal": "Harvard University"
+    }
+   ],
+   "issued": {
+    "date-parts": [
+     [
+      2019,
+      8,
+      28
+     ]
+    ]
+   },
+   "title": "Soft robotic gripper for jellyfish",
+   "medium": "Video",
+   "publisher": "YouTube",
+   "URL": "https://www.youtube.com/watch?v=guRoWTYfxMs"
+  },
+  "esperado": "Harvard University. (2019, August 28). *Soft robotic gripper for jellyfish* [Video]. YouTube. https://www.youtube.com/watch?v=guRoWTYfxMs",
+  "notas": "modelado: \"video\" no es tipo CSL 1.0.2; usar motion_picture"
+ },
+ {
+  "id": "apa-ref-056",
+  "tipo": "canal-youtube",
+  "fuente": "references__examples__youtube-references.md#2. YouTube channel",
+  "csl": {
+   "id": "apa-ref-056",
+   "type": "webpage",
+   "author": [
+    {
+     "literal": "APA Publishing Training"
+    }
+   ],
+   "title": "Home",
+   "genre": "YouTube channel",
+   "publisher": "YouTube",
+   "accessed": {
+    "date-parts": [
+     [
+      2020,
+      2,
+      20
+     ]
+    ]
+   },
+   "URL": "https://www.youtube.com/user/PsycINFO/"
+  },
+  "esperado": "APA Publishing Training. (n.d.). *Home* [YouTube channel]. YouTube. Retrieved February 20, 2020, from https://www.youtube.com/user/PsycINFO/",
+  "notas": "Sin fecha + recuperado."
+ },
+ {
+  "id": "apa-ref-057",
+  "tipo": "podcast-serie",
+  "fuente": "references__examples__podcast-references.md#1. Podcast",
+  "csl": {
+   "id": "apa-ref-057",
+   "type": "broadcast",
+   "host": [
+    {
+     "family": "Meraji",
+     "given": "S. M."
+    },
+    {
+     "family": "Demby",
+     "given": "G."
+    }
+   ],
+   "issued": {
+    "literal": "2016–present"
+   },
+   "title": "Code switch",
+   "genre": "Audio podcast",
+   "publisher": "National Public Radio",
+   "URL": "https://www.npr.org/podcasts/510312/codeswitch"
+  },
+  "esperado": "Meraji, S. M., & Demby, G. (Hosts). (2016–present). *Code switch* [Audio podcast]. National Public Radio. https://www.npr.org/podcasts/510312/codeswitch",
+  "notas": "Rol '(Hosts)' y rango abierto '2016–present'."
+ },
+ {
+  "id": "apa-ref-058",
+  "tipo": "podcast-serie-sin-url",
+  "fuente": "references__examples__podcast-references.md#1. Podcast",
+  "csl": {
+   "id": "apa-ref-058",
+   "type": "broadcast",
+   "host": [
+    {
+     "family": "Seales",
+     "given": "A."
+    }
+   ],
+   "issued": {
+    "literal": "2018–present"
+   },
+   "title": "Small doses with Amanda Seales",
+   "genre": "Audio podcast",
+   "publisher": "Starburns Audio"
+  },
+  "esperado": "Seales, A. (Host). (2018–present). *Small doses with Amanda Seales* [Audio podcast]. Starburns Audio.",
+  "notas": ""
+ },
+ {
+  "id": "apa-ref-059",
+  "tipo": "podcast-episodio",
+  "fuente": "references__examples__podcast-references.md#2. Podcast episode",
+  "csl": {
+   "id": "apa-ref-059",
+   "type": "broadcast",
+   "host": [
+    {
+     "family": "Hannah-Jones",
+     "given": "N."
+    }
+   ],
+   "issued": {
+    "date-parts": [
+     [
+      2019,
+      9,
+      13
+     ]
+    ]
+   },
+   "title": "How the bad blood started",
+   "number": "4",
+   "container-title": "1619",
+   "publisher": "The New York Times",
+   "URL": "https://podcasts.apple.com/us/podcast/episode-4-how-the-bad-blood-started/id1476928106?i=1000449718223",
+   "medium": "Audio podcast episode"
+  },
+  "esperado": "Hannah-Jones, N. (Host). (2019, September 13). How the bad blood started (No. 4) [Audio podcast episode]. In *1619*. The New York Times. https://podcasts.apple.com/us/podcast/episode-4-how-the-bad-blood-started/id1476928106?i=1000449718223",
+  "notas": "Titulo del episodio SIN cursiva; el podcast va en cursiva tras 'In'. | modelado: descriptor entre corchetes va en `medium` cuando hay `number` (apa.csl)"
+ },
+ {
+  "id": "apa-ref-060",
+  "tipo": "publicacion-x",
+  "fuente": "references__examples__x-references.md#1. X post",
+  "csl": {
+   "id": "apa-ref-060",
+   "type": "post",
+   "author": [
+    {
+     "family": "Gates",
+     "given": "B."
+    }
+   ],
+   "issued": {
+    "date-parts": [
+     [
+      2019,
+      9,
+      7
+     ]
+    ]
+   },
+   "title": "Today, it’s difficult for researchers to diagnose #Alzheimers patients early enough to intervene. A reliable, easy and accurate diagnostic would",
+   "genre": "Post",
+   "medium": "Thumbnail with link attached",
+   "publisher": "X",
+   "URL": "https://x.com/BillGates/status/1170305718425137152",
+   "container-title-short": "@BillGates"
+  },
+  "esperado": "Gates, B. [@BillGates]. (2019, September 7). *Today, it’s difficult for researchers to diagnose #Alzheimers patients early enough to intervene. A reliable, easy and accurate diagnostic would* [Thumbnail with link attached] [Post]. X. https://x.com/BillGates/status/1170305718425137152",
+  "notas": "Usuario '[@BillGates]' y '[Thumbnail with link attached]' sin variable CSL: postproceso/parche local. Modelado: usuario de la red en `container-title-short` (el CSL lo imprime como [@usuario] tras el autor)."
+ },
+ {
+  "id": "apa-ref-061",
+  "tipo": "publicacion-x-autor-grupal",
+  "fuente": "references__examples__x-references.md#1. X post",
+  "csl": {
+   "id": "apa-ref-061",
+   "type": "post",
+   "author": [
+    {
+     "literal": "CDC"
+    }
+   ],
+   "issued": {
+    "date-parts": [
+     [
+      2020,
+      6,
+      11
+     ]
+    ]
+   },
+   "title": "Scientists do not know if having antibodies to the virus that causes #COVID19 can protect someone from getting infected again",
+   "genre": "Post",
+   "medium": "Image attached",
+   "publisher": "X",
+   "URL": "https://x.com/CDCgov/status/1271180413134876672",
+   "container-title-short": "@CDCgov"
+  },
+  "esperado": "CDC [@CDCgov]. (2020, June 11). *Scientists do not know if having antibodies to the virus that causes #COVID19 can protect someone from getting infected again* [Image attached] [Post]. X. https://x.com/CDCgov/status/1271180413134876672",
+  "notas": "Modelado: usuario de la red en `container-title-short` (el CSL lo imprime como [@usuario] tras el autor)."
+ },
+ {
+  "id": "apa-ref-062",
+  "tipo": "perfil-x",
+  "fuente": "references__examples__x-references.md#2. X profile",
+  "csl": {
+   "id": "apa-ref-062",
+   "type": "webpage",
+   "author": [
+    {
+     "literal": "APA Style"
+    }
+   ],
+   "title": "Posts",
+   "genre": "X profile",
+   "publisher": "X",
+   "accessed": {
+    "date-parts": [
+     [
+      2023,
+      11,
+      8
+     ]
+    ]
+   },
+   "URL": "https://x.com/APA_Style",
+   "container-title-short": "@APA_Style"
+  },
+  "esperado": "APA Style [@APA_Style]. (n.d.). *Posts* [X profile]. X. Retrieved November 8, 2023, from https://x.com/APA_Style",
+  "notas": "Modelado: usuario de la red en `container-title-short` (el CSL lo imprime como [@usuario] tras el autor)."
+ },
+ {
+  "id": "apa-ref-063",
+  "tipo": "publicacion-bluesky",
+  "fuente": "references__examples__bluesky-references.md#1. Bluesky post",
+  "csl": {
+   "id": "apa-ref-063",
+   "type": "post",
+   "author": [
+    {
+     "family": "Ocasio-Cortez",
+     "given": "A."
+    }
+   ],
+   "issued": {
+    "date-parts": [
+     [
+      2024,
+      11,
+      11
+     ]
+    ]
+   },
+   "title": "Earnest post, but: a thing I like here is it’s okay to have moments of happiness in public without being broadly scolded, and I believe that sustaining this kind of humanity will be very important as we resist fascism. We",
+   "genre": "Post",
+   "publisher": "Bluesky",
+   "URL": "https://bsky.app/profile/aoc.bsky.social/post/3lapo7x44ws2k",
+   "container-title-short": "@aoc.bsky.social"
+  },
+  "esperado": "Ocasio-Cortez, A. [@aoc.bsky.social]. (2024, November 11). *Earnest post, but: a thing I like here is it’s okay to have moments of happiness in public without being broadly scolded, and I believe that sustaining this kind of humanity will be very important as we resist fascism. We* [Post]. Bluesky. https://bsky.app/profile/aoc.bsky.social/post/3lapo7x44ws2k",
+  "notas": "Modelado: usuario de la red en `container-title-short` (el CSL lo imprime como [@usuario] tras el autor)."
+ },
+ {
+  "id": "apa-ref-064",
+  "tipo": "perfil-bluesky",
+  "fuente": "references__examples__bluesky-references.md#2. Bluesky profile",
+  "csl": {
+   "id": "apa-ref-064",
+   "type": "webpage",
+   "author": [
+    {
+     "literal": "The Associated Press"
+    }
+   ],
+   "title": "Posts",
+   "genre": "Bluesky profile",
+   "publisher": "Bluesky",
+   "accessed": {
+    "date-parts": [
+     [
+      2026,
+      5,
+      20
+     ]
+    ]
+   },
+   "URL": "https://bsky.app/profile/apnews.com",
+   "container-title-short": "@apnews.com"
+  },
+  "esperado": "The Associated Press [@apnews.com]. (n.d.). *Posts* [Bluesky profile]. Bluesky. Retrieved May 20, 2026, from https://bsky.app/profile/apnews.com",
+  "notas": "Modelado: usuario de la red en `container-title-short` (el CSL lo imprime como [@usuario] tras el autor)."
+ },
+ {
+  "id": "apa-ref-065",
+  "tipo": "foto-instagram",
+  "fuente": "references__examples__instagram-references.md#1. Instagram photo",
+  "csl": {
+   "id": "apa-ref-065",
+   "type": "post",
+   "author": [
+    {
+     "literal": "Philadelphia Museum of Art"
+    }
+   ],
+   "issued": {
+    "date-parts": [
+     [
+      2019,
+      12,
+      3
+     ]
+    ]
+   },
+   "title": "“It’s always wonderful to walk in and see my work in a collection where it’s loved, and where people are",
+   "genre": "Photograph",
+   "publisher": "Instagram",
+   "URL": "https://www.instagram.com/p/B5oDnnNhOt4/",
+   "container-title-short": "@philamuseum"
+  },
+  "esperado": "Philadelphia Museum of Art [@philamuseum]. (2019, December 3). *“It’s always wonderful to walk in and see my work in a collection where it’s loved, and where people are* [Photograph]. Instagram. https://www.instagram.com/p/B5oDnnNhOt4/",
+  "notas": "Primeras 20 palabras del texto como titulo. Modelado: usuario de la red en `container-title-short` (el CSL lo imprime como [@usuario] tras el autor)."
+ },
+ {
+  "id": "apa-ref-066",
+  "tipo": "perfil-instagram",
+  "fuente": "references__examples__instagram-references.md#3. Instagram profile",
+  "csl": {
+   "id": "apa-ref-066",
+   "type": "webpage",
+   "author": [
+    {
+     "family": "Swift",
+     "given": "T."
+    }
+   ],
+   "title": "Posts",
+   "genre": "Instagram profile",
+   "publisher": "Instagram",
+   "accessed": {
+    "date-parts": [
+     [
+      2020,
+      1,
+      9
+     ]
+    ]
+   },
+   "URL": "https://www.instagram.com/taylorswift",
+   "container-title-short": "@taylorswift"
+  },
+  "esperado": "Swift, T. [@taylorswift]. (n.d.). *Posts* [Instagram profile]. Instagram. Retrieved January 9, 2020, from https://www.instagram.com/taylorswift",
+  "notas": "Modelado: usuario de la red en `container-title-short` (el CSL lo imprime como [@usuario] tras el autor)."
+ },
+ {
+  "id": "apa-ref-067",
+  "tipo": "norma-iso",
+  "fuente": "references__examples__iso-standard-references.md#ISO Standard references",
+  "csl": {
+   "id": "apa-ref-067",
+   "type": "standard",
+   "author": [
+    {
+     "literal": "International Organization for Standardization"
+    }
+   ],
+   "issued": {
+    "date-parts": [
+     [
+      2018
+     ]
+    ]
+   },
+   "title": "Occupational health and safety management systems—Requirements with guidance for use",
+   "genre": "ISO Standard",
+   "number": "45001:2018",
+   "URL": "https://www.iso.org/standard/63787.html"
+  },
+  "esperado": "International Organization for Standardization. (2018). *Occupational health and safety management systems—Requirements with guidance for use* (ISO Standard No. 45001:2018). https://www.iso.org/standard/63787.html",
+  "notas": "Autor = editorial: se omite el editor."
+ },
+ {
+  "id": "apa-ref-068",
+  "tipo": "norma-gubernamental",
+  "fuente": "references__examples__iso-standard-references.md#ISO Standard references",
+  "csl": {
+   "id": "apa-ref-068",
+   "type": "standard",
+   "author": [
+    {
+     "literal": "Occupational Safety and Health Administration"
+    }
+   ],
+   "issued": {
+    "date-parts": [
+     [
+      1970
+     ]
+    ]
+   },
+   "title": "Occupational safety and health standards: Occupational health and environmental control: Occupational noise exposure",
+   "genre": "OSHA Standard",
+   "number": "1910.95",
+   "publisher": "United States Department of Labor",
+   "URL": "https://www.osha.gov/laws-regs/regulations/standardnumber/1910/1910.95"
+  },
+  "esperado": "Occupational Safety and Health Administration. (1970). *Occupational safety and health standards: Occupational health and environmental control: Occupational noise exposure* (OSHA Standard No. 1910.95). United States Department of Labor. https://www.osha.gov/laws-regs/regulations/standardnumber/1910/1910.95",
+  "notas": ""
+ },
+ {
+  "id": "apa-ref-069",
+  "tipo": "preprint-doi",
+  "fuente": "references__examples__preprint-article-references.md#Preprint article references",
+  "csl": {
+   "id": "apa-ref-069",
+   "type": "article",
+   "author": [
+    {
+     "family": "Hampton",
+     "given": "S."
+    },
+    {
+     "family": "Rabagliati",
+     "given": "H."
+    },
+    {
+     "family": "Sorace",
+     "given": "A."
+    },
+    {
+     "family": "Fletcher-Watson",
+     "given": "S."
+    }
+   ],
+   "issued": {
+    "date-parts": [
+     [
+      2017
+     ]
+    ]
+   },
+   "title": "Autism and bilingualism: A qualitative interview study of parents’ perspectives and experiences",
+   "publisher": "PsyArXiv",
+   "DOI": "10.31234/osf.io/76xfs"
+  },
+  "esperado": "Hampton, S., Rabagliati, H., Sorace, A., & Fletcher-Watson, S. (2017). *Autism and bilingualism: A qualitative interview study of parents’ perspectives and experiences*. PsyArXiv. https://doi.org/10.31234/osf.io/76xfs",
+  "notas": "Titulo en cursiva (obra independiente); repositorio como editorial."
+ },
+ {
+  "id": "apa-ref-070",
+  "tipo": "preprint-url",
+  "fuente": "references__examples__preprint-article-references.md#Preprint article references",
+  "csl": {
+   "id": "apa-ref-070",
+   "type": "article",
+   "author": [
+    {
+     "family": "Hetland",
+     "given": "B."
+    },
+    {
+     "family": "McAndrew",
+     "given": "N."
+    },
+    {
+     "family": "Perazzo",
+     "given": "J."
+    },
+    {
+     "family": "Hickman",
+     "given": "R."
+    }
+   ],
+   "issued": {
+    "date-parts": [
+     [
+      2018
+     ]
+    ]
+   },
+   "title": "A qualitative study of factors that influence active family involvement with patient care in the ICU: Survey of critical care nurses",
+   "publisher": "PubMed Central",
+   "URL": "https://www.ncbi.nlm.nih.gov/pmc/articles/PMC5736422/?report=classic"
+  },
+  "esperado": "Hetland, B., McAndrew, N., Perazzo, J., & Hickman, R. (2018). *A qualitative study of factors that influence active family involvement with patient care in the ICU: Survey of critical care nurses*. PubMed Central. https://www.ncbi.nlm.nih.gov/pmc/articles/PMC5736422/?report=classic",
+  "notas": ""
+ },
+ {
+  "id": "apa-ref-071",
+  "tipo": "ia-herramienta-chatgpt",
+  "fuente": "references__examples__ai-references.md#1. AI tool",
+  "csl": {
+   "id": "apa-ref-071",
+   "type": "software",
+   "author": [
+    {
+     "literal": "OpenAI"
+    }
+   ],
+   "issued": {
+    "date-parts": [
+     [
+      2025
+     ]
+    ]
+   },
+   "title": "ChatGPT",
+   "genre": "Large language model",
+   "URL": "https://chatgpt.com"
+  },
+  "esperado": "OpenAI. (2025). *ChatGPT* [Large language model]. https://chatgpt.com",
+  "notas": "Modelo de lenguaje: autor = desarrollador."
+ },
+ {
+  "id": "apa-ref-072",
+  "tipo": "ia-herramienta-chatgpt-version-blog",
+  "fuente": "blog__how-to-cite-chatgpt.md#How to cite ChatGPT",
+  "csl": {
+   "id": "apa-ref-072",
+   "type": "software",
+   "author": [
+    {
+     "literal": "OpenAI"
+    }
+   ],
+   "issued": {
+    "date-parts": [
+     [
+      2023
+     ]
+    ]
+   },
+   "title": "ChatGPT (Mar 14 version)",
+   "genre": "Large language model",
+   "URL": "https://chat.openai.com/chat"
+  },
+  "esperado": "OpenAI. (2023). ChatGPT (Mar 14 version) [Large language model]. https://chat.openai.com/chat",
+  "notas": "Fuente blog: el snapshot del blog NO conserva cursivas; 'esperado' sin asteriscos (segun APA el titulo va en cursiva). Version del modelo entre parentesis en el titulo.",
+  "esperado_corregido": "OpenAI. (2023). *ChatGPT (Mar 14 version)* [Large language model]. https://chat.openai.com/chat",
+  "errata_oficial": "Snapshot del blog sin cursivas; el titulo del modelo va en cursiva (ai-references.md, ejemplos 1)."
+ },
+ {
+  "id": "apa-ref-073",
+  "tipo": "ia-conversacion-compartida",
+  "fuente": "references__examples__ai-references.md#2. AI chat",
+  "csl": {
+   "id": "apa-ref-073",
+   "type": "post",
+   "author": [
+    {
+     "literal": "OpenAI"
+    }
+   ],
+   "issued": {
+    "date-parts": [
+     [
+      2026,
+      2,
+      10
+     ]
+    ]
+   },
+   "title": "Top 10 writing topics for high school graduates",
+   "genre": "Generative AI chat",
+   "container-title": "ChatGPT",
+   "URL": "https://chatgpt.com/share/698b9233-1b58-8008-858d-cede516f4240"
+  },
+  "esperado": "OpenAI. (2026, February 10). *Top 10 writing topics for high school graduates *[Generative AI chat]. ChatGPT. https://chatgpt.com/share/698b9233-1b58-8008-858d-cede516f4240",
+  "notas": "El snapshot tiene un espacio dentro de la cursiva ('graduates *[Generative'): normalizar espacios antes de comparar.",
+  "esperado_corregido": "OpenAI. (2026, February 10). *Top 10 writing topics for high school graduates* [Generative AI chat]. ChatGPT. https://chatgpt.com/share/698b9233-1b58-8008-858d-cede516f4240",
+  "errata_oficial": "Espacio dentro de la cursiva en el snapshot (graduates *[Generative)."
+ },
+ {
+  "id": "apa-ref-074",
+  "tipo": "ia-conversacion-blog-claude",
+  "fuente": "blog__cite-generative-ai-references.md#Citing generative AI in APA Style: Part 1—Reference formats",
+  "csl": {
+   "id": "apa-ref-074",
+   "type": "post",
+   "author": [
+    {
+     "literal": "Anthropic"
+    }
+   ],
+   "issued": {
+    "date-parts": [
+     [
+      2025,
+      5,
+      20
+     ]
+    ]
+   },
+   "title": "Essential grammar topics for high school graduates",
+   "genre": "Generative AI chat",
+   "container-title": "Claude Sonnet 4",
+   "URL": "https://claude.ai/share/329173b2-ec93-4663-ac68-4f65ea4f166d"
+  },
+  "esperado": "Anthropic. (2025, May 20). Essential grammar topics for high school graduates [Generative AI chat]. Claude Sonnet 4. https://claude.ai/share/329173b2-ec93-4663-ac68-4f65ea4f166d",
+  "notas": "Snapshot del blog sin cursivas.",
+  "esperado_corregido": "Anthropic. (2025, May 20). *Essential grammar topics for high school graduates* [Generative AI chat]. Claude Sonnet 4. https://claude.ai/share/329173b2-ec93-4663-ac68-4f65ea4f166d",
+  "errata_oficial": "Snapshot del blog sin cursivas; el titulo del chat va en cursiva (ai-references.md, ejemplo 2)."
+ },
+ {
+  "id": "apa-ref-075",
+  "tipo": "articulo-uptodate-con-fecha-recuperacion",
+  "fuente": "references__database-information.md#Databases with original, proprietary content",
+  "csl": {
+   "id": "apa-ref-075",
+   "type": "entry-encyclopedia",
+   "author": [
+    {
+     "family": "Stein",
+     "given": "M. B."
+    },
+    {
+     "family": "Taylor",
+     "given": "C. T."
+    }
+   ],
+   "issued": {
+    "date-parts": [
+     [
+      2019
+     ]
+    ]
+   },
+   "title": "Approach to treating social anxiety disorder in adults",
+   "container-title": "UpToDate",
+   "accessed": {
+    "date-parts": [
+     [
+      2019,
+      9,
+      13
+     ]
+    ]
+   },
+   "URL": "https://www.uptodate.com/contents/approach-to-treating-social-anxiety-disorder-in-adults"
+  },
+  "esperado": "Stein, M. B., & Taylor, C. T. (2019). Approach to treating social anxiety disorder in adults. *UpToDate*. Retrieved September 13, 2019, from https://www.uptodate.com/contents/approach-to-treating-social-anxiety-disorder-in-adults",
+  "notas": "Obra de contenido cambiante: 'Retrieved ... from'. Modelado: entry-encyclopedia + container-title + issued + accessed => \"*UpToDate*. Retrieved ..., from\" sin \"In\" (parche CSL)."
+ },
+ {
+  "id": "apa-ref-076",
+  "tipo": "monografia-eric",
+  "fuente": "references__database-information.md#Works of limited circulation",
+  "csl": {
+   "id": "apa-ref-076",
+   "type": "report",
+   "author": [
+    {
+     "family": "Riegelman",
+     "given": "R. K."
+    },
+    {
+     "family": "Albertine",
+     "given": "S."
+    }
+   ],
+   "issued": {
+    "date-parts": [
+     [
+      2008
+     ]
+    ]
+   },
+   "title": "Recommendations for undergraduate public health education",
+   "number": "ED504790",
+   "publisher": "ERIC",
+   "URL": "https://files.eric.ed.gov/fulltext/ED504790.pdf"
+  },
+  "esperado": "Riegelman, R. K., & Albertine, S. (2008). *Recommendations for undergraduate public health education* (ED504790). ERIC. https://files.eric.ed.gov/fulltext/ED504790.pdf",
+  "notas": "Numero ERIC entre parentesis sin genero."
+ },
+ {
+  "id": "apa-ref-077",
+  "tipo": "entrada-diccionario-en-linea-sin-fecha",
+  "fuente": "references__examples__dictionary-entry-references.md#1. Entry in an online dictionary",
+  "csl": {
+   "id": "apa-ref-077",
+   "type": "entry-dictionary",
+   "author": [
+    {
+     "literal": "American Psychological Association"
+    }
+   ],
+   "title": "Just-world hypothesis",
+   "container-title": "APA dictionary of psychology",
+   "accessed": {
+    "date-parts": [
+     [
+      2020,
+      1,
+      18
+     ]
+    ]
+   },
+   "URL": "https://dictionary.apa.org/just-world-hypothesis"
+  },
+  "esperado": "American Psychological Association. (n.d.). Just-world hypothesis. In *APA dictionary of psychology*. Retrieved January 18, 2020, from https://dictionary.apa.org/just-world-hypothesis",
+  "notas": ""
+ },
+ {
+  "id": "apa-ref-078",
+  "tipo": "entrada-diccionario-impreso",
+  "fuente": "references__examples__dictionary-entry-references.md#2. Entry in a print dictionary",
+  "csl": {
+   "id": "apa-ref-078",
+   "type": "entry-dictionary",
+   "author": [
+    {
+     "literal": "American Psychological Association"
+    }
+   ],
+   "issued": {
+    "date-parts": [
+     [
+      2015
+     ]
+    ]
+   },
+   "title": "Mood induction",
+   "container-title": "APA dictionary of psychology",
+   "edition": "2",
+   "page": "667"
+  },
+  "esperado": "American Psychological Association. (2015). Mood induction. In *APA dictionary of psychology* (2nd ed., p. 667).",
+  "notas": "'p.' singular en 'p. 667'."
+ },
+ {
+  "id": "apa-ref-079",
+  "tipo": "charla-ted",
+  "fuente": "references__examples__ted-talk-references.md#1. Ted Talk from the Ted website",
+  "csl": {
+   "id": "apa-ref-079",
+   "type": "speech",
+   "author": [
+    {
+     "family": "Cuddy",
+     "given": "A."
+    }
+   ],
+   "issued": {
+    "date-parts": [
+     [
+      2012,
+      6
+     ]
+    ]
+   },
+   "title": "Your body language may shape who you are",
+   "medium": "Video",
+   "publisher": "Ted Conferences",
+   "URL": "https://www.ted.com/talks/amy_cuddy_your_body_language_may_shape_who_you_are"
+  },
+  "esperado": "Cuddy, A. (2012, June). *Your body language may shape who you are* [Video]. Ted Conferences. https://www.ted.com/talks/amy_cuddy_your_body_language_may_shape_who_you_are",
+  "notas": ""
+ },
+ {
+  "id": "apa-ref-080",
+  "tipo": "manual-diagnostico-dsm-con-doi",
+  "fuente": "references__examples__diagnostic-manual-references.md#1. Edition of the *Diagnostic and Statistical Manual of Mental Disorders* (*DSM*)",
+  "csl": {
+   "id": "apa-ref-080",
+   "type": "book",
+   "author": [
+    {
+     "literal": "American Psychiatric Association"
+    }
+   ],
+   "issued": {
+    "date-parts": [
+     [
+      2013
+     ]
+    ]
+   },
+   "title": "Diagnostic and statistical manual of mental disorders",
+   "edition": "5",
+   "DOI": "10.1176/appi.books.9780890425596"
+  },
+  "esperado": "American Psychiatric Association. (2013). *Diagnostic and statistical manual of mental disorders* (5th ed.). https://doi.org/10.1176/appi.books.9780890425596",
+  "notas": "Autor = editorial (se omite). Ediciones '(5th ed., text rev.)' no se mapean en `edition` estandar."
+ },
+ {
+  "id": "apa-ref-081",
+  "tipo": "codigo-etico",
+  "fuente": "references__examples__ethics-code-references.md#Ethics code references",
+  "csl": {
+   "id": "apa-ref-081",
+   "type": "report",
+   "author": [
+    {
+     "literal": "American Nurses Association"
+    }
+   ],
+   "issued": {
+    "date-parts": [
+     [
+      2025
+     ]
+    ]
+   },
+   "title": "Code of ethics for nurses",
+   "URL": "https://codeofethics.ana.org/provisions"
+  },
+  "esperado": "American Nurses Association. (2025). *Code of ethics for nurses*. https://codeofethics.ana.org/provisions",
+  "notas": ""
+ },
+ {
+  "id": "apa-ref-082",
+  "tipo": "autor-anonimo",
+  "fuente": "references__missing-information.md#Anonymous authors",
+  "csl": {
+   "id": "apa-ref-082",
+   "type": "book",
+   "author": [
+    {
+     "literal": "Anonymous"
+    }
+   ],
+   "issued": {
+    "date-parts": [
+     [
+      2017
+     ]
+    ]
+   },
+   "title": "Stories from my time as a spy",
+   "publisher": "Bond Publishers"
+  },
+  "esperado": "Anonymous. (2017). *Stories from my time as a spy*. Bond Publishers.",
+  "notas": "Solo si la obra esta firmada 'Anonymous'."
+ },
+ {
+  "id": "apa-ref-083",
+  "tipo": "mas-de-20-autores-plantilla",
+  "fuente": "references__elements-list-entry.md#Format of individual author names",
+  "csl": {
+   "id": "apa-ref-083",
+   "type": "article-journal",
+   "author": [
+    {
+     "family": "Author",
+     "given": "A. A."
+    },
+    {
+     "family": "Author",
+     "given": "B. B."
+    },
+    {
+     "family": "Author",
+     "given": "C. C."
+    },
+    {
+     "family": "Author",
+     "given": "D. D."
+    },
+    {
+     "family": "Author",
+     "given": "E. E."
+    },
+    {
+     "family": "Author",
+     "given": "F. F."
+    },
+    {
+     "family": "Author",
+     "given": "G. G."
+    },
+    {
+     "family": "Author",
+     "given": "H. H."
+    },
+    {
+     "family": "Author",
+     "given": "I. I."
+    },
+    {
+     "family": "Author",
+     "given": "J. J."
+    },
+    {
+     "family": "Author",
+     "given": "K. K."
+    },
+    {
+     "family": "Author",
+     "given": "L. L."
+    },
+    {
+     "family": "Author",
+     "given": "M. M."
+    },
+    {
+     "family": "Author",
+     "given": "N. N."
+    },
+    {
+     "family": "Author",
+     "given": "O. O."
+    },
+    {
+     "family": "Author",
+     "given": "P. P."
+    },
+    {
+     "family": "Author",
+     "given": "Q. Q."
+    },
+    {
+     "family": "Author",
+     "given": "R. R."
+    },
+    {
+     "family": "Author",
+     "given": "S. S."
+    },
+    {
+     "family": "Author",
+     "given": "T. T."
+    },
+    {
+     "family": "Author",
+     "given": "Z. Z."
+    }
+   ],
+   "issued": {
+    "date-parts": [
+     [
+      2020
+     ]
+    ]
+   },
+   "title": "Template"
+  },
+  "esperado": "Author, A. A., Author, B. B., Author, C. C., Author, D. D., Author, E. E., Author, F. F., Author, G. G., Author, H. H., Author, I. I., Author, J. J., Author, K. K., Author, L. L., Author, M. M., Author, N. N., Author, O. O., Author, P. P., Author, Q. Q., Author, R. R., Author, S. S., . . . Author, Z. Z.",
+  "notas": "PLANTILLA oficial (el snapshot no trae ejemplo con nombres reales de 21+ autores). 'esperado' es solo el bloque de autores: comparar unicamente el segmento de autores (antes de '(' + anio). Se usan 21 autores (A-T mas Z): 19 primeros, puntos suspensivos sin '&' y el ultimo.",
+  "alcance": "solo-autores"
+ }
+]

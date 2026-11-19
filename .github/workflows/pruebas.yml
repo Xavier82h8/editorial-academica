@@ -1,0 +1,65 @@
+name: Pruebas
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+
+permissions:
+  contents: read
+
+jobs:
+  pruebas:
+    name: ${{ matrix.os }} / Python ${{ matrix.python }}
+    runs-on: ${{ matrix.os }}
+    strategy:
+      fail-fast: false
+      matrix:
+        os: [ubuntu-latest, windows-latest]
+        python: ["3.10", "3.12"]
+    defaults:
+      run:
+        shell: bash
+    env:
+      PANDOC_VERSION: "3.6.4"
+      PYTHONUTF8: "1"
+    steps:
+      - uses: actions/checkout@v4.2.2
+
+      - uses: actions/setup-python@v5.6.0
+        with:
+          python-version: ${{ matrix.python }}
+          cache: pip
+          cache-dependency-path: requirements.txt
+
+      - name: Instalar pandoc (Linux)
+        if: runner.os == 'Linux'
+        run: |
+          curl -fsSL -o "$RUNNER_TEMP/pandoc.deb" "https://github.com/jgm/pandoc/releases/download/${PANDOC_VERSION}/pandoc-${PANDOC_VERSION}-1-amd64.deb"
+          sudo dpkg -i "$RUNNER_TEMP/pandoc.deb"
+
+      - name: Instalar pandoc (Windows)
+        if: runner.os == 'Windows'
+        run: |
+          curl -fsSL -o "$RUNNER_TEMP/pandoc.zip" "https://github.com/jgm/pandoc/releases/download/${PANDOC_VERSION}/pandoc-${PANDOC_VERSION}-windows-x86_64.zip"
+          mkdir -p "$RUNNER_TEMP/pandoc"
+          unzip -q "$RUNNER_TEMP/pandoc.zip" -d "$RUNNER_TEMP/pandoc"
+          echo "$(cygpath -w "$RUNNER_TEMP/pandoc/pandoc-${PANDOC_VERSION}")" >> "$GITHUB_PATH"
+
+      - name: Instalar dependencias de Python
+        run: python -m pip install -r requirements.txt
+
+      - name: Versiones
+        run: |
+          python --version
+          pandoc --version | head -n 1
+
+      - name: Pruebas (sin normas ni red)
+        env:
+          EDITORIAL_NORMAS: ${{ runner.temp }}/normas-vacio
+        run: |
+          mkdir -p "$EDITORIAL_NORMAS"
+          python tests/run_todo.py --rapido --sin-red
+
+      - name: Portabilidad
+        run: python tests/run_portabilidad.py

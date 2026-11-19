@@ -1,0 +1,75 @@
+id: revision-sistematica
+nombre: Revisión sistemática (PRISMA 2020)
+front_matter:
+- título que la identifique como revisión sistemática
+- resumen estructurado
+- registro del protocolo (PROSPERO u OSF)
+secciones:
+- nombre: Resumen
+  alias:
+  - resumen
+  - abstract
+  obligatoria: true
+  proposito: 'Síntesis de 150-250 palabras: objetivo, método, resultados y conclusión'
+  preguntas:
+  - ¿El resumen refleja objetivo, método, resultado principal y conclusión?
+  extension: 150-250 palabras
+- nombre: Introducción
+  alias:
+  - introduccion
+  - introduction
+  - planteamiento
+  - antecedentes
+  obligatoria: true
+  proposito: Contexto, problema, vacío y objetivo
+  preguntas:
+  - ¿Qué problema se aborda y por qué importa?
+  - ¿Qué vacío deja la literatura?
+  - ¿Cuál es el objetivo o la pregunta?
+  extension: 10-15 %
+- nombre: Método
+  alias:
+  - metodo
+  - metodologia
+  - materiales y metodos
+  - method
+  - methods
+  - methodology
+  - diseño metodológico
+  obligatoria: true
+  proposito: Criterios de elegibilidad, fuentes, búsqueda, selección, extracción, riesgo de sesgo, síntesis (PRISMA ítems
+    5-15)
+  preguntas:
+  - ¿Se reportan la cadena de búsqueda y las bases con fecha?
+  - ¿Cómo se seleccionaron y evaluaron los estudios?
+- nombre: Resultados
+  alias:
+  - resultados
+  - results
+  - hallazgos
+  - findings
+  obligatoria: true
+  proposito: Diagrama de flujo PRISMA, características y síntesis de estudios
+  preguntas:
+  - ¿Hay diagrama PRISMA con números en cada fase?
+- nombre: Discusión
+  alias:
+  - discusion
+  - discussion
+  - analisis de resultados
+  obligatoria: true
+  proposito: Interpretación, comparación con la literatura, limitaciones
+  preguntas:
+  - ¿Qué significan los resultados?
+  - ¿Coinciden o difieren de estudios previos?
+  - ¿Cuáles son las limitaciones?
+  extension: 15-25 %
+- nombre: Referencias
+  alias:
+  - referencias
+  - references
+  - bibliografia
+  - fuentes
+  obligatoria: true
+  proposito: Lista de fuentes citadas
+  preguntas: []

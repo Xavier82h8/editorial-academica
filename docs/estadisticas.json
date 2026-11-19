@@ -1,0 +1,255 @@
+{
+  "generado": "2026-11-19",
+  "version": "0.4.0",
+  "rondas": [
+    {
+      "esperados": 36,
+      "detectados": 36,
+      "falsos_positivos": 0,
+      "omitidos": 0,
+      "precision": 1.0,
+      "recall": 1.0,
+      "disponible": true,
+      "ronda": "Errores sembrados",
+      "clave": "errores sembrados",
+      "codigo": 0,
+      "primera_precision": null,
+      "primera_recall": null
+    },
+    {
+      "esperados": 30,
+      "detectados": 30,
+      "falsos_positivos": 0,
+      "omitidos": 0,
+      "precision": 1.0,
+      "recall": 1.0,
+      "disponible": true,
+      "ronda": "Ciega docs",
+      "clave": "ronda ciega docs",
+      "codigo": 0,
+      "primera_precision": null,
+      "primera_recall": null
+    },
+    {
+      "esperados": 30,
+      "detectados": 30,
+      "falsos_positivos": 0,
+      "omitidos": 0,
+      "precision": 1.0,
+      "recall": 1.0,
+      "disponible": true,
+      "ronda": "Ciega docs2",
+      "clave": "ronda ciega docs2",
+      "codigo": 0,
+      "primera_precision": 1.0,
+      "primera_recall": 0.87
+    },
+    {
+      "esperados": 37,
+      "detectados": 37,
+      "falsos_positivos": 0,
+      "omitidos": 0,
+      "precision": 1.0,
+      "recall": 1.0,
+      "disponible": true,
+      "ronda": "Ciega docs3",
+      "clave": "ronda ciega docs3",
+      "codigo": 0,
+      "primera_precision": 0.97,
+      "primera_recall": 1.0
+    },
+    {
+      "ronda": "Boceto sintético",
+      "clave": "boceto",
+      "esperados": 19,
+      "detectados": 19,
+      "falsos_positivos": 0,
+      "omitidos": 0,
+      "precision": 1.0,
+      "recall": 1.0,
+      "disponible": true,
+      "codigo": 0
+    }
+  ],
+  "muestras_oficiales": {
+    "disponible": true,
+    "muestras": 17,
+    "verdaderos_positivos_esperados": 13,
+    "falsos_positivos": 0,
+    "puerta_ok": true
+  },
+  "reglas": {
+    "total": 323,
+    "familias": {
+      "APA": {
+        "total": 145,
+        "deterministas": 42,
+        "agente": 103,
+        "corregibles": 24
+      },
+      "CON": {
+        "total": 20,
+        "deterministas": 12,
+        "agente": 8,
+        "corregibles": 0
+      },
+      "EA": {
+        "total": 1,
+        "deterministas": 1,
+        "agente": 0,
+        "corregibles": 0
+      },
+      "EST": {
+        "total": 10,
+        "deterministas": 10,
+        "agente": 0,
+        "corregibles": 5
+      },
+      "FUE": {
+        "total": 6,
+        "deterministas": 6,
+        "agente": 0,
+        "corregibles": 0
+      },
+      "IEEE": {
+        "total": 140,
+        "deterministas": 14,
+        "agente": 126,
+        "corregibles": 1
+      },
+      "RED": {
+        "total": 1,
+        "deterministas": 1,
+        "agente": 0,
+        "corregibles": 0
+      }
+    },
+    "apa_ieee": {
+      "total": 285,
+      "ids_en_scripts": 56,
+      "fix_si_en_checklist": 115,
+      "corregibles": 25,
+      "nota": "«determinista» del catálogo = ID que aparece en algún script (heurística, igual a ids_en_scripts); «Fix: sí» = el checklist lo marca como mecánico; la brecha entre ambos es trabajo pendiente."
+    }
+  },
+  "piloto": {
+    "descripcion": "protocolo de investigación real de licenciatura (anonimizado)",
+    "hitos": [
+      {
+        "hito": "Base inicial",
+        "puntaje": 31.1
+      },
+      {
+        "hito": "Sin falsos positivos del verificador",
+        "puntaje": 65.8
+      },
+      {
+        "hito": "Tras corregir.py",
+        "puntaje": 72.3
+      },
+      {
+        "hito": "Tras correcciones",
+        "puntaje": 91.5
+      },
+      {
+        "hito": "Con reglas nuevas de maquetación y congruencia",
+        "puntaje": 87.0
+      },
+      {
+        "hito": "Final (sesión 6)",
+        "puntaje": 91.4
+      }
+    ]
+  },
+  "tiempos": {
+    "total_segundos": 86.8,
+    "sin_red": true,
+    "puertas": [
+      {
+        "puerta": "Fuentes V1-V3 (existencia, metadatos, retractación, preprint)",
+        "segundos": 0.3,
+        "ok": true,
+        "saltada": false
+      },
+      {
+        "puerta": "Fuentes V5 sustento (cifras y veredictos)",
+        "segundos": 0.1,
+        "ok": true,
+        "saltada": false
+      },
+      {
+        "puerta": "Congruencia: determinista CON-001..009 y 018..020 (CON-010..017 son del agente)",
+        "segundos": 12.4,
+        "ok": true,
+        "saltada": false
+      },
+      {
+        "puerta": "Estructura por género (7 géneros, muestras IMRyD)",
+        "segundos": 14.5,
+        "ok": true,
+        "saltada": false
+      },
+      {
+        "puerta": "Perfil de equipo (excepción institucional)",
+        "segundos": 0.9,
+        "ok": true,
+        "saltada": false
+      },
+      {
+        "puerta": "CLI: despachador, códigos de salida, --json, caché",
+        "segundos": 19.0,
+        "ok": true,
+        "saltada": false
+      },
+      {
+        "puerta": "Portabilidad: skills, rutas, instalador, catálogo REGLAS.md",
+        "segundos": 12.9,
+        "ok": true,
+        "saltada": false
+      },
+      {
+        "puerta": "/puntuar estable y sensible",
+        "segundos": 1.2,
+        "ok": true,
+        "saltada": false
+      },
+      {
+        "puerta": "Corrector de formato docx (corregir.py)",
+        "segundos": 10.8,
+        "ok": true,
+        "saltada": false
+      },
+      {
+        "puerta": "Juez: errores sembrados",
+        "segundos": 1.7,
+        "ok": true,
+        "saltada": false
+      },
+      {
+        "puerta": "Juez: muestras oficiales",
+        "segundos": 10.2,
+        "ok": true,
+        "saltada": false
+      },
+      {
+        "puerta": "Juez: ronda ciega docs",
+        "segundos": 0.9,
+        "ok": true,
+        "saltada": false
+      },
+      {
+        "puerta": "Juez: ronda ciega docs2",
+        "segundos": 1.0,
+        "ok": true,
+        "saltada": false
+      },
+      {
+        "puerta": "Juez: ronda ciega docs3",
+        "segundos": 0.8,
+        "ok": true,
+        "saltada": false
+      }
+    ],
+    "entorno": "Python 3.10.13, Windows"
+  }
+}

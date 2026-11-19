@@ -1,0 +1,17 @@
+{
+  "name": "editorial-academica",
+  "description": "Marketplace del plugin editorial-academica",
+  "owner": {
+    "name": "Javier Karim Andrade Talamante"
+  },
+  "plugins": [
+    {
+      "name": "editorial-academica",
+      "description": "Juez y editorial académica APA 7 / IEEE con fuentes verificadas",
+      "version": "0.4.0",
+      "source": "./",
+      "repository": "https://github.com/Xavier82h8/editorial-academica",
+      "homepage": "https://github.com/Xavier82h8/editorial-academica"
+    }
+  ]
+}

@@ -1,0 +1,10 @@
+id: apa7-profesional
+nombre: APA 7 completo, trabajo profesional (artículo para publicar)
+base: apa7          # página, portada, encabezados, tablas/figuras, mecánica
+citas: apa7         # citas en texto + lista de referencias
+csl: plantillas/csl/apa-editorial.csl
+checklists: [skills/apa7/references/checklist.md]
+opciones:
+  tipo_trabajo: profesional   # estudiante | profesional (running head en todas las páginas, nota del autor en la portada)
+  idioma: es                 # es | en  (es => locale es-MX, "y" en lugar de "&" como convención)
+overrides: {}

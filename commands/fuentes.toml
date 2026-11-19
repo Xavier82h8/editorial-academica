@@ -1,0 +1,8 @@
+description = "Busca y verifica fuentes académicas para un tema y genera fuentes.json"
+prompt = """
+(La raíz del plugin, `<raíz>`, es la variable de entorno EDITORIAL_ROOT o la carpeta de esta extensión, p. ej. ~/.gemini/extensions/editorial-academica.)
+
+Delega al agente `investigador-fuentes` con el tema: {{args}}. La salida va en `./fuentes.json` dentro del directorio de trabajo actual. Muestra al usuario la tabla resumida y el resultado de la verificación.
+
+Códigos de salida: `editorial.py fuentes --verificar` sale 0 si todas las fuentes pasan, 1 si alguna falla (DOI inexistente, metadatos distintos o retractada) y 2 por error de uso o de entrada. Sin red, las comprobaciones quedan «no verificado», nunca «ok».
+"""

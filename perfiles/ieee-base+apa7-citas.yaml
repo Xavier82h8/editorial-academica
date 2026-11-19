@@ -1,0 +1,15 @@
+id: ieee-base+apa7-citas
+nombre: Maquetación IEEE con citas y referencias APA 7
+base: ieee
+citas: apa7
+csl: plantillas/csl/apa-editorial.csl
+checklists:
+  - skills/ieee/references/checklist.md   # solo grupos EST FIG MAT MEC
+  - skills/apa7/references/checklist.md   # solo grupos CIT REF IA
+excluir_grupos: {ieee: [CIT, REF], apa7: [PAG, POR, ENC, TAB, MEC, LEN]}
+overrides:
+  titulo_lista: "REFERENCIAS"             # sigue estilo de encabezado IEEE de la base
+  orden_lista: alfabetico                 # APA
+  sangria_lista: francesa_0.5in
+  citas_texto: "(Autor, año)"
+  numeracion_ecuaciones: ieee             # (1) a la derecha, se mantiene de la base

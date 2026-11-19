@@ -1,0 +1,46 @@
+name: Falso positivo
+description: El juez marcó algo que cumple la norma
+title: "[FP] "
+labels: ["falso-positivo"]
+body:
+  - type: markdown
+    attributes:
+      value: "No adjuntes documentos con datos personales. Un fragmento mínimo y anónimo basta."
+  - type: input
+    id: regla
+    attributes:
+      label: ID de la regla
+      placeholder: APA-034
+    validations:
+      required: true
+  - type: dropdown
+    id: perfil
+    attributes:
+      label: Perfil
+      options:
+        - apa7
+        - apa7-profesional
+        - ieee
+        - apa7-base+ieee-citas
+        - ieee-base+apa7-citas
+    validations:
+      required: true
+  - type: textarea
+    id: fragmento
+    attributes:
+      label: Fragmento que dispara el hallazgo
+      description: Texto mínimo y anónimo (o descripción del formato Word).
+    validations:
+      required: true
+  - type: textarea
+    id: norma
+    attributes:
+      label: Por qué cumple la norma
+      description: Sección oficial que lo respalda.
+    validations:
+      required: true
+  - type: input
+    id: version
+    attributes:
+      label: Versión y sistema
+      placeholder: "0.4.0, Windows 11, Python 3.12, pandoc 3.x"

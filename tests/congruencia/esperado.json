@@ -1,0 +1,7 @@
+[
+  {"id": "CON-001", "descripcion": "Tamaño de muestra: Resumen y Método dicen 120 estudiantes; Resultados dice 112."},
+  {"id": "CON-003", "descripcion": "La sigla IAG se define dos veces (Introducción y Resultados)."},
+  {"id": "CON-005", "descripcion": "Referencia cruzada rota: se menciona la Figura 2 pero solo existe el rótulo de la Figura 1."},
+  {"id": "CON-007", "descripcion": "Discusión afirma que el uso de la IAG «causa» peores calificaciones en un diseño correlacional transversal."},
+  {"id": "LLM", "descripcion": "El objetivo específico (c) «comparar por semestre» nunca se responde en Resultados ni en Conclusiones."}
+]

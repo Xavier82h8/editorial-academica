@@ -1,0 +1,137 @@
+{
+ "documento": null,
+ "generador": "tests/reales/crear_boceto_sintetico.py",
+ "perfil": "apa7",
+ "nota": "Verdad esperada del borrador sintético (tema, autores y fuentes inventados): cada hallazgo es un vicio sembrado a propósito en el generador; «cumple» son reglas que el borrador cumple por construcción. Sustituye a la revisión experta privada (tests/reales/privado/).",
+ "hallazgos": [
+  {
+   "id": "APA-002",
+   "certeza": "seguro",
+   "mecanica": true,
+   "evidencia": "Cuerpo en Lexend 11 pt (fuente no permitida)"
+  },
+  {
+   "id": "APA-003",
+   "certeza": "seguro",
+   "mecanica": true,
+   "evidencia": "Además de Lexend: Montserrat (encabezados), Oswald (portada)"
+  },
+  {
+   "id": "APA-004",
+   "certeza": "seguro",
+   "mecanica": true,
+   "evidencia": "Interlineado 1.25 en el cuerpo y 1.15 en la lista de referencias"
+  },
+  {
+   "id": "APA-005",
+   "certeza": "seguro",
+   "mecanica": true,
+   "evidencia": "Espacio posterior de 10 pt en los párrafos y 9 pt entre referencias; párrafos vacíos sueltos"
+  },
+  {
+   "id": "APA-006",
+   "certeza": "seguro",
+   "mecanica": true,
+   "evidencia": "Párrafos de cuerpo justificados"
+  },
+  {
+   "id": "APA-007",
+   "certeza": "seguro",
+   "mecanica": true,
+   "evidencia": "Párrafos sin sangría de primera línea"
+  },
+  {
+   "id": "APA-008",
+   "certeza": "seguro",
+   "mecanica": true,
+   "evidencia": "Número de página solo en el pie centrado; el encabezado no trae PAGE"
+  },
+  {
+   "id": "APA-012",
+   "certeza": "seguro",
+   "mecanica": true,
+   "evidencia": "La lista de referencias no empieza en página nueva"
+  },
+  {
+   "id": "APA-025",
+   "certeza": "seguro",
+   "mecanica": true,
+   "evidencia": "Encabezados de nivel 1 a la izquierda, no centrados"
+  },
+  {
+   "id": "APA-030",
+   "certeza": "seguro",
+   "mecanica": true,
+   "evidencia": "Encabezados numerados «1.», «2.1»"
+  },
+  {
+   "id": "APA-033",
+   "certeza": "seguro",
+   "mecanica": true,
+   "evidencia": "Encabezados con 24 pt antes y 12 pt después"
+  },
+  {
+   "id": "APA-036",
+   "certeza": "seguro",
+   "mecanica": true,
+   "evidencia": "«Marlow et al., 2019, propusieron…» en vez de «Marlow et al. (2019)»"
+  },
+  {
+   "id": "APA-043",
+   "certeza": "seguro",
+   "mecanica": true,
+   "evidencia": "(Sato et al., 2021; Marlow et al., 2019) fuera de orden alfabético"
+  },
+  {
+   "id": "APA-059",
+   "certeza": "seguro",
+   "mecanica": true,
+   "evidencia": "Lista rotulada «4. Fuentes consultadas» en vez de «Referencias»"
+  },
+  {
+   "id": "APA-060",
+   "certeza": "seguro",
+   "mecanica": true,
+   "evidencia": "Entradas con 9 pt de espacio entre párrafos"
+  },
+  {
+   "id": "APA-061",
+   "certeza": "seguro",
+   "mecanica": true,
+   "evidencia": "«Centro Nacional de Apicultura» tras «Sato»: lista fuera de orden alfabético"
+  },
+  {
+   "id": "APA-065",
+   "certeza": "seguro",
+   "mecanica": true,
+   "evidencia": "«Centro Nacional de Apicultura [CNA]»: sigla entre corchetes en la lista"
+  },
+  {
+   "id": "APA-072",
+   "certeza": "seguro",
+   "mecanica": true,
+   "evidencia": "Revista y volumen sin cursiva en «Journal of Hive Sensing, 4(2)»"
+  },
+  {
+   "id": "APA-089",
+   "certeza": "seguro",
+   "mecanica": false,
+   "evidencia": "Tabla sin «Tabla N» ni título encima"
+  },
+  {
+   "id": "APA-093",
+   "certeza": "seguro",
+   "mecanica": true,
+   "evidencia": "Tabla con todos los bordes (rejilla)"
+  }
+ ],
+ "cumple": [
+  "APA-001",
+  "APA-016",
+  "APA-034",
+  "APA-035",
+  "APA-063",
+  "APA-064",
+  "APA-066"
+ ]
+}
