@@ -123,8 +123,9 @@ def dim_fuentes(doc, fuentes, evidencias, r_fmt, sin_red):
     if evidencias and pathlib.Path(evidencias).exists():
         ev = json.loads(pathlib.Path(evidencias).read_text(encoding="utf-8"))
         cnt = {k: sum(e["veredicto"] == k for e in ev) for k in ("respaldada", "parcial", "contradicha", "no verificable")}
-        base = len(ev) - cnt["no verificable"]
-        v5 = (cnt["respaldada"] + 0.5 * cnt["parcial"]) / base if base else 0.5
+        # «no verificable» (la fuente no publica resumen) cuenta la mitad, como V4 con los enlaces sin comprobar:
+        # un documento con casi todo sin verificar no puede llegar al máximo por una sola afirmación respaldada
+        v5 = (cnt["respaldada"] + 0.5 * cnt["parcial"] + 0.5 * cnt["no verificable"]) / len(ev) if ev else 0.5
         det5 = f"agente: {cnt}"
         for e in ev:
             if e["veredicto"] == "contradicha":
@@ -254,6 +255,9 @@ def main():
                    help="no escribe el historial `.editorial/puntajes.jsonl` junto al documento (es del proyecto del usuario)")
     a = p.parse_args()
     cli.utf8()
+    for opcion, ruta in (("--fuentes", a.fuentes), ("--evidencias", a.evidencias), ("--congruencia-llm", a.congruencia_llm)):
+        if ruta and not pathlib.Path(ruta).is_file():
+            cli.error(f"{opcion}: no existe el archivo {ruta}")
     a.perfil = cli.perfil_por_defecto(p, a.perfil, a.doc)
     eq = auditar.buscar_equipo(a.doc)
     cfg = (auditar.yaml.safe_load(eq.read_text(encoding="utf-8")) or {}) if eq else {}

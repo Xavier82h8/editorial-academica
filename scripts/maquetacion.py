@@ -35,7 +35,7 @@ FILAS_CORTA = 20
 W_T, W_P, W_TBL, W_TR = qn("w:t"), qn("w:p"), qn("w:tbl"), qn("w:tr")
 RE_NOTA = auditar.RE_NOTA
 RE_FUENTE = re.compile(r"^\s*[*_]*\s*(fuentes?|source[s]?)\s*[*_]*\s*:", re.I)
-RE_INICIO_NOTA = re.compile(r"^\s*[*_]*\s*(tomado\s+de|adaptado\s+de|elaboraci[oó]n\s+propia|adapted\s+from)", re.I)
+RE_INICIO_NOTA = re.compile(r"^\s*[*_]*\s*(tomado\s+de|adaptado\s+de|elaboraci[oó]n\s+propia|adapted\s+from)\b", re.I)
 RE_REMITE = re.compile(r"(?:(?:citad|indicad|mencionad|descrit|expuest)\w+\s+en\s+(?:la|esta|el)\s+(?:secci[oó]n|apartado|cap[ií]tulo)"
                        r"|\bver\s+(?:la\s+)?(?:secci[oó]n|apartado)|\bv[eé]ase\s+(?:la\s+)?(?:secci[oó]n|apartado)"
                        r"|\bsee\s+section)", re.I)

@@ -15,6 +15,11 @@ Formato basado en [Keep a Changelog](https://keepachangelog.com/es-ES/1.1.0/); v
 - Borrador sintético de estudiante como sustituto de material real en las pruebas.
 - Presentación: LICENSE (MIT), NOTICE, CONTRIBUTING, plantillas de issues y de PR, CI, estadísticas y capturas SVG reproducibles.
 
+- `ejemplos/`: informe de ejemplo con errores reales y referencias verificadas, recorrido completo (53.6 → 57.4 → 94.4) y capturas antes/después renderizadas con LibreOffice (`ejemplos/capturas.py`).
+- `docs/PRUEBAS-EN-VIVO.md`: la skill usada sin ayuda desde Codex y OpenCode con el mismo encargo.
+- `APA-037`/`APA-038` en citas narrativas: «&» en «Autor & Autor (año)» y dos apellidos cuando la obra tiene tres o más autores.
+- `APA-003` también señala encabezados con otro tamaño, fuente o color que el texto (el estilo «Heading» de Word); `corregir` los iguala al texto.
+- `corregir` corrige `APA-037` (conjunción en citas) y `APA-076` (`doi:` → `https://doi.org/`).
 ### Cambiado
 - Las plantillas Word (`plantillas/docx/*.docx`) ya no se versionan: `crear_plantillas.asegurar_plantillas()` las genera con el pandoc del usuario en su caché (`render`, `convertir` y las pruebas lo hacen solo). El repositorio público queda MIT + CSL CC BY-SA.
 - Convención de salida de todos los scripts: 0 sin hallazgos, 1 hallazgos críticos o mayores, 2 error de uso o de entrada.
@@ -28,6 +33,13 @@ Formato basado en [Keep a Changelog](https://keepachangelog.com/es-ES/1.1.0/); v
 - Detección del campo PAGE con `\bPAGE\b` (NUMPAGES ya no cuenta).
 - `.pdf` y `.tex` en el juez determinista terminan con error claro (código 2) en lugar de un traceback.
 
+- `APA-007`: un párrafo sin sangría tras una tabla o una nota, y el texto bajo el encabezado siguiente, pasaban como «nota de tabla» y no se señalaban ni se corregían.
+- `corregir` ya no pega un encabezado a la tabla anterior al quitar el espacio extra de los encabezados (`EST-014`).
+- V5 en .docx: «et al.» cortaba la búsqueda del autor y las citas narrativas no se enlazaban con su referencia.
+- `CON-020`: «resultados», «datos» y «análisis» ya no cuentan como rastro de un objetivo.
+- V5 en `/puntuar`: una afirmación «no verificable» cuenta la mitad; antes se excluía y una sola afirmación respaldada daba el máximo.
+- `puntuar --fuentes/--evidencias/--congruencia-llm` con un archivo inexistente termina con código 2 y mensaje, no con un traceback.
+- `maquetacion.py`: la regex de notas «Elaboración propia / Tomado de / Adaptado de» tenía un carácter de retroceso en lugar de `` y nunca coincidía; una prueba de portabilidad rechaza ahora caracteres de control en el código.
 ## [0.3.0] - 2026-11-18
 ### Añadido
 - Verificación de fuentes V1-V5: existencia, metadatos, integridad (retractaciones, preprint → publicado), calidad y DOI faltantes, y sustento contra el resumen.

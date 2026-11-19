@@ -1,0 +1,34 @@
+[
+  {
+    "n": 1,
+    "oracion": "El sueño insuficiente afecta la memoria, la atención y el rendimiento académico de los estudiantes (Curcio et al., 2006).",
+    "ids": ["curcio2006"],
+    "veredicto": "no verificable",
+    "evidencia": "Crossref y OpenAlex no publican el resumen de esta obra (Elsevier); el título («Sleep loss, learning capacity and academic performance») es coherente, pero V5 solo juzga contra el resumen.",
+    "sugerencia": ""
+  },
+  {
+    "n": 2,
+    "oracion": "La evidencia acumulada asocia el tiempo frente a pantallas con un sueño más corto y de peor calidad (Hale & Guan, 2015).",
+    "ids": ["hale2015"],
+    "veredicto": "no verificable",
+    "evidencia": "Sin resumen en Crossref ni OpenAlex.",
+    "sugerencia": ""
+  },
+  {
+    "n": 3,
+    "oracion": "Levenson et al. (2016) encontraron que los adultos jóvenes con mayor uso de redes sociales tenían más probabilidad de presentar alteraciones del sueño.",
+    "ids": ["levenson2016"],
+    "veredicto": "no verificable",
+    "evidencia": "Sin resumen en Crossref ni OpenAlex.",
+    "sugerencia": ""
+  },
+  {
+    "n": 4,
+    "oracion": "Los resultados coinciden con la revisión de Hale y Guan (2015), con el estudio de Levenson et al. (2016) y con el de Hysing et al. (2015) en adolescentes: a más tiempo frente a pantallas, peor sueño.",
+    "ids": ["hale2015", "levenson2016", "hysing2015"],
+    "veredicto": "respaldada",
+    "evidencia": "Hysing et al. (2015): «Daytime and bedtime use of electronic devices were both related to sleep measures, with an increased risk of short sleep duration, long sleep onset latency and increased sleep deficiency.» Hale y Levenson: sin resumen disponible.",
+    "sugerencia": ""
+  }
+]

@@ -85,7 +85,7 @@
         "total": 145,
         "deterministas": 42,
         "agente": 103,
-        "corregibles": 24
+        "corregibles": 26
       },
       "CON": {
         "total": 20,
@@ -128,7 +128,7 @@
       "total": 285,
       "ids_en_scripts": 56,
       "fix_si_en_checklist": 115,
-      "corregibles": 25,
+      "corregibles": 27,
       "nota": "«determinista» del catálogo = ID que aparece en algún script (heurística, igual a ids_en_scripts); «Fix: sí» = el checklist lo marca como mecánico; la brecha entre ambos es trabajo pendiente."
     }
   },
@@ -158,11 +158,19 @@
       {
         "hito": "Final (sesión 6)",
         "puntaje": 91.4
+      },
+      {
+        "hito": "Juez más estricto: sangrías y V5",
+        "puntaje": 85.4
+      },
+      {
+        "hito": "Tras corregir.py (de nuevo)",
+        "puntaje": 88.4
       }
     ]
   },
   "tiempos": {
-    "total_segundos": 86.8,
+    "total_segundos": 102.7,
     "sin_red": true,
     "puertas": [
       {
@@ -179,13 +187,13 @@
       },
       {
         "puerta": "Congruencia: determinista CON-001..009 y 018..020 (CON-010..017 son del agente)",
-        "segundos": 12.4,
+        "segundos": 16.7,
         "ok": true,
         "saltada": false
       },
       {
         "puerta": "Estructura por género (7 géneros, muestras IMRyD)",
-        "segundos": 14.5,
+        "segundos": 15.8,
         "ok": true,
         "saltada": false
       },
@@ -197,37 +205,37 @@
       },
       {
         "puerta": "CLI: despachador, códigos de salida, --json, caché",
-        "segundos": 19.0,
+        "segundos": 25.9,
         "ok": true,
         "saltada": false
       },
       {
         "puerta": "Portabilidad: skills, rutas, instalador, catálogo REGLAS.md",
-        "segundos": 12.9,
+        "segundos": 15.0,
         "ok": true,
         "saltada": false
       },
       {
         "puerta": "/puntuar estable y sensible",
-        "segundos": 1.2,
+        "segundos": 1.4,
         "ok": true,
         "saltada": false
       },
       {
         "puerta": "Corrector de formato docx (corregir.py)",
-        "segundos": 10.8,
+        "segundos": 11.8,
         "ok": true,
         "saltada": false
       },
       {
         "puerta": "Juez: errores sembrados",
-        "segundos": 1.7,
+        "segundos": 1.6,
         "ok": true,
         "saltada": false
       },
       {
         "puerta": "Juez: muestras oficiales",
-        "segundos": 10.2,
+        "segundos": 10.6,
         "ok": true,
         "saltada": false
       },
@@ -239,7 +247,7 @@
       },
       {
         "puerta": "Juez: ronda ciega docs2",
-        "segundos": 1.0,
+        "segundos": 0.9,
         "ok": true,
         "saltada": false
       },

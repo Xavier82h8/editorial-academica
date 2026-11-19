@@ -842,7 +842,7 @@ STOP_OBJ = {"entre", "sobre", "desde", "hasta", "mediante", "traves", "respecto"
             "diferentes", "distintos", "distintas", "principales", "principal", "general", "generales", "especifico",
             "especificos", "durante", "tiene", "tienen", "fuera", "mayor", "menor", "cual", "cada", "toda", "todos", "todas",
             "hacia", "ambos", "estudio", "trabajo", "investigacion", "objetivo", "objetivos", "propuesta", "actual",
-            "actuales", "posibles", "posible"}
+            "actuales", "posibles", "posible", "resultados", "resultado", "datos", "informacion", "analisis"}
 MIN_TERMINOS = 2
 MAX_TERMINOS = 4
 MIN_PALABRAS_TRAZA = 50

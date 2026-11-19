@@ -1,61 +1,112 @@
 # editorial-academica
 
-**Editor y juez académico para tesis, informes y artículos en APA 7 e IEEE: audita el formato de tu Word, verifica que las fuentes existan y digan lo que se les atribuye, y te da un puntaje de 0 a 100 con las correcciones que más lo suben.**
+**Una skill para tu agente de IA que revisa tesis, informes y artículos como lo haría un comité editorial: formato APA 7 o IEEE, citas, fuentes que existen de verdad y un documento que se sostiene de principio a fin.**
 
 [![Pruebas](https://github.com/Xavier82h8/editorial-academica/actions/workflows/pruebas.yml/badge.svg)](https://github.com/Xavier82h8/editorial-academica/actions/workflows/pruebas.yml)
 [![Licencia: MIT](https://img.shields.io/badge/licencia-MIT-green.svg)](LICENSE)
 [![Python 3.10+](https://img.shields.io/badge/python-3.10%2B-blue.svg)](requirements.txt)
 [![Versión 0.4.0](https://img.shields.io/badge/versi%C3%B3n-0.4.0-informational.svg)](CHANGELOG.md)
 [![APA 7 | IEEE](https://img.shields.io/badge/normas-APA%207%20%7C%20IEEE-8a2be2.svg)](docs/REGLAS.md)
+[![Agent Skills](https://img.shields.io/badge/Agent%20Skills-Claude%20Code%20%7C%20Codex%20%7C%20Gemini%20%7C%20OpenCode-black.svg)](#instalación)
 
-![Auditoría de un documento Word con errores sembrados](docs/img/demo-auditar.svg)
+> Tu asesor no debería gastar la revisión en márgenes, sangrías y comas de la lista de referencias. Que lo haga la máquina, con la regla citada, y que la conversación con tu asesor sea sobre tus ideas.
 
-## Por qué
+![Un informe real de tres páginas: entrega original, tras la corrección automática y tras la revisión de contenido](docs/img/ejemplo-etapas.png)
 
-- **Estudiantes**: llega a la entrega con el formato correcto y sabiendo qué corregir primero, sin releer 40 páginas contra el manual.
-- **Investigadores**: cada hallazgo cita su regla (`APA-034`, `IEEE-093`) y la sección oficial; las fuentes se comprueban contra Crossref y OpenAlex, no contra la memoria de un modelo.
-- **Docentes**: un criterio reproducible y explicable. El mismo documento da siempre el mismo puntaje; lo que requiere juicio queda marcado como juicio.
-- **Comités editoriales**: dictamen uniforme (formato, citas, estructura, congruencia) con perfiles de equipo para las excepciones de la institución.
+<sub>Páginas renderizadas con LibreOffice a partir de los .docx de [`ejemplos/`](ejemplos/README.md). Los datos del informe son ficticios; las cuatro referencias son reales y se verificaron contra Crossref.</sub>
 
-Funciona como plugin de Claude Code y, con el mismo núcleo, desde Gemini CLI, Codex, Cursor, Copilot CLI, OpenCode o la línea de comandos.
+## Qué es una skill (y por qué esto no es una app)
 
-## Qué hace
+Una *skill* es un paquete de instrucciones y herramientas que un agente de IA de terminal (Claude Code, Codex, Gemini CLI, OpenCode, Cursor, Copilot CLI) lee cuando le pides algo de su tema. No hay interfaz que aprender: hablas con tu agente como siempre.
 
-Cada comando existe como `/editorial-academica:<nombre>` en Claude Code y como `python scripts/editorial.py <nombre>` en cualquier CLI.
+```text
+tú      › usa la skill editorial-academica para auditar informe-ejemplo.docx con el perfil apa7
+agente  › (lee la skill, corre `editorial.py auditar`, lee el documento)
+          Dictamen: Rechazado
+          Hallazgos: 4 críticos, 16 mayores, 5 menores.
+          IDs de regla: APA-001, APA-003, APA-004, … APA-034, APA-037, APA-038, APA-057, … EA-001
+```
+
+<sub>Respuesta real de Codex CLI con la skill instalada ([registro](docs/PRUEBAS-EN-VIVO.md)). `APA-057` (un dato sin cita) lo añadió el agente: es una regla de juicio que el script no evalúa.</sub>
+
+Por dentro, la skill reparte el trabajo en dos manos:
+
+| | Quién lo hace | Ejemplos |
+|---|---|---|
+| **Lo mecánico** | Scripts de Python deterministas: mismo documento, mismo resultado | márgenes, interlineado, numeración de página, orden de la lista, cita sin referencia, tamaño de muestra que no cuadra, DOI que no existe |
+| **Lo que requiere juicio** | Tu agente, guiado por los checklists de la skill | lenguaje sin sesgo, si una conclusión se sostiene, si la fuente dice lo que le atribuyes |
+
+Cada hallazgo, venga de donde venga, cita su regla (`APA-034`, `IEEE-093`, `CON-001`) y la sección oficial. Si un hallazgo no tiene regla, no es un hallazgo: es una opinión, y se marca como tal.
+
+## Lo que encuentra
+
+Este es el [ejemplo completo](ejemplos/README.md), de principio a fin, con números que puedes reproducir:
+
+| Etapa | Puntaje | Qué pasó |
+|---|---:|---|
+| Entrega original | **53.6** Rechazado | 24 hallazgos de formato, 4 de congruencia, 4 de maquetación |
+| `corregir` (automático, sobre una copia) | **57.4** Rechazado | 28 → 9 hallazgos. Lo que queda no es formato: es contenido |
+| Revisión de contenido siguiendo cada hallazgo | **94.4** Publicable | Sin hallazgos. No llega a 100 porque 3 de las 4 fuentes no publican su resumen y su sustento queda «no verificable» |
+
+Algunas cosas que detectó y que un corrector ortográfico jamás vería:
+
+- el resumen dice 120 participantes y el método, 112 (`CON-001`);
+- «el uso de redes **provoca** peor sueño» con un diseño transversal (`CON-007`);
+- un objetivo que nunca vuelve a aparecer en método, resultados ni conclusiones (`CON-020`);
+- un párrafo que solo repite, cifra por cifra, la tabla de arriba (`CON-008`);
+- «Levenson & Shensa (2016)» cuando la obra tiene cinco autores (`APA-038`);
+- número de página arriba **y** «Página 2 de 3» abajo (`EST-010`, `EST-011`);
+- un `[[FALTA FUENTE]]` olvidado que habría llegado a la entrega (`EA-001`).
+
+![Página de resultados antes y después: tabla con formato APA, nota con «Nota.», texto que ya no repite la tabla](docs/img/ejemplo-tabla.png)
+
+## Instalación
+
+| CLI | Cómo | ¿Probado de verdad? |
+|---|---|---|
+| **Claude Code** | `/plugin marketplace add Xavier82h8/editorial-academica` y `/plugin install editorial-academica@editorial-academica` | Sí: todo el desarrollo y un piloto real |
+| **Codex** | `python scripts/instalar.py --cli codex` | [Sí](docs/PRUEBAS-EN-VIVO.md), con el ejemplo |
+| **OpenCode** | `python scripts/instalar.py --cli opencode` | [Sí](docs/PRUEBAS-EN-VIVO.md), con el ejemplo |
+| **Gemini CLI** | `gemini extensions install https://github.com/Xavier82h8/editorial-academica` | Instalador probado; ejecución en vivo pendiente |
+| **Cursor / Copilot CLI** | `python scripts/instalar.py --cli cursor` (o `copilot`) | Instalador probado; ejecución en vivo pendiente |
+| **Sin agente** | `pip install -r requirements.txt` y `python scripts/editorial.py <comando> …` | Sí: es lo que usan las pruebas |
+
+Con `instalar.py`, añade `--proyecto DIR` para instalar solo en un proyecto. Requisitos: Python 3.10+; [pandoc](https://pandoc.org/installing.html) 3.x para `render` y `convertir`; xelatex (MiKTeX o TeX Live) solo para PDF y LaTeX. Las instrucciones que leen los agentes están en [AGENTS.md](AGENTS.md).
+
+## Inicio rápido
+
+En tu agente basta con pedirlo («audita mi tesis en APA 7»). Desde la terminal, sin agente:
+
+```bash
+pip install -r requirements.txt
+python scripts/editorial.py auditar mi_tesis.docx --perfil apa7     # qué está mal, con regla y sección oficial
+python scripts/editorial.py corregir mi_tesis.docx --perfil apa7    # escribe mi_tesis.corregido.docx; el original no se toca
+python scripts/editorial.py puntuar mi_tesis.corregido.docx --perfil apa7
+```
+
+![Auditoría del informe de ejemplo](docs/img/demo-auditar.svg)
+
+## Comandos
+
+En Claude Code son `/editorial-academica:<nombre>`; en cualquier otro lado, `python scripts/editorial.py <nombre>`.
 
 | Comando | Para qué | Ejemplo |
 |---|---|---|
 | `auditar` | Dictamen de formato, citas y referencias, cada hallazgo con su ID de regla | `auditar tesis.docx --perfil apa7` |
-| `corregir` | Arregla el formato mecánico en una copia `.corregido.docx` (nunca toca el original) | `corregir tesis.docx --perfil apa7 --paginacion encabezado` |
-| `puntuar` | Puntaje 0-100, 5 correcciones de mayor impacto e historial | `puntuar tesis.docx --perfil apa7` |
+| `corregir` | Arregla lo mecánico en una copia `.corregido.docx` | `corregir tesis.docx --perfil apa7 --paginacion encabezado` |
+| `puntuar` | Puntaje 0-100, las 5 correcciones que más lo suben e historial | `puntuar tesis.docx --perfil apa7` |
 | `congruencia` | Objetivos, método, resultados y conclusiones; cifras, siglas y referencias cruzadas | `congruencia tesis.docx` |
 | `estructura` | Secciones que exige el género y maquetación (paginación, tablas, portada) | `estructura tesis.docx --estructura tesis --perfil apa7` |
 | `fuentes` | Busca y verifica fuentes (V1-V5) y genera `fuentes.json` | `fuentes "evaluación con IA generativa" --n 15 --out fuentes.json` |
 | `convertir` | Pasa un Word de APA a IEEE (o al revés) re-renderizando citas y referencias | `convertir tesis.docx --a ieee` |
 | `render` | Markdown con `[@id]` a .docx, PDF, LaTeX o md con CSL | `render informe.md --perfil apa7 --fuentes fuentes.json --salida docx` |
-| `informe`, `tesis` | Redacta con solo fuentes verificadas (skills y agentes de tu CLI) | `/editorial-academica:informe "tema" --perfil apa7` |
+| `informe`, `tesis` | Redacta solo con fuentes verificadas (con tu agente) | `/editorial-academica:informe "tema" --perfil apa7` |
 
-## Instalación
+## Tres cosas que nunca hace
 
-| CLI | Cómo |
-|---|---|
-| **Claude Code** | `/plugin marketplace add Xavier82h8/editorial-academica` y después `/plugin install editorial-academica@editorial-academica` |
-| **Gemini CLI** | `gemini extensions install https://github.com/Xavier82h8/editorial-academica` |
-| **Codex / Cursor / Copilot / OpenCode** | `python scripts/instalar.py --cli codex` (o `cursor`, `copilot`, `opencode`; `--proyecto DIR` para instalar solo en un proyecto) |
-| **CLI pura** | `pip install -r requirements.txt` y `python scripts/editorial.py <subcomando> …` |
-
-Requisitos: Python 3.10+, [pandoc](https://pandoc.org/installing.html) 3.x para `render` y `convertir` (`winget install --id JohnMacFarlane.Pandoc`, `brew install pandoc`, `apt install pandoc`) y xelatex (MiKTeX o TeX Live) solo para PDF y LaTeX. Las instrucciones para agentes están en [AGENTS.md](AGENTS.md).
-
-## Inicio rápido
-
-```bash
-pip install -r requirements.txt
-python scripts/editorial.py auditar mi_tesis.docx --perfil apa7      # qué está mal, con regla y sección oficial
-python scripts/editorial.py corregir mi_tesis.docx --perfil apa7     # escribe mi_tesis.corregido.docx
-python scripts/editorial.py puntuar mi_tesis.corregido.docx --perfil apa7
-```
-
-![Puntaje de un documento](docs/img/demo-puntuar.svg)
+1. **Inventar una fuente.** Una referencia entra solo si su DOI resuelve en Crossref o DataCite (o su URL oficial responde, con fecha de consulta). Si no, no entra.
+2. **Tocar tu original.** Todo se escribe en una copia; si la salida coincidiera con la entrada, el script se detiene.
+3. **Dar por verificado lo que no pudo comprobar.** Un fallo de red queda `no_verificado` con su motivo, y una fuente sin resumen público deja su afirmación «no verificable», que cuenta la mitad, no completa.
 
 ## Cómo juzga
 
@@ -64,25 +115,24 @@ flowchart LR
     D[Documento .docx / .md] --> J[Juez determinista]
     J --> F[Formato] & C[Citas y referencias] & E[Estructura] & M[Maquetación] & G[Congruencia]
     D --> V[Verificación de fuentes V1-V5]
-    D --> A[Agentes LLM: juicio, sesgo, sustento]
+    D --> A[Tu agente: juicio, sesgo, sustento]
     F & C & E & M & G --> P[Puntaje 0-100]
     V --> P
     A --> P
     P --> K[Corregir y volver a puntuar]
 ```
 
-Lo mecánico lo hacen scripts deterministas (mismo documento, mismo resultado). Los agentes aportan lo que requiere juicio (lenguaje sin sesgo, claridad, adecuación de una cita) y se marcan como tales. Todas las reglas, con severidad, quién las evalúa y su fuente, están en [docs/REGLAS.md](docs/REGLAS.md).
+Todas las reglas, con severidad, quién las evalúa y su fuente, están en [docs/REGLAS.md](docs/REGLAS.md).
 
-![Estructura y maquetación de un docx sembrado](docs/img/demo-estructura.svg)
+![Estructura y maquetación del informe de ejemplo](docs/img/demo-estructura.svg)
 
 ### Verificación de fuentes V1-V5
+
 - **V1 existencia**: el DOI resuelve (Crossref o DataCite) o la URL responde.
 - **V2 metadatos**: título, primer autor y año coinciden con el registro.
 - **V3 integridad**: retractaciones y expresiones de preocupación; si citas un preprint, sugiere la versión publicada.
 - **V4 calidad**: avisos (revista sin ISSN, preprint sin revisión) y DOI faltantes (APA 9.34).
 - **V5 sustento**: compara cada oración citada con el resumen de su fuente y marca lo contradicho o lo que la fuente no dice.
-
-Un fallo de red nunca cuenta como «verificado»: la fuente queda `no_verificado` con su motivo.
 
 ### Puntaje
 
@@ -94,7 +144,9 @@ Un fallo de red nunca cuenta como «verificado»: la fuente queda `no_verificado
 | Estructura | 15 |
 | Redacción | 10 |
 
-Bandas: **90 o más** Publicable, **75-89** Correcciones menores, **60-74** Correcciones mayores, **menos de 60** Rechazado. Una fuente que falle V1-V3 o una incongruencia crítica bloquea «Publicable» aunque la suma alcance. El historial entre versiones queda en `.editorial/puntajes.jsonl` junto al documento (`--sin-historial` lo desactiva).
+Bandas: **90 o más** Publicable, **75-89** Correcciones menores, **60-74** Correcciones mayores, **menos de 60** Rechazado. Una fuente que falle V1-V3 o una incongruencia crítica bloquean «Publicable» aunque la suma alcance. El historial entre versiones queda en `.editorial/puntajes.jsonl` junto al documento (`--sin-historial` lo desactiva).
+
+![Puntaje del informe de ejemplo tras la revisión](docs/img/demo-puntuar.svg)
 
 ## Resultados
 
@@ -106,9 +158,10 @@ Medidos con [`scripts/estadisticas.py`](scripts/estadisticas.py) (datos en [docs
 | Rondas ciegas (3 documentos nuevos, 97 errores) | 1,00 / 1,00 tras corregir lo que cada ronda reveló |
 | Boceto sintético de estudiante | recall mecánico 1,00 (19/19), 0 falsos positivos |
 | Falsos positivos en muestras oficiales APA/IEEE | **0 en 17 documentos** |
-| Reglas | 323: 86 deterministas, 237 de agente, 30 corregibles automáticamente |
-| Piloto: protocolo de investigación real de licenciatura (anonimizado) | 31,1 a 91,4 (Publicable) |
-| Suite rápida | unos 90 s (Windows, Python 3.10, sin red) |
+| Reglas | 323: 86 deterministas, 237 de agente, 32 corregibles automáticamente |
+| Piloto: protocolo de investigación real de licenciatura (anonimizado) | de 31,1 a 88,4 (Correcciones menores) |
+| Pruebas en vivo | Codex y OpenCode, sin ayuda, llegaron al mismo dictamen que el juez ([detalle](docs/PRUEBAS-EN-VIVO.md)) |
+| Suite rápida | unos 100 s (Windows, Python 3.10, sin red) |
 
 ![Precisión y recall del juez](docs/img/juez-precision-recall.png)
 
@@ -119,6 +172,8 @@ Las rondas ciegas se sembraron con errores según la norma y no según el juez; 
 Sobre el conteo de reglas, con honestidad: el catálogo llama «determinista» a toda regla cuyo ID aparece en algún script (56 de las 285 APA/IEEE). El checklist marca 115 como mecánicas («Fix: sí»), así que hay trabajo pendiente entre lo automatizable y lo implementado.
 
 ![Evolución del piloto](docs/img/piloto-evolucion.png)
+
+El piloto también bajó: de 91,4 a 85,4 cuando el ejemplo de esta página destapó dos fallos del propio juez (dejaba pasar párrafos sin sangría después de una tabla y contaba como verificadas las afirmaciones sin resumen). Volver a pasarlo por `corregir` lo dejó en 88,4. Preferimos un puntaje más bajo y cierto.
 
 ## Perfiles y `.editorial.yaml`
 
@@ -141,15 +196,16 @@ Ejemplo completo en [perfiles/equipo-ejemplo.editorial.yaml](perfiles/equipo-eje
 
 ## Privacidad
 
-Solo se envían a servicios externos (Crossref, OpenAlex, DataCite, doi.org) **DOI, títulos y URL de las obras**; nunca el texto de tu documento. La caché vive en tu directorio de usuario (`EDITORIAL_CACHE`, o `~/.cache/editorial-academica`), no en el proyecto. `--sin-red` desactiva toda consulta.
+Solo se envían a servicios externos (Crossref, OpenAlex, DataCite, doi.org) **DOI, títulos y URL de las obras**; nunca el texto de tu documento. La caché vive en tu directorio de usuario (`EDITORIAL_CACHE`, o `~/.cache/editorial-academica`), no en el proyecto. `--sin-red` desactiva toda consulta. Lo que tu agente haga con el documento depende de tu agente y de su proveedor.
 
 ## Límites
 
 - V5 solo verifica contra el resumen de la fuente; lo que esté solo en el texto completo queda «no verificable».
 - `corregir` solo corrige perfiles de base APA; con base IEEE se audita pero sale con código 2.
-- Las reglas de agente (lenguaje sin sesgo, claridad, adecuación de una cita) no son deterministas: dos corridas pueden diferir.
+- Las reglas de agente (lenguaje sin sesgo, claridad, adecuación de una cita) no son deterministas: dos corridas, o dos agentes, pueden diferir.
 - Las normas oficiales (`normas/`) no se distribuyen; se obtienen con `python scripts/obtener_normas.py`. Sin ellas, las pruebas que las necesitan se saltan con aviso.
-- El juez cubre el .docx y el Markdown; PDF y LaTeX los evalúa el agente tras extraer el texto.
+- El juez cubre .docx y Markdown; PDF y LaTeX los evalúa el agente tras extraer el texto.
+- Probado en vivo en Claude Code, Codex y OpenCode; en Gemini CLI, Cursor y Copilot solo el instalador.
 
 ## Hoja de ruta
 
@@ -157,6 +213,7 @@ Solo se envían a servicios externos (Crossref, OpenAlex, DataCite, doi.org) **D
 - Encabezados de nivel 4 y 5 en línea.
 - V5 con texto completo de fuentes de acceso abierto.
 - Citas dentro de celdas de tabla (APA-034).
+- Prueba en vivo en Gemini CLI, Cursor y Copilot CLI.
 - Servidor MCP para usar el juez desde cualquier cliente.
 
 ## Contribuir
@@ -169,12 +226,12 @@ Código bajo [licencia MIT](LICENSE). Las plantillas CSL son del proyecto Citati
 
 ## English summary
 
-**editorial-academica** is an editor and judge for academic documents (theses, reports, articles) in **APA 7** or **IEEE** style, or a mix (layout from one, citations from the other). It runs as a Claude Code plugin and, through the same Python core, from Gemini CLI, Codex, Cursor, Copilot CLI, OpenCode or a plain command line (`python scripts/editorial.py <auditar|corregir|puntuar|...>`).
+**editorial-academica** is an **agent skill** that turns your terminal AI agent (Claude Code, Codex, Gemini CLI, OpenCode, Cursor, Copilot CLI) into an editorial board for academic documents (theses, reports, articles) in **APA 7** or **IEEE** style, or a mix (layout from one, citations from the other). You just ask your agent ("audit my thesis in APA 7"); the skill tells it how, and ships the tools it runs.
 
-- **Deterministic judge**: format, citations, structure, layout and internal consistency, every finding tied to a rule ID and its official section; judgment-based rules are delegated to LLM agents and labelled as such.
+- **Deterministic judge**: format, citations, structure, layout and internal consistency (sample size that changes between abstract and method, causal claims from a cross-sectional design, objectives that never reappear), each finding tied to a rule ID and its official section. Judgment calls are left to the agent and labelled as such.
 - **Source verification V1-V5**: existence, metadata, retractions, quality and claim support against abstracts (Crossref, OpenAlex). Only DOIs, titles and URLs leave your machine, never the document text. Network failures are reported as `no_verificado`, never as verified.
-- **Score 0-100**: consistency 30, sources 25, format 20, structure 15, writing 10, with the five highest-impact fixes. `corregir` fixes mechanical APA formatting on a copy.
-- **Measured**: 0 false positives on 17 official APA/IEEE samples; precision and recall of 1.00 on the seeded and blind regression rounds; 323 rules (86 deterministic, 237 agent-based, 30 auto-fixable).
+- **Score 0-100** with the five highest-impact fixes; `corregir` fixes mechanical APA formatting on a copy, never on your original.
+- **Measured**: 0 false positives on 17 official APA/IEEE samples; precision and recall of 1.00 on seeded and blind regression rounds; a [worked example](ejemplos/README.md) from 53.6 to 94.4, rendered with LibreOffice; [live runs](docs/PRUEBAS-EN-VIVO.md) in Codex and OpenCode reaching the same verdict as the judge.
 - **Honest limits**: V5 checks abstracts only, the auto-corrector targets APA-based profiles, agent rules are non-deterministic, and the official standards are not distributed (`python scripts/obtener_normas.py`).
 
-Install: `/plugin marketplace add Xavier82h8/editorial-academica` (Claude Code), `gemini extensions install https://github.com/Xavier82h8/editorial-academica` (Gemini CLI), or `pip install -r requirements.txt` for the CLI. MIT licensed; see [NOTICE](NOTICE) for third-party material. APA® and IEEE® are trademarks of their owners; this project is not affiliated with them.
+Install: `/plugin marketplace add Xavier82h8/editorial-academica` (Claude Code), `gemini extensions install https://github.com/Xavier82h8/editorial-academica` (Gemini CLI), `python scripts/instalar.py --cli codex|opencode|cursor|copilot`, or `pip install -r requirements.txt` for the plain CLI. MIT licensed; see [NOTICE](NOTICE) for third-party material. APA® and IEEE® are trademarks of their owners; this project is not affiliated with them.

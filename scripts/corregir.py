@@ -44,7 +44,7 @@ REGLAS = {"APA-001": "margenes", "APA-002": "fuente", "APA-003": "fuente", "APA-
           "APA-005": "espaciado", "APA-006": "alineacion", "APA-007": "sangria", "APA-008": "pagina",
           "APA-025": "encabezados", "APA-026": "encabezados", "APA-027": "encabezados", "APA-030": "numeracion",
           "APA-059": "rotulo", "APA-012": "rotulo", "APA-060": "refs_formato", "APA-061": "refs_orden",
-          "APA-028": "enc_linea", "APA-029": "enc_linea", "APA-036": "narrativa", "APA-043": "orden_cita",
+          "APA-028": "enc_linea", "APA-029": "enc_linea", "APA-036": "narrativa", "APA-037": "conjuncion", "APA-043": "orden_cita", "APA-076": "doi",
           "APA-065": "sigla", "APA-093": "tablas", "APA-145": "puntuacion", "APA-115": "puntuacion",
           "IEEE-140": "puntuacion", "EST-010": "paginacion", "EST-011": "paginacion", "EST-012": "maqueta",
           "EST-013": "maqueta", "EST-014": "maqueta"}
@@ -165,6 +165,56 @@ def corregir_margenes(d, secciones):
         if any(abs(m - 1.0) > auditar.TOL for m in info["margenes"]):
             s.top_margin = s.bottom_margin = s.left_margin = s.right_margin = Inches(1)
             n += 1
+    return n
+
+
+def corregir_aspecto_encabezados(d, pares, pars, destino=None):
+    """APA-003 (encabezados): mismo tipo y tamaño que el texto y en negro. Toca los estilos de encabezado («Heading
+    N», «Título N», «Title») y los runs de los párrafos con esos estilos; el texto conserva su fuente."""
+    fuentes = {}
+    for p in pars:
+        if not p.get("en_tabla"):  # misma fuente principal que auditar.base_apa (APA-002/003)
+            for f in p.get("fuentes", ()):
+                fuentes[f] = fuentes.get(f, 0) + 1
+    if destino:
+        fn, fz = destino  # tras corregir_fuente el texto ya es Times New Roman 12
+    elif not fuentes:
+        return 0
+    else:
+        fn, fz = max(fuentes, key=fuentes.get)
+    media = str(int(round(fz * 2)))
+    n = 0
+
+    def igualar(rpr):
+        cambio = False
+        rf = rpr.find(qn("w:rFonts"))
+        if rf is not None and (nombre_rfonts(rf) or "").lower() != fn or (rf is not None and rf.get(qn("w:asciiTheme"))):
+            for a in list(rf.attrib):
+                del rf.attrib[a]
+            for a in ("w:ascii", "w:hAnsi", "w:cs", "w:eastAsia"):
+                rf.set(qn(a), fn.title() if fn.islower() else fn)
+            cambio = True
+        for tag in ("w:sz", "w:szCs"):
+            s_ = rpr.find(qn(tag))
+            if s_ is not None and s_.get(qn("w:val")) != media:
+                s_.set(qn("w:val"), media)
+                cambio = True
+        c = rpr.find(qn("w:color"))
+        if c is not None and (c.get(qn("w:val")) or "").upper() not in ("AUTO", "000000"):
+            rpr.remove(c)
+            cambio = True
+        return cambio
+
+    for st in d.styles.element.findall(qn("w:style")):
+        nombre = (st.find(qn("w:name")).get(qn("w:val")) if st.find(qn("w:name")) is not None else "").lower()
+        if nombre.startswith(("heading", "título", "titulo", "title")) and st.find(qn("w:rPr")) is not None:
+            n += igualar(st.find(qn("w:rPr")))
+    for el, p in pares:
+        if p.get("es_titulo"):
+            for r_el in el.iter(qn("w:r")):
+                rpr = r_el.find(qn("w:rPr"))
+                if rpr is not None:
+                    n += igualar(rpr)
     return n
 
 
@@ -804,6 +854,19 @@ def corregir_refs_formato(d, entradas):
     return n
 
 
+def corregir_doi(entradas):
+    """APA-076: «doi:10.xxxx/yyy» -> «https://doi.org/10.xxxx/yyy» (mismo patrón que auditar)."""
+    n = 0
+    for e in entradas:
+        if "fuentes" not in e or re.search(r"https?://(dx\.)?doi\.org/", e["texto"]):
+            continue
+        el = ELEM_DE[id(e)]
+        t = texto_de(el)
+        ed = [(m.start(), m.end(), "https://doi.org/") for m in re.finditer(r"\bdoi:\s*(?=10\.)", t, re.I)]
+        n += aplicar_ediciones(el, ed) and len(ed)
+    return n
+
+
 def clave_entrada(e):
     """Misma clave que usa auditar.citas_apa para comprobar el orden de la lista (APA-061)."""
     A = auditar
@@ -934,7 +997,7 @@ def corregir_enc_linea(d, pares, entradas, titulo, fin_p, ids):
 
 
 # ---------------------------------------------------------------- APA-036 narrativa mal formada
-def corregir_narrativa(pares, cuerpo):
+def corregir_narrativa(pares, cuerpo, ingles=False):
     """«Vaswani et al., 2017, propusieron» -> «Vaswani et al. (2017) propusieron» (mismos filtros que auditar)."""
     A = auditar
     ids_c = {id(p) for p in cuerpo}
@@ -950,7 +1013,34 @@ def corregir_narrativa(pares, cuerpo):
                 continue
             if re.match(r"(?:cap[ií]tulo|secci[oó]n|section|chapter|tablas?|figuras?|p[aá]rrafo|p[aá]ginas?|apartado|ecuaci[oó]n)\b", t[m.end():]):
                 continue
-            ed.append((m.end(1), m.end(), f" ({m.group(2)}) "))
+            autores = m.group(1)
+            if " & " in autores:  # en la narrativa la conjunción va escrita (APA 8.17)
+                autores = autores.replace(" & ", " and " if ingles else " y ")
+                ed.append((m.start(1), m.end(), f"{autores} ({m.group(2)}) "))
+            else:
+                ed.append((m.end(1), m.end(), f" ({m.group(2)}) "))
+        n += aplicar_ediciones(el, ed) and len(ed)
+    return n
+
+
+# ---------------------------------------------------------------- APA-037 conjunción entre dos autores
+def corregir_conjuncion(pares, cuerpo, ingles):
+    """«Levenson & Shensa (2016)» -> «Levenson y Shensa (2016)» («and» en inglés); «(Hale y Guan, 2015)» ->
+    «(Hale & Guan, 2015)». Mismos patrones que auditar.citas_apa."""
+    A = auditar
+    ids_c = {id(p) for p in cuerpo}
+    n = 0
+    for el, p in pares:
+        if id(p) not in ids_c:
+            continue
+        t = texto_de(el)
+        ed = []
+        for m in A.RE_NARR_DOS.finditer(t):
+            antes = t[:m.start()]
+            if m.group(2) == "&" and antes.count("(") <= antes.count(")"):
+                ed.append((m.start(2), m.end(2), "and" if ingles else "y"))
+        for m in re.finditer(r"\((?:[^()]*;\s*)?[A-ZÁÉÍÓÚÑ][\w'’-]+(\s+y\s+)[A-ZÁÉÍÓÚÑ][\w'’-]+,\s*(?:\d{4}[a-z]?|s\.\s?f\.|n\.d\.)", t):
+            ed.append((m.start(1), m.end(1), " & "))
         n += aplicar_ediciones(el, ed) and len(ed)
     return n
 
@@ -1208,7 +1298,13 @@ def corregir(path, perfil, out=None, solo=None, silencioso=False, paginacion=Non
     if "margenes" in grupos:
         reg(["APA-001"], corregir_margenes(d, secciones))
     if "fuente" in grupos:
-        reg(["APA-002", "APA-003"], corregir_fuente(d, pares))
+        a003 = [h for h in antes["hallazgos"] if h["id"] == "APA-003"]
+        solo_enc = "APA-002" not in ids and all("encabezados con otro" in h["evidencia"] for h in a003)
+        if solo_enc:  # la fuente del texto es válida (p. ej. Calibri 11): solo se igualan los encabezados a ella
+            reg(["APA-003"], corregir_aspecto_encabezados(d, pares, pars))
+        else:
+            n_f = corregir_fuente(d, pares)
+            reg(["APA-002", "APA-003"], n_f + corregir_aspecto_encabezados(d, pares, pars, ("times new roman", 12.0)))
     if "interlineado" in grupos:
         reg(["APA-004"], corregir_parrafos_formato(d, pares, "interlineado"))
     if "espaciado" in grupos:
@@ -1255,8 +1351,12 @@ def corregir(path, perfil, out=None, solo=None, silencioso=False, paginacion=Non
         reg(["APA-059", "APA-012"], corregir_rotulo(d, pars, titulo, es_ingles(cuerpo, cfg), objetivo) or 1)
     if "refs_formato" in grupos:
         reg(["APA-060"], corregir_refs_formato(d, entradas))
+    if "doi" in grupos:
+        reg(["APA-076"], corregir_doi(entradas))
     if "narrativa" in grupos:
-        reg(["APA-036"], corregir_narrativa(pares, cuerpo))
+        reg(["APA-036"], corregir_narrativa(pares, cuerpo, es_ingles(cuerpo, cfg)))
+    if "conjuncion" in grupos:
+        reg(["APA-037"], corregir_conjuncion(pares, cuerpo, es_ingles(cuerpo, cfg)))
     if "orden_cita" in grupos:
         reg(["APA-043"], corregir_orden_cita(pares, cuerpo, auditar.grupos_apa(cuerpo, entradas)))
     if "puntuacion" in grupos:
@@ -1286,6 +1386,8 @@ def corregir(path, perfil, out=None, solo=None, silencioso=False, paginacion=Non
                     aplicadas["APA-005"] = aplicadas.get("APA-005", 0) + nv
 
     maq = {r_ for r_ in ("EST-012", "EST-013", "EST-014") if r_ in objetivo}
+    if objetivo & {"APA-005", "APA-033", "APA-025", "APA-026", "APA-027"} and (not solo or "EST-014" in solo):
+        maq.add("EST-014")  # quitar el espacio de los encabezados (APA-033) no debe pegar uno a una tabla o figura
     if maq:
         d3 = auditar.abrir_docx(str(out))
         for r_, n_ in corregir_maquetacion(d3, maq).items():

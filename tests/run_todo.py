@@ -135,6 +135,11 @@ def puerta_cli():
     return code == 0, out.strip().splitlines()[-1] if out.strip() else "sin salida"
 
 
+def puerta_ejemplo():
+    code, out = correr(["tests/run_ejemplo.py"])
+    return code == 0, " | ".join(l for l in out.strip().splitlines() if l.startswith(("==", "FALLO", "OK"))) or "sin salida"
+
+
 def puerta_portabilidad():
     code, out = correr(["tests/run_portabilidad.py"])
     return code == 0, out.strip().splitlines()[-1] if out.strip() else "sin salida"
@@ -232,6 +237,7 @@ def construir_pruebas(rapido):
     pruebas.append(("Perfil de equipo (excepción institucional)", puerta_equipo))
     pruebas.append(("CLI: despachador, códigos de salida, --json, caché", puerta_cli))
     pruebas.append(("Portabilidad: skills, rutas, instalador, catálogo REGLAS.md", puerta_portabilidad))
+    pruebas.append(("Ejemplo del README (ejemplos/): cifras publicadas", puerta_ejemplo))
     pruebas.append(("/puntuar estable y sensible", puerta_puntuar))
     pruebas.append(("Corrector de formato docx (corregir.py)", puerta_corregir))
     pruebas.append(("Juez: errores sembrados", puerta_juez))

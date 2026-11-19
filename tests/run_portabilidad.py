@@ -180,6 +180,11 @@ def prueba_catalogo_y_extension():
     check(ext.get("contextFileName") and (ROOT / ext["contextFileName"]).exists(), "gemini-extension.json: contextFileName no existe")
     check(len((ROOT / "AGENTS.md").read_text(encoding="utf-8").splitlines()) <= 200, "AGENTS.md supera 200 líneas")
     check("EDITORIAL_ROOT" in (ROOT / "AGENTS.md").read_text(encoding="utf-8"), "AGENTS.md no menciona EDITORIAL_ROOT")
+    # caracteres de control en el código (un «\b» que se escribió como retroceso dejó una regex que nunca coincidía)
+    for carpeta in ("scripts", "tests", "ejemplos", "skills"):
+        for py in (ROOT / carpeta).rglob("*.py"):
+            malos = sorted({c for c in py.read_bytes() if c < 0x20 and c not in (9, 10, 13)})
+            check(not malos, f"{py.relative_to(ROOT)}: caracteres de control {[hex(c) for c in malos]}")
 
 
 def main():

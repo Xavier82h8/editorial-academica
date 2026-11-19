@@ -2,11 +2,11 @@
 
 <!-- Generado por scripts/catalogo.py; no editar a mano (python scripts/catalogo.py). -->
 
-**323 reglas**: 86 con comprobación determinista (las emite un script), 237 que evalúa el agente (juicio), 30 que `corregir.py` corrige de forma automática.
+**323 reglas**: 86 con comprobación determinista (las emite un script), 237 que evalúa el agente (juicio), 32 que `corregir.py` corrige de forma automática.
 
 | Familia | Reglas | Deterministas | De agente | Corregibles |
 |---|---:|---:|---:|---:|
-| APA | 145 | 42 | 103 | 24 |
+| APA | 145 | 42 | 103 | 26 |
 | IEEE | 140 | 14 | 126 | 1 |
 | CON | 20 | 12 | 8 | 0 |
 | EST | 10 | 10 | 0 | 5 |
@@ -58,7 +58,7 @@ Norma: Publication Manual 7.ª ed. (snapshot en `normas/VERSION`).
 | APA-034 | crítica | determinista | Cada cita en el texto tiene su entrada en la lista de referencias y cada entrada está citada (excepciones: comunicaciones personales, menciones generales de sitios y software común, epígrafes, participantes, metaanálisis) | § 2.12, 8.4 \| references/works-included |
 | APA-035 | crítica | determinista | Apellidos y años de las citas coinciden con los de la lista | § 8.10 \| citations/basic-principles |
 | APA-036 | mayor | determinista + corregible | Citas en formato autor-fecha: parentética `(Autor, año)`; narrativa `Autor (año)` | § 8.11 \| citations/basic-principles/parenthetical-versus-narrative |
-| APA-037 | mayor | determinista | En parentética "&" entre autores, también en documentos en español (decisión del usuario, 18-nov-2026); en narrativa "and" ("y") | § 8.10 \| citations/basic-principles/author-date |
+| APA-037 | mayor | determinista + corregible | En parentética "&" entre autores, también en documentos en español (decisión del usuario, 18-nov-2026); en narrativa "and" ("y") | § 8.10 \| citations/basic-principles/author-date |
 | APA-038 | mayor | determinista | Tres o más autores: primer autor + "et al." desde la primera cita (salvo desambiguación, APA-046) | § 8.10-8.36 \| citations/basic-principles/author-date |
 | APA-039 | mayor | agente | Obra con uno o dos autores: se nombran todos en cada cita | § 8.10-8.36 \| citations/basic-principles/author-date |
 | APA-040 | mayor | agente | Grupo autor con abreviatura: nombre completo con abreviatura la primera vez (corchetes en parentética, paréntesis con coma en narrativa) y solo abreviatura después | § 8.21 \| abbreviations/group-authors |
@@ -97,7 +97,7 @@ Norma: Publication Manual 7.ª ed. (snapshot en `normas/VERSION`).
 | APA-073 | mayor | agente | Artículo de revista con número (issue) siempre; con páginas, o "Article" más número de artículo; si la revista no usa volumen, número o páginas, se omite el elemento ausente | § 10.1 \| references/examples/journal-article-references |
 | APA-074 | menor | agente | Rangos de páginas con raya en (–) | § 10.1; § 8.25-8.27 \| references/examples/journal-article-references (raya en) |
 | APA-075 | mayor | determinista | Punto después de cada elemento y ninguno después de DOI o URL | § 9.4-9.6 \| references/basic-principles |
-| APA-076 | mayor | determinista | DOI como hipervínculo `https://doi.org/...` | § 9.34-9.36 \| references/dois-urls |
+| APA-076 | mayor | determinista + corregible | DOI como hipervínculo `https://doi.org/...` | § 9.34-9.36 \| references/dois-urls |
 | APA-077 | mayor | determinista | Toda obra con DOI lo incluye | § 9.34-9.36 \| references/dois-urls |
 | APA-078 | crítica | agente | Los DOI y URL de la lista resuelven y apuntan a la obra citada | § 9.34-9.36 \| references/dois-urls |
 | APA-079 | mayor | determinista | Sin "Retrieved from"/"Accessed from" ("Recuperado de") antes de DOI o URL | § 9.34-9.36 \| references/dois-urls |

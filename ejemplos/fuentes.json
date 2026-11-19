@@ -1,0 +1,181 @@
+[
+  {
+    "id": "hale2015",
+    "type": "article-journal",
+    "title": "Screen time and sleep among school-aged children and adolescents: A systematic literature review",
+    "author": [
+      {
+        "family": "Hale",
+        "given": "Lauren"
+      },
+      {
+        "family": "Guan",
+        "given": "Stanford"
+      }
+    ],
+    "container-title": "Sleep Medicine Reviews",
+    "publisher": "Elsevier BV",
+    "volume": "21",
+    "page": "50-58",
+    "DOI": "10.1016/j.smrv.2014.07.007",
+    "URL": "https://doi.org/10.1016/j.smrv.2014.07.007",
+    "issued": {
+      "date-parts": [
+        [
+          2015,
+          6
+        ]
+      ]
+    },
+    "ISSN": "1087-0792",
+    "language": "en",
+    "_verificacion": {
+      "fuente": "crossref",
+      "fecha": "2026-11-19",
+      "doi_resuelve": true
+    }
+  },
+  {
+    "id": "levenson2016",
+    "type": "article-journal",
+    "title": "The association between social media use and sleep disturbance among young adults",
+    "author": [
+      {
+        "family": "Levenson",
+        "given": "Jessica C."
+      },
+      {
+        "family": "Shensa",
+        "given": "Ariel"
+      },
+      {
+        "family": "Sidani",
+        "given": "Jaime E."
+      },
+      {
+        "family": "Colditz",
+        "given": "Jason B."
+      },
+      {
+        "family": "Primack",
+        "given": "Brian A."
+      }
+    ],
+    "container-title": "Preventive Medicine",
+    "publisher": "Elsevier BV",
+    "volume": "85",
+    "page": "36-41",
+    "DOI": "10.1016/j.ypmed.2016.01.001",
+    "URL": "https://doi.org/10.1016/j.ypmed.2016.01.001",
+    "issued": {
+      "date-parts": [
+        [
+          2016,
+          4
+        ]
+      ]
+    },
+    "ISSN": "0091-7435",
+    "language": "en",
+    "_verificacion": {
+      "fuente": "crossref",
+      "fecha": "2026-11-19",
+      "doi_resuelve": true
+    }
+  },
+  {
+    "id": "hysing2015",
+    "type": "article-journal",
+    "title": "Sleep and use of electronic devices in adolescence: results from a large population-based study",
+    "author": [
+      {
+        "family": "Hysing",
+        "given": "Mari"
+      },
+      {
+        "family": "Pallesen",
+        "given": "Ståle"
+      },
+      {
+        "family": "Stormark",
+        "given": "Kjell Morten"
+      },
+      {
+        "family": "Jakobsen",
+        "given": "Reidar"
+      },
+      {
+        "family": "Lundervold",
+        "given": "Astri J"
+      },
+      {
+        "family": "Sivertsen",
+        "given": "Børge"
+      }
+    ],
+    "container-title": "BMJ Open",
+    "publisher": "BMJ",
+    "volume": "5",
+    "issue": "1",
+    "page": "e006748",
+    "DOI": "10.1136/bmjopen-2014-006748",
+    "URL": "https://doi.org/10.1136/bmjopen-2014-006748",
+    "issued": {
+      "date-parts": [
+        [
+          2015,
+          1
+        ]
+      ]
+    },
+    "ISSN": "2044-6055, 2044-6055",
+    "language": "en",
+    "abstract": "Objectives Adolescents spend increasingly more time on electronic devices, and sleep deficiency rising in adolescents constitutes a major public health concern. The aim of the present study was to investigate daytime screen use and use of electronic devices before bedtime in relation to sleep. Design A large cross-sectional population-based survey study from 2012, the youth@hordaland study, in Hordaland County in Norway. Setting Cross-sectional general community-based study. Participants 9846 adolescents from three age cohorts aged 16–19. The main independent variables were type and frequency of electronic devices at bedtime and hours of screen-time during leisure time. Outcomes Sleep variables calculated based on self-report including bedtime, rise time, time in bed, sleep duration, sleep onset latency and wake after sleep onset. Results Adolescents spent a large amount of time during the day and at bedtime using electronic devices. Daytime and bedtime use of electronic devices were both related to sleep measures, with an increased risk of short sleep duration, long sleep onset latency and increased sleep deficiency. A dose–response relationship emerged between sleep duration and use of electronic devices, exemplified by the association between PC use and risk of less than 5 h of sleep (OR=2.70, 95% CI 2.14 to 3.39), and comparable lower odds for 7–8 h of sleep (OR=1.64, 95% CI 1.38 to 1.96). Conclusions Use of electronic devices is frequent in adolescence, during the day as well as at bedtime. The results demonstrate a negative relation between use of technology and sleep, suggesting that recommendations on healthy media use could include restrictions on electronic devices.",
+    "_verificacion": {
+      "fuente": "crossref",
+      "fecha": "2026-11-19",
+      "doi_resuelve": true
+    }
+  },
+  {
+    "id": "curcio2006",
+    "type": "article-journal",
+    "title": "Sleep loss, learning capacity and academic performance",
+    "author": [
+      {
+        "family": "CURCIO",
+        "given": "G"
+      },
+      {
+        "family": "FERRARA",
+        "given": "M"
+      },
+      {
+        "family": "DEGENNARO",
+        "given": "L"
+      }
+    ],
+    "container-title": "Sleep Medicine Reviews",
+    "publisher": "Elsevier BV",
+    "volume": "10",
+    "issue": "5",
+    "page": "323-337",
+    "DOI": "10.1016/j.smrv.2005.11.001",
+    "URL": "https://doi.org/10.1016/j.smrv.2005.11.001",
+    "issued": {
+      "date-parts": [
+        [
+          2006,
+          10
+        ]
+      ]
+    },
+    "ISSN": "1087-0792",
+    "language": "en",
+    "_verificacion": {
+      "fuente": "crossref",
+      "fecha": "2026-11-19",
+      "doi_resuelve": true
+    }
+  }
+]

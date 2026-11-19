@@ -288,6 +288,29 @@ def cargar_docx(path):
                 return n
         return def_font
 
+    def color_efectivo(r_el, st):
+        """Color del texto de un run (hex en mayúsculas) salvo negro o automático: directo, de su estilo de carácter o
+        del estilo del párrafo y sus bases. None = negro/automático."""
+        def de(rpr):
+            c = rpr.find(qn("w:color")) if rpr is not None else None
+            return c.get(qn("w:val")) if c is not None else None
+        rpr = r_el.find(qn("w:rPr"))
+        v = de(rpr)
+        if v is None and rpr is not None and rpr.find(qn("w:rStyle")) is not None:
+            for s_ in cadena_estilo(rpr.find(qn("w:rStyle")).get(qn("w:val"))):
+                v = de(s_.find(qn("w:rPr")))
+                if v:
+                    break
+        if v is None:
+            for s_ in cadena_estilo(st.style_id) if st is not None else ():
+                v = de(s_.find(qn("w:rPr")))
+                if v:
+                    break
+        v = (v or "").upper()
+        if v in ("", "AUTO") or not re.fullmatch(r"[0-9A-F]{6}", v):
+            return None
+        return None if max(int(v[k:k + 2], 16) for k in (0, 2, 4)) < 0x40 else v  # casi negro (#231F20) cuenta como negro
+
     pars = []
     for i, (p, en_tabla, tid, inicio_tabla) in enumerate(en_orden()):
         pf, st = p.paragraph_format, p.style
@@ -299,13 +322,16 @@ def cargar_docx(path):
         fi = pf.first_line_indent if pf.first_line_indent is not None else estilo_attr(st, lambda s: s.paragraph_format.first_line_indent)
         li = pf.left_indent if pf.left_indent is not None else estilo_attr(st, lambda s: s.paragraph_format.left_indent)
         al = pf.alignment if pf.alignment is not None else estilo_attr(st, lambda s: s.paragraph_format.alignment)
-        fuentes = set()
+        fuentes, colores = set(), set()
         for r in p.runs:
             if not r.text.strip():
                 continue
             fn = fuente_efectiva(r._r, st)
             fz = r.font.size.pt if r.font.size else (estilo_attr(st, lambda s: s.font.size.pt if s.font.size else None) or def_size)
             fuentes.add(((fn or "?").lower(), fz))
+            col = color_efectivo(r._r, st)
+            if col:
+                colores.add(col)
         salto = any(b.get(qn("w:type")) == "page" for b in p._p.iter(qn("w:br")))  # sin serializar el XML de cada párrafo
         es_sect = p._p.find(qn("w:pPr") + "/" + qn("w:sectPr")) is not None
         sb = pf.space_before if pf.space_before is not None else estilo_attr(st, lambda s: s.paragraph_format.space_before)
@@ -336,7 +362,7 @@ def cargar_docx(path):
             "i": i, "texto": texto_xml(p._p), "estilo": st.name if st is not None else "",
             "interlineado": ls, "sangria1": fi / EMU_IN if fi is not None else 0.0,
             "sangria_izq": li / EMU_IN if li is not None else 0.0,
-            "alineacion": str(al) if al is not None else "LEFT", "fuentes": fuentes,
+            "alineacion": str(al) if al is not None else "LEFT", "fuentes": fuentes, "colores": colores,
             "salto_antes": bool(pf.page_break_before) or salto,
             "es_titulo": (st.name if st is not None else "").lower().startswith(("heading", "título", "titulo", "title")) and not en_tabla,
             "en_tabla": en_tabla, "sect": es_sect,
@@ -511,6 +537,17 @@ def sin_sangria_legitima(todos, p):
         return True
     if p["sangria_izq"] >= 0.4 and p["sangria1"] < 0.4:
         return True  # cita en bloque (o sangría francesa)
+    if RE_ROT_NUM.match(p["texto"].strip()):
+        return True  # rótulo «Tabla N» / «Figure N»
+    k = p["i"]
+    for _ in range(2):  # título bajo el rótulo (APA 7.10) o texto de la figura (cuadros de un diagrama) bajo el título
+        k -= 1
+        while k >= 0 and es_vacio(todos[k]) and not todos[k].get("en_tabla"):
+            k -= 1
+        if k < 0 or todos[k].get("en_tabla") or todos[k].get("es_titulo") or nivel_estilo(todos[k]):
+            break
+        if RE_ROT_NUM.match(todos[k]["texto"].strip()):
+            return True
     j = p["i"] - 1
     while j >= 0 and (todos[j].get("en_tabla") or es_vacio(todos[j])):
         j -= 1
@@ -568,6 +605,23 @@ def base_apa(pars, secciones, refs_titulo, entradas, tipo_trabajo="estudiante"):
         if otras:
             H.append(Hallazgo("APA-003", "menor", "documento", "fuentes adicionales: " + ", ".join(otras[:4]),
                               "una sola fuente en todo el texto"))
+        # encabezados con el aspecto del estilo «Heading» de Word: otro tamaño o fuente que el texto, o en color
+        distintos = []
+        for p in pars:
+            if not p.get("es_titulo") or p["i"] < fin_portada(todos) or not p["texto"].strip():
+                continue
+            otro = sorted({f"{a} {b:g} pt" for a, b in p.get("fuentes", ()) if b and (abs(b - fz) > 0.5 or a != fn)})
+            col = sorted(p.get("colores", ()))
+            if otro or col:
+                distintos.append((p, ", ".join(otro + [f"color #{c}" for c in col])))
+        if distintos:
+            p0, que = distintos[0]
+            H.append(Hallazgo("APA-003", "menor", ubic(p0),
+                              f"{len(distintos)} encabezados con otro tamaño, fuente o color que el texto ({fn} {fz:g} pt); "
+                              f"p. ej. «{p0['texto'][:40]}»: {que}",
+                              f"encabezados en {fn} {fz:g} pt y en negro, como el texto; solo cambian negrita, cursiva y "
+                              "alineación según el nivel (APA 2.19 y 2.27; el estilo «Título»/«Heading» de Word trae otro "
+                              "tamaño y color)"))
     for p in cuerpo:
         ls = p["interlineado"]
         if not (isinstance(ls, (int, float)) and abs(ls - 2.0) < 0.05):
@@ -617,6 +671,7 @@ def rotulo_re(apendice):
 
 RE_ROT_NUM = rotulo_re(True)  # «Tabla 1», «Tabla A1» (apéndice)
 RE_NOTA = re.compile(r"^\s*(nota|note)\s*([.:])", re.I)
+RE_NOTA_SIGUE = re.compile(r"^\s*(?:[a-z]\s|[*\u2020\u2021\u2022]|p\s*[<>=])")  # nota específica o de probabilidad
 RE_PIE = re.compile(r"\b(elaboración propia|fuente:|source:|adaptado de|tomado de|adapted from)", re.I)
 
 
@@ -682,15 +737,18 @@ def es_nota(todos, p, prof=0):
     (las notas generales, de nota específica «a …» y de probabilidad «* p < .05» van una por párrafo)."""
     if RE_NOTA.match(p["texto"]):
         return True
-    if prof > 3 or p["sangria1"] > 0.4:
-        return False
+    if prof > 3 or p["sangria1"] > 0.4 or p.get("es_titulo") or nivel_estilo(p):
+        return False  # un encabezado nunca es nota y corta la cadena (el texto bajo él no hereda la exención)
     j = p["i"] - 1
     while j >= 0 and es_vacio(todos[j]) and not todos[j].get("en_tabla"):
         j -= 1
     if j < 0:
         return False
     q = todos[j]
-    return bool(q.get("en_tabla")) or es_nota(todos, q, prof + 1)
+    if q.get("en_tabla"):
+        return True
+    # tras otra nota solo siguen notas específicas («a …», «b …») o de probabilidad («* p < .05»), una por párrafo
+    return bool(RE_NOTA_SIGUE.match(p["texto"])) and es_nota(todos, q, prof + 1)
 
 
 def vacio_legitimo(todos, p):
@@ -955,6 +1013,8 @@ def normalizar_grupos(t, mapa):
 RE_VEASE_TAMBIEN = re.compile(r";\s*(?:see also|v[ée]ase tambi[ée]n|v[ée]ase adem[áa]s)\s", re.I)
 RE_REVISTA = re.compile(r"(?:^|[.?!]\s)([^.?!]+?),\s(\d{1,4})(\([^)]*\))?,\s(?:\d+\s?[–-]\s?\d+|Article\b|Art\.|e\d)")
 RE_PREFIJO = re.compile(r"^\s*(?:(?:véase|ver|see|cf\.|p\.\s?ej\.|e\.\s?g\.|por ejemplo)[,\s]+)+", re.I)
+RE_NARR_DOS = re.compile(r"\b([A-ZÁÉÍÓÚÑ][\w'’\-]+)\s(&|y|and)\s([A-ZÁÉÍÓÚÑ][\w'’\-]+)\s\((\d{4}[a-z]?)")
+RE_AUTOR_LISTA = re.compile(r"[A-ZÁÉÍÓÚÑ][\w'’\-]+(?:\s[A-ZÁÉÍÓÚÑ][\w'’\-]+)*,\s(?:[A-ZÁÉÍÓÚÑ]\.(?:\s?-?[A-ZÁÉÍÓÚÑ]\.)*)")
 RE_NARR_COMA = re.compile(r"\b([A-ZÁÉÍÓÚÑ][\w'’\-]+(?:\s(?:et al\.|(?:&|y|and)\s[A-ZÁÉÍÓÚÑ][\w'’\-]+))?),\s(\d{4}[a-z]?),\s+(?=[a-záéíóúñ]{3,}\b(?!\.))")
 RE_SIN_AÑO = re.compile(r"\b(?:1[5-9]\d{2}|20\d{2})[a-z]?\b|n\.d\.|s\.\s?f\.")
 RE_LOCALIZADOR = re.compile(r"([A-ZÁÉÍÓÚÑ][\w'’\-]*(?:\s+et al\.)?),\s*((?:arts?\.|artículos?|caps?\.|capítulos?|pp?\.|párr\.|secc?\.|fr\.|fracc\.)\s*[^;]*)$")
@@ -1077,8 +1137,8 @@ def entradas_citadas(cuerpo, info):
             narrativa = antes.rstrip().endswith("(")  # «Nombre (año)»: el autor va antes del paréntesis
             if narrativa:
                 antes = antes.rstrip()[:-1]
-            antes = re.split(r";|\)|(?<=[a-záéíóúñ0-9]{2})\.\s" + ("" if narrativa else r"|\("), antes)[-1]  # solo la cita o la oración propia
-            despues = "" if narrativa else re.split(r"\)|(?<=[a-záéíóúñ0-9]{2})\.\s", t[m.end():m.end() + 100])[0]
+            antes = re.split(r";|\)|(?<=[a-záéíóúñ0-9]{2})(?<!\bal)\.\s" + ("" if narrativa else r"|\("), antes)[-1]  # solo la cita o la oración propia
+            despues = "" if narrativa else re.split(r"\)|(?<=[a-záéíóúñ0-9]{2})(?<!\bal)\.\s", t[m.end():m.end() + 100])[0]
             win = palabras(antes + " " + despues)
             for j in info:
                 if (tok == j["año"] or ("-" not in tok and tok == base_año(j["año"]))) and contiene(win, j["nombre"]):
@@ -1097,6 +1157,14 @@ def citas_apa(cuerpo, entradas, con_layout, base_es_apa=True, anotada=False):
             k = (sin_acentos(m.group(1).split()[-1]).lower(), m.group(2))
             primeros[k] = primeros.get(k, 0) + 1
     ambiguas = {k for k, n in primeros.items() if n > 1}
+    autores_entrada = {}  # (primer apellido, año) -> n.º de autores de la entrada (para «A y B (año)» con 3+ autores)
+    for e in entradas:
+        m = re.match(r"\s*(.+?)\s*\((\d{4})[a-z]?[,)]", e["texto"])
+        if m:
+            n = len(RE_AUTOR_LISTA.findall(m.group(1)))
+            primero = re.match(r"\s*([^,(]+?),", m.group(1))
+            if n and primero:
+                autores_entrada[(sin_acentos(primero.group(1).split()[-1]).lower(), m.group(2))] = n
     info = info_entradas(entradas)
     enlaces = entradas_citadas(cuerpo, info)
     cubiertas = {id(j["e"]) for ls in enlaces.values() for j, _ in ls}
@@ -1143,6 +1211,18 @@ def citas_apa(cuerpo, entradas, con_layout, base_es_apa=True, anotada=False):
             m = re.search(r"\((?:[^()]*;\s*)?[A-ZÁÉÍÓÚÑ][\w'’-]+\s+y\s+[A-ZÁÉÍÓÚÑ][\w'’-]+,\s*(?:\d{4}[a-z]?|s\.\s?f\.|n\.d\.)", t)
             if m:
                 H.append(Hallazgo("APA-037", "mayor", ubic(p), m.group(0) + ")", "en cita parentética usar «&» (también en español)"))
+        for m in RE_NARR_DOS.finditer(t):  # «Levenson & Shensa (2016)» fuera de paréntesis
+            antes = t[:m.start()]
+            if antes.count("(") > antes.count(")"):
+                continue
+            a1, conj, a2, año = m.groups()
+            if conj == "&":
+                H.append(Hallazgo("APA-037", "mayor", ubic(p), m.group(0) + ")",
+                                  f"en cita narrativa la conjunción va escrita: «{a1} y {a2} ({año})» («and» en inglés), no «&»"))
+            n = autores_entrada.get((sin_acentos(a1).lower(), año[:4]))
+            if n and n >= 3:
+                H.append(Hallazgo("APA-038", "mayor", ubic(p), m.group(0) + ")",
+                                  f"la obra tiene {n} autores: «{a1} et al. ({año})» (APA 8.17)"))
 
     lista = []
     doble_lista = False

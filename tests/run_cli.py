@@ -46,6 +46,10 @@ def main():
         code, _, err = correr(["no-existe"], cwd=tmp)
         if code != 2 or "desconocido" not in err:
             fallas.append(f"subcomando desconocido: exit {code}")
+        for opcion in ("--fuentes", "--evidencias", "--congruencia-llm"):  # archivo auxiliar inexistente: 2, sin traceback
+            code, _, err = correr(["puntuar", str(OK_MD), "--perfil", "apa7", "--sin-historial", opcion, "no-existe.json"], cwd=tmp)
+            if code != 2 or "Traceback" in err or "no existe" not in err:
+                fallas.append(f"puntuar {opcion} inexistente: exit {code} {err[-100:]!r}")
         # códigos de salida y --json
         sal = pathlib.Path(tmp) / "a.json"
         code, _, _ = correr(["auditar", str(OK_MD), "--perfil", "apa7", "--json", str(sal)], cwd=tmp)

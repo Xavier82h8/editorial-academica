@@ -134,7 +134,7 @@ def sintetico(path):
             "Smith, J., & Jones, K. (2018). Efectos del entrenamiento. Editorial Tres.",
             "Vaswani, A., Shazeer, N., Parmar, N., Uszkoreit, J., Jones, L., Gomez, A., Kaiser, L., & Polosukhin, I. (2017). "
             "La atención es todo lo que necesitas. Editorial Cuatro.",
-            "Wu, D. (2020). Modelos de lenguaje. Editorial Cinco.",
+            "Wu, D. (2020). Modelos de lenguaje. Revista Cinco, 3(1), 1-9. doi:10.5555/wu.2020.1",
             "Zhao, H. (2025). Escalado de modelos. Editorial Seis.",
             "Zhou, Q. (2024). Datos propios. Editorial Siete."]
     for t in refs:
@@ -169,7 +169,7 @@ def prueba_sintetico(tmp, fallos):
     d2 = Document(r["salida"])
     textos = [p.text for p in d2.paragraphs]
     esperados = ["Vaswani et al. (2017) propusieron la atención como base del modelo.",
-                 "Smith & Jones (2018) mostraron un efecto notable y López (2019) confirmó el hallazgo",
+                 "Smith y Jones (2018) mostraron un efecto notable y López (2019) confirmó el hallazgo",
                  "(Zhao et al., 2025; Zhou et al., 2024; véase también Adams, 2019; Wu, 2020)",
                  "El método se aplica. La segunda parte usa uno, dos; tres, y así sucesivamente... Fin de párrafo. Otra",
                  "Amazon Web Services. (2023)."]

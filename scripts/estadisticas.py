@@ -43,6 +43,8 @@ PILOTO = [
     ("Tras correcciones", 91.5),
     ("Con reglas nuevas de\nmaquetación y congruencia", 87.0),
     ("Final (sesión 6)", 91.4),
+    ("Juez más estricto:\nsangrías y V5", 85.4),
+    ("Tras corregir.py\n(de nuevo)", 88.4),
 ]
 # Primera medición ciega de las rondas 2 y 3 (antes de corregir lo que revelaron), según el historial del repositorio.
 PRIMERA_MEDICION = {"ronda ciega docs2": {"precision": 1.00, "recall": 0.87}, "ronda ciega docs3": {"precision": 0.97, "recall": 1.00}}

@@ -13,7 +13,7 @@ from docx import Document
 from docx.enum.text import WD_ALIGN_PARAGRAPH, WD_BREAK
 from docx.oxml import OxmlElement
 from docx.oxml.ns import qn
-from docx.shared import Inches, Pt
+from docx.shared import RGBColor, Inches, Pt
 
 OUT = pathlib.Path(__file__).resolve().parent / "docs"
 LOREM = ("Los sistemas de tutoría inteligente han mostrado efectos positivos en el aprendizaje de la música, "
@@ -180,7 +180,7 @@ def enc(d, texto, nivel, antes=0, centro=None, negrita=True):
     p = d.add_paragraph(style=f"Heading {nivel}")
     fmt(p, antes=antes, centro=(nivel == 1) if centro is None else centro)
     r = p.add_run(texto)
-    r.font.name, r.font.size, r.font.color.rgb = "Times New Roman", Pt(12), None
+    r.font.name, r.font.size, r.font.color.rgb = "Times New Roman", Pt(12), RGBColor(0, 0, 0)  # negro, no el azul del estilo
     r.bold, r.italic = negrita, nivel == 3
     return p
 
