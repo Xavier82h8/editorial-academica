@@ -27,7 +27,7 @@ sys.path.insert(0, str(ROOT / "tests" / "ciegos"))
 import asegurar  # noqa: E402
 asegurar.asegurar("docs3", "docs")
 DIRS = [ROOT / "tests" / "ciegos" / "docs3", ROOT / "tests" / "ciegos" / "docs"]
-NUEVAS = ["APA-028", "APA-036", "APA-043", "APA-065", "APA-093", "APA-115", "APA-145"]
+NUEVAS = ["APA-028", "APA-036", "APA-043", "APA-065", "APA-074", "APA-093", "APA-115", "APA-145"]
 
 
 def _cuerpo(d, partes, sangria=0.5):
@@ -172,7 +172,8 @@ def prueba_sintetico(tmp, fallos):
                  "Smith y Jones (2018) mostraron un efecto notable y López (2019) confirmó el hallazgo",
                  "(Zhao et al., 2025; Zhou et al., 2024; véase también Adams, 2019; Wu, 2020)",
                  "El método se aplica. La segunda parte usa uno, dos; tres, y así sucesivamente... Fin de párrafo. Otra",
-                 "Amazon Web Services. (2023)."]
+                 "Amazon Web Services. (2023).",
+                 "Revista Cinco, 3(1), 1–9."]
     for e in esperados:
         if not any(e in t for t in textos):
             fallos.append(f"sintético: falta el texto corregido «{e}»")
@@ -298,6 +299,52 @@ def prueba_maquetacion(tmp, fallos):
     n15 = [h["evidencia"] for h in maquetacion.revisar(str(f), "apa7") if h["id"] == "EST-015"]
     if len(n15) != 2 or not all("elaboración propia a partir" in e.lower() or "elaboración propia con base" in e.lower() for e in n15):
         fallos.append(f"EST-015 notas vagas: {n15}")
+
+
+def prueba_ieee(tmp, fallos):
+    """IEEE-023 («&» / «y» -> «and») e IEEE-084 («Figure N» -> «Fig. N») con base IEEE y con citas IEEE sobre base APA;
+    el resto de hallazgos IEEE sembrados no se toca, no aparece ninguno nuevo y la segunda pasada es idempotente."""
+    sys.path.insert(0, str(ROOT / "tests"))
+    import generar_docs  # noqa: E402
+    src = tmp / "ieee_reglas.docx"
+    generar_docs.ieee_reglas(True)[0].save(str(src))
+    for perfil, esperadas in (("ieee", {"IEEE-023", "IEEE-084"}), ("apa7-base+ieee-citas", {"IEEE-023"})):
+        out = tmp / f"ieee_reglas_{perfil}.corregido.docx"
+        r = corregir.corregir(str(src), perfil, out=str(out), silencioso=True)
+        if r is None:
+            fallos.append(f"IEEE {perfil}: corregir devolvió None")
+            continue
+        for regla in esperadas:
+            if not r["antes"].get(regla) or r["despues"].get(regla) or r["aplicadas"].get(regla, 0) < 1:
+                fallos.append(f"IEEE {perfil}: {regla} no se corrigió (antes {r['antes'].get(regla)}, después {r['despues'].get(regla)}, aplicadas {r['aplicadas']})")
+        nuevos = [x for x in r["despues"] if r["despues"][x] > r["antes"].get(x, 0)]
+        if nuevos:
+            fallos.append(f"IEEE {perfil}: hallazgos nuevos {nuevos}")
+        if perfil == "ieee":
+            sobran = [x for x in r["antes"] if x not in esperadas and r["despues"].get(x, 0) != r["antes"][x]]
+            if sobran:
+                fallos.append(f"IEEE {perfil}: tocó reglas que no corrige {sobran}")
+        textos = [q.text for q in Document(str(out)).paragraphs]
+        if not any("D. Shen, G. Wu, and H.-I. Suk" in t for t in textos):
+            fallos.append(f"IEEE {perfil}: «&» no pasó a «, and» con coma seriada: {[t[:40] for t in textos if 'Shen' in t]}")
+        if perfil == "ieee" and (any("Figure 2" in t for t in textos) or not any("Fig. 2 shows the pipeline" in t for t in textos)):
+            fallos.append("IEEE ieee: «Figure 2» no pasó a «Fig. 2»")
+        r2 = corregir.corregir(str(out), perfil, out=str(tmp / f"ieee_reglas_{perfil}_2.docx"), silencioso=True)
+        if any(r2["aplicadas"].values()) or r2["despues"] != r["despues"]:
+            fallos.append(f"IEEE {perfil}: segunda pasada no idempotente {r2['aplicadas']}")
+    # «A y B» y «A, B & C» en español/inglés
+    d = Document()
+    d.add_paragraph("Texto [1].")
+    d.add_paragraph("Referencias")
+    d.add_paragraph("[1]	J. Pérez y M. Soto, “Redes de datos,” *Rev. Redes*, vol. 1, pp. 1–9, 2020.")
+    d.add_paragraph("[2]	A. Gil, B. Ruiz & C. Díaz, “Modelos de acceso,” *Rev. Acceso*, vol. 2, pp. 1–9, 2021.")
+    f = tmp / "ieee_y.docx"
+    d.save(str(f))
+    r = corregir.corregir(str(f), "ieee", out=str(tmp / "ieee_y.c.docx"), silencioso=True)
+    t = [q.text for q in Document(str(tmp / "ieee_y.c.docx")).paragraphs]
+    if r is None or "J. Pérez and M. Soto," not in t[2] or "B. Ruiz, and C. Díaz," not in t[3]:
+        fallos.append(f"IEEE «y» / «&»: {t[2:]}")
+    print(f"{'ieee_reglas (IEEE-023, IEEE-084)':<34} corregir con base IEEE y con citas IEEE")
 
 
 def _portada_estado(path):
@@ -438,6 +485,7 @@ def main():
                         fallos.append(f"{etiqueta}: segunda pasada cambia los hallazgos")
         prueba_sintetico(tmp, fallos)
         prueba_maquetacion(tmp, fallos)
+        prueba_ieee(tmp, fallos)
         prueba_portada(tmp, fallos)
         prueba_numpages(tmp, fallos)
     for f in fallos:

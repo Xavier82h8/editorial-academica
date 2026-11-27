@@ -37,13 +37,17 @@ FIXTURES_HTTP = ROOT / "tests" / "fixtures" / "http"
 # Errores reales de las propias muestras oficiales (documento -> [(id, texto que debe aparecer en la evidencia)]).
 VERDADEROS_POSITIVOS = {
     # doble espacio tras punto («severe.  They authors»): APA 6.1 / APA-115
-    "annotated-bibliography-student-paper.docx": [("APA-115", "severe.  They")],
+    "annotated-bibliography-student-paper.docx": [("APA-115", "severe.  They"),
+                                                  # «pp. 107-115»: rango de páginas con guion en vez de raya en (APA-074)
+                                                  ("APA-074", "107-115")],
     # márgenes de 0.94/0.19/0.93/0.9 in en la sección de portada y resumen (APA 2.22: 1 in)
     "design-student-paper-template.docx": [("APA-001", "0.19"),
                                            # cita «(History of Quill Pens, n.d.)» pero la lista tiene a «History of Pencils» como autor
                                            ("APA-034", "Pens, n.d."), ("APA-034", "History of Pencils"),
                                            # nota de figura «by A. Westra, 2023» frente a la lista «Westra, A. (2020)»
-                                           ("APA-034", "Westra (2020)")],
+                                           ("APA-034", "Westra (2020)"),
+                                           # «Topic Background» (nivel 1) con un único subencabezado, «Shang Writing» (APA 2.26 / APA-032)
+                                           ("APA-032", "Topic Background")],
     # la «E» de «Emotion Review» no está en cursiva (APA 9.25: título de la revista en cursiva)
     "literature-review-professional-paper.docx": [("APA-072", "Emotion Review")],
     # «(Simmons & Smiley, 2010)» sin entrada en la lista (APA 8.3)
@@ -54,7 +58,9 @@ VERDADEROS_POSITIVOS = {
     # «Pew Research Center, 2017» frente a la lista (2019)
     "qualitative-professional-paper.docx": [("APA-035", "Center, 2017")],
     # «(Beach, 1989)» frente a la lista «Beach, R. (1986)»
-    "review-professional-paper.docx": [("APA-035", "Beach, 1989")],
+    "review-professional-paper.docx": [("APA-035", "Beach, 1989"),
+                                       # «Course Design» y «Outcomes» (nivel 1) con un único subencabezado cada uno (APA-032)
+                                       ("APA-032", "Course Design")],
     # «email address  or ORCID»: doble espacio entre palabras en el texto de ejemplo (IEEE-140; la plantilla Letter ya lo corrigió)
     "conference-template-a4.docx": [("IEEE-140", "email address  or ORCID")] * 2,
 }
@@ -145,6 +151,31 @@ def puerta_portabilidad():
     return code == 0, out.strip().splitlines()[-1] if out.strip() else "sin salida"
 
 
+def puerta_v07():
+    """v0.7: título concreto (CON-021, INS-010), niveles de fuentes, --desde-docx, verificación de normas ISO/IEC, repasar y posición del número de página."""
+    code, out = correr(["tests/run_v07.py"])
+    return code == 0, chr(10).join(l for l in out.splitlines() if l.startswith(("FALLA", "== v0.7"))) or out.strip()[-300:]
+
+
+def puerta_v08():
+    """v0.8: portada y salida (portada, indices, entregar), `fuentes --reemplazar` y bloque `fuentes:` del perfil (FUE-NIV)."""
+    code, out = correr(["tests/run_v08.py"])
+    return code == 0, chr(10).join(l for l in out.splitlines() if l.startswith(("FALLA", "SALTADA", "== v0.8"))) or out.strip()[-300:]
+
+
+def puerta_perfilar():
+    """`/perfilar`: guía sintética (.docx y PDF) -> perfil y estructura con origen, preguntas, sin sobrescribir, modelo de portada, inglés."""
+    code, out = correr(["tests/run_perfilar.py"])
+    ok = code == 0
+    extra = ""
+    dorada = ROOT / "tests" / "reales" / "privado" / "run_perfilar_dorada.py"
+    if dorada.exists():  # prueba dorada LOCAL con la guía real (no se distribuye; se salta sola si falta el archivo de la guía)
+        c2, o2 = correr([str(dorada.relative_to(ROOT))])
+        ok = ok and c2 == 0
+        extra = " | dorada local: " + (o2.strip().splitlines() or [""])[-1]
+    return ok, chr(10).join(l for l in out.splitlines() if l.startswith(("FALLA", "SALTADA", "== perfilar"))) + extra
+
+
 def puerta_puntuar():
     code, out = correr(["tests/run_puntuar.py"] + (["--sin-red"] if SIN_RED else []))
     return code == 0, out.strip().splitlines()[-1] if out.strip() else "sin salida"
@@ -173,6 +204,18 @@ def puerta_convertir():
     if citas:
         partes.append(f"citas min {min(citas):.2f} ({len(citas)} rutas)")
     return code == 0, "; ".join(partes) or out[-300:]
+
+
+def puerta_reglas_apa():
+    """Reglas APA finas (APA-015/039/041/044/063/066): 0 FP en las 83 referencias oficiales y casos sembrados exactos."""
+    code, out = correr(["tests/run_reglas_apa.py"])
+    return code == 0, out.strip().splitlines()[-1] if out.strip() else "sin salida"
+
+
+def puerta_reglas_tanda2():
+    """Reglas de la tanda 2 (APA-048/064/074/080/081/103, IEEE-007/015/031/032/070/129): 0 FP en los corpus oficiales y casos sembrados exactos."""
+    code, out = correr(["tests/run_reglas_tanda2.py"])
+    return code == 0, out.strip().splitlines()[-1] if out.strip() else "sin salida"
 
 
 def puerta_juez(dir_=None):
@@ -238,8 +281,13 @@ def construir_pruebas(rapido):
     pruebas.append(("CLI: despachador, códigos de salida, --json, caché", puerta_cli))
     pruebas.append(("Portabilidad: skills, rutas, instalador, catálogo REGLAS.md", puerta_portabilidad))
     pruebas.append(("Ejemplo del README (ejemplos/): cifras publicadas", puerta_ejemplo))
+    pruebas.append(("v0.7: título, niveles de fuentes, --desde-docx, normas ISO, repasar, paginación", puerta_v07))
+    pruebas.append(("v0.8: portada, índices, entregar, fuentes --reemplazar, bloque fuentes: del perfil", puerta_v08))
+    pruebas.append(("/perfilar: guía -> reglas con origen, preguntas, sin sobrescribir", puerta_perfilar))
     pruebas.append(("/puntuar estable y sensible", puerta_puntuar))
     pruebas.append(("Corrector de formato docx (corregir.py)", puerta_corregir))
+    pruebas.append(("Reglas APA finas: corpus oficial 0 FP y casos sembrados", puerta_reglas_apa))
+    pruebas.append(("Reglas tanda 2: corpus oficiales 0 FP y casos sembrados", puerta_reglas_tanda2))
     pruebas.append(("Juez: errores sembrados", puerta_juez))
     pruebas.append(("Juez: muestras oficiales", puerta_muestras))
     sys.path.insert(0, str(ROOT / "tests" / "ciegos"))

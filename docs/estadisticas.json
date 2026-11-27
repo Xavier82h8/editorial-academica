@@ -1,10 +1,10 @@
 {
-  "generado": "2026-11-19",
-  "version": "0.4.0",
+  "generado": "2026-11-27",
+  "version": "0.8.0",
   "rondas": [
     {
-      "esperados": 36,
-      "detectados": 36,
+      "esperados": 68,
+      "detectados": 68,
       "falsos_positivos": 0,
       "omitidos": 0,
       "precision": 1.0,
@@ -74,18 +74,18 @@
   "muestras_oficiales": {
     "disponible": true,
     "muestras": 17,
-    "verdaderos_positivos_esperados": 13,
+    "verdaderos_positivos_esperados": 16,
     "falsos_positivos": 0,
     "puerta_ok": true
   },
   "reglas": {
-    "total": 323,
+    "total": 324,
     "familias": {
       "APA": {
         "total": 145,
-        "deterministas": 42,
-        "agente": 103,
-        "corregibles": 26
+        "deterministas": 58,
+        "agente": 87,
+        "corregibles": 27
       },
       "CON": {
         "total": 20,
@@ -100,8 +100,8 @@
         "corregibles": 0
       },
       "EST": {
-        "total": 10,
-        "deterministas": 10,
+        "total": 11,
+        "deterministas": 11,
         "agente": 0,
         "corregibles": 5
       },
@@ -113,9 +113,9 @@
       },
       "IEEE": {
         "total": 140,
-        "deterministas": 14,
-        "agente": 126,
-        "corregibles": 1
+        "deterministas": 34,
+        "agente": 106,
+        "corregibles": 3
       },
       "RED": {
         "total": 1,
@@ -126,9 +126,9 @@
     },
     "apa_ieee": {
       "total": 285,
-      "ids_en_scripts": 56,
+      "ids_en_scripts": 92,
       "fix_si_en_checklist": 115,
-      "corregibles": 27,
+      "corregibles": 30,
       "nota": "«determinista» del catálogo = ID que aparece en algún script (heurística, igual a ids_en_scripts); «Fix: sí» = el checklist lo marca como mecánico; la brecha entre ambos es trabajo pendiente."
     }
   },
@@ -170,72 +170,84 @@
     ]
   },
   "tiempos": {
-    "total_segundos": 96.1,
-    "sin_red": true,
+    "total_segundos": 170.0,
+    "sin_red": false,
     "puertas": [
       {
         "puerta": "Fuentes V1-V3 (existencia, metadatos, retractación, preprint)",
-        "segundos": 0.3,
+        "segundos": 0.5,
         "ok": true,
         "saltada": false
       },
       {
         "puerta": "Fuentes V5 sustento (cifras y veredictos)",
-        "segundos": 0.2,
-        "ok": true,
-        "saltada": false
-      },
-      {
-        "puerta": "Congruencia: determinista CON-001..009 y 018..020 (CON-010..017 son del agente)",
-        "segundos": 12.0,
-        "ok": true,
-        "saltada": false
-      },
-      {
-        "puerta": "Estructura por género (7 géneros, muestras IMRyD)",
-        "segundos": 15.7,
-        "ok": true,
-        "saltada": false
-      },
-      {
-        "puerta": "Perfil de equipo (excepción institucional)",
-        "segundos": 1.0,
-        "ok": true,
-        "saltada": false
-      },
-      {
-        "puerta": "CLI: despachador, códigos de salida, --json, caché",
-        "segundos": 21.4,
-        "ok": true,
-        "saltada": false
-      },
-      {
-        "puerta": "Portabilidad: skills, rutas, instalador, catálogo REGLAS.md",
-        "segundos": 13.1,
-        "ok": true,
-        "saltada": false
-      },
-      {
-        "puerta": "Ejemplo del README (ejemplos/): cifras publicadas",
-        "segundos": 6.4,
-        "ok": true,
-        "saltada": false
-      },
-      {
-        "puerta": "/puntuar estable y sensible",
         "segundos": 1.2,
         "ok": true,
         "saltada": false
       },
       {
+        "puerta": "Congruencia: determinista CON-001..009 y 018..020 (CON-010..017 son del agente)",
+        "segundos": 14.2,
+        "ok": true,
+        "saltada": false
+      },
+      {
+        "puerta": "Estructura por género (7 géneros, muestras IMRyD)",
+        "segundos": 24.4,
+        "ok": true,
+        "saltada": false
+      },
+      {
+        "puerta": "Perfil de equipo (excepción institucional)",
+        "segundos": 3.6,
+        "ok": true,
+        "saltada": false
+      },
+      {
+        "puerta": "CLI: despachador, códigos de salida, --json, caché",
+        "segundos": 47.9,
+        "ok": true,
+        "saltada": false
+      },
+      {
+        "puerta": "Portabilidad: skills, rutas, instalador, catálogo REGLAS.md",
+        "segundos": 32.7,
+        "ok": true,
+        "saltada": false
+      },
+      {
+        "puerta": "Ejemplo del README (ejemplos/): cifras publicadas",
+        "segundos": 12.8,
+        "ok": true,
+        "saltada": false
+      },
+      {
+        "puerta": "/puntuar estable y sensible",
+        "segundos": 1.1,
+        "ok": true,
+        "saltada": false
+      },
+      {
         "puerta": "Corrector de formato docx (corregir.py)",
-        "segundos": 11.1,
+        "segundos": 13.0,
+        "ok": true,
+        "saltada": false
+      },
+      {
+        "puerta": "Reglas APA finas: corpus oficial 0 FP y casos sembrados",
+        "segundos": 0.7,
+        "ok": true,
+        "saltada": false
+      },
+      {
+        "puerta": "Reglas tanda 2: corpus oficiales 0 FP y casos sembrados",
+        "segundos": 1.6,
         "ok": true,
         "saltada": false
       },
       {
         "puerta": "Juez: errores sembrados",
-        "segundos": 1.5,
+        "segundos": 2.6,
         "ok": true,
         "saltada": false
       },
@@ -247,19 +259,19 @@
       },
       {
         "puerta": "Juez: ronda ciega docs",
-        "segundos": 0.9,
+        "segundos": 1.0,
         "ok": true,
         "saltada": false
       },
       {
         "puerta": "Juez: ronda ciega docs2",
-        "segundos": 0.8,
+        "segundos": 2.0,
         "ok": true,
         "saltada": false
       },
       {
         "puerta": "Juez: ronda ciega docs3",
-        "segundos": 0.7,
+        "segundos": 1.0,
         "ok": true,
         "saltada": false
       }

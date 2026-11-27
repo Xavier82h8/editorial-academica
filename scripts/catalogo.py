@@ -10,7 +10,8 @@ Uso:
 Fuentes de datos (no se escribe ninguna regla a mano salvo FUE-*, RED-* y EA-001, que no tienen tabla propia):
   APA-xxx / IEEE-xxx  skills/apa7|ieee/references/checklist.md (columnas ID, regla, severidad, fix, fuente)
   CON-001..020        docstring de scripts/congruencia.py (deterministas) y agents/revisor-congruencia.md (agente)
-  EST-001..003        docstring de scripts/estructura.py;  EST-010..016: docstring de scripts/maquetacion.py
+  EST-001..004        docstring de scripts/estructura.py;  EST-010..017: docstring de scripts/maquetacion.py
+  INS-001..015        docstring de scripts/institucional.py (formato institucional del bloque `formato:` y modelos del bloque `vinculante:` de .editorial.yaml)
 Clasificación «Evaluación»: `determinista` si el ID aparece en algún script (el juez lo emite); `agente` si solo está en el
 checklist o en las instrucciones de un agente; `+ corregible` si está en `corregir.REGLAS`.
 Salida: 0 correcto (o catálogo al día); 1 con --comprobar si está desactualizado; 2 error de uso.
@@ -30,11 +31,11 @@ PLUGIN = "Práctica editorial del plugin"
 # Fuente oficial de reglas propias del plugin (sin tabla de fuente en el código)
 FUENTE_EXTRA = {
     "EST-001": "estructuras/<género>.yaml (" + PLUGIN + ")", "EST-002": "estructuras/<género>.yaml (" + PLUGIN + ")",
-    "EST-003": "estructuras/<género>.yaml (" + PLUGIN + ")",
+    "EST-003": "estructuras/<género>.yaml (" + PLUGIN + ")", "EST-004": "estructuras/<género>.yaml (" + PLUGIN + ")",
     "EST-010": "APA § 2.18 (IEEE no define la numeración)", "EST-011": "APA § 2.18",
     "EST-012": PLUGIN + " (APA cap. 7, tablas y figuras)", "EST-013": PLUGIN + " (APA cap. 7)",
     "EST-014": PLUGIN + " (APA 2.21)", "EST-015": "APA cap. 7 (notas de tablas y figuras)",
-    "EST-016": "APA § 2.18 (IEEE no define la portada)",
+    "EST-016": "APA § 2.18 (IEEE no define la portada)", "EST-017": PLUGIN + " (índices de Word: el resultado mostrado debe coincidir con los encabezados)",
     "EA-001": PLUGIN,
 }
 # FUE-*, RED-* y EA-001 se emiten en puntuar.py/auditar.py sin tabla propia: id -> (severidad, descripción, fuente)
@@ -46,6 +47,10 @@ OTRAS = {
     "FUE-URL": ("mayor", "Fuente sin DOI cuya URL no responde (V1)", PLUGIN + " (V1)"),
     "FUE-V5": ("mayor", "Afirmación citada que la fuente no respalda o contradice según su resumen (V5)", PLUGIN + " (V5)"),
     "FUE-V3N": ("menor", "Fuentes con DOI que no se pudieron comprobar por fallo de red (no verificado, nunca «ok»)", PLUGIN + " (V1/V3)"),
+    "FUE-V4N": ("menor", "Afirmación sustantiva (cifra, resultado, eficacia) sostenida solo por fuentes de nivel D o E (documentación, web, blog, preprint) (V4)",
+                PLUGIN + " (scripts/niveles.py)"),
+    "FUE-NIV": ("mayor", "Bloque `fuentes:` del perfil incumplido: fuente de un tipo a evitar (wikipedia, blog, foro…) o porcentaje de fuentes arbitradas bajo el pedido (mayor); referencias bajo `minimo_nivel` (menor)",
+                PLUGIN + " (scripts/niveles.py)"),
     "FUE-V4": ("menor", "Referencias sin enlace comprobable (ni DOI ni URL que responda) (V4)", PLUGIN + " (V4)"),
     "RED-001": ("menor", "Oración de más de 40 palabras en la dimensión «Redacción»", PLUGIN + " (scripts/puntuar.py)"),
 }
@@ -53,7 +58,8 @@ FAMILIAS = [  # (prefijo, título, nota)
     ("APA", "APA 7: formato, citas y referencias", "Norma: Publication Manual 7.ª ed. (snapshot en `normas/VERSION`)."),
     ("IEEE", "IEEE: citas, referencias, estructura, figuras, matemáticas", "Norma: IEEE Reference Guide 2025 y Editorial Style Manual (`normas/VERSION`)."),
     ("CON", "CON: congruencia interna", "Sin norma oficial: práctica editorial. Las deterministas las emite `congruencia.py`; las demás, el agente `revisor-congruencia`."),
-    ("EST", "EST: estructura por género y maquetación", "EST-001..003: `estructura.py` con `estructuras/<género>.yaml`; EST-010..016: `maquetacion.py` (.docx)."),
+    ("EST", "EST: estructura por género y maquetación", "EST-001..004: `estructura.py` con `estructuras/<género>.yaml`; EST-010..017: `maquetacion.py` (.docx)."),
+    ("INS", "INS: reglas institucionales (bloques `formato:` y `vinculante:` de .editorial.yaml)", "Solo se evalúan con `formato:` o `vinculante:` en el perfil de equipo; las emite `institucional.py` desde `auditar.py`. Ver `docs/PERFILES-INSTITUCIONALES.md`."),
     ("EA", "EA: entrega", "Reglas de la entrega."),
     ("FUE", "FUE: verificación de fuentes (dimensión «Fuentes» de `/puntuar`)", "V1 existencia, V2 metadatos, V3 integridad, V4 calidad, V5 sustento."),
     ("RED", "RED: redacción (dimensión «Redacción» de `/puntuar`)", "Heurísticas de claridad."),
@@ -154,6 +160,11 @@ def recolectar():
     est.update(reglas_docstring(HERE / "maquetacion.py", "EST", 10))
     for r in est.values():
         r.update(auto=True, fuente=FUENTE_EXTRA.get(r["id"], PLUGIN), grupo="Estructura" if int(r["id"][4:]) < 10 else "Maquetación")
+        reglas.append(r)
+    for r in reglas_docstring(HERE / "institucional.py", "INS", 10).values():
+        r.update(auto=True, fuente="Guía institucional declarada en `formato:` del perfil de equipo (" + PLUGIN + ")", grupo="Institucional")
+        if r["id"] == "INS-015":
+            r["fuente"] = "Modelo vinculante del usuario, declarado en `vinculante:` del perfil de equipo (" + PLUGIN + ")"
         reglas.append(r)
     for i, (sev, desc, fuente) in OTRAS.items():
         reglas.append({"id": i, "sev": sev, "desc": desc, "fuente": fuente, "auto": True, "grupo": "Entrega"})

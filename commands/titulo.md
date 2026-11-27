@@ -1,0 +1,9 @@
+---
+description: 'Convierte el objetivo general en un título concreto, fijo y sencillo (diagnóstico del título actual, opciones con conteo de palabras y fijación en .editorial.yaml)'
+argument-hint: '<archivo> [--max-palabras N] [--opcion "título candidato"]'
+---
+1. Corre `python ${CLAUDE_PLUGIN_ROOT}/scripts/editorial.py titulo $ARGUMENTS`: muestra el título de la portada, el objetivo general y el diagnóstico (palabras, sigla, método o tecnología que sobra, promesas, cifras, términos del objetivo que el título no recoge).
+2. Sigue `skills/editorial-academica/references/titulo.md`: receta «[Nombre/sigla]: [objeto] + [para qué/ámbito]», 8 a 15 palabras, sin método, sin cifras y sin promesas que el protocolo no evalúa. Propón 3 o 4 opciones con su conteo de palabras (evalúalas con `--opcion "…"`) y pide al usuario que elija una.
+3. Con la elección, escribe `titulo: "…"` en `.editorial.yaml` (queda vinculante: la portada debe coincidir, INS-010) y pregunta si hay que ajustar el objetivo general para que lo use (CON-021). No cambies la portada ni el objetivo sin confirmación.
+
+Códigos de salida de los scripts: 0 (el diagnóstico informa; los hallazgos reglados son CON-021 e INS-010), 2 error de uso o de entrada.

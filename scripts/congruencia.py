@@ -24,6 +24,10 @@ Reglas (IDs CON-xxx; salida con el mismo formato que auditar.py):
   de orden (Tabla 3 antes que Tabla 2). APA cap. 7 (tablas/figuras en orden de mención) y 2.14 (apéndices en orden).
 - CON-020 mayor: objetivo o pregunta sin rastro: ningún término clave del objetivo (bajo un encabezado «Objetivos»/«Preguntas
   de investigación») aparece en método, resultados, discusión ni conclusiones (ni cronograma/plan de análisis). Práctica editorial.
+- CON-021 menor: título y objetivo general no coinciden: el núcleo del título (objeto y propósito, sin sigla, método ni promesas) debe
+  aparecer en el objetivo general (minúsculas, sin acentos, raíz de 5 letras); falla si falta el 30 % o más de ≥ 4 términos de núcleo.
+  Necesita el título de la portada (o `title:` del YAML) y la sección «Objetivo general». Práctica editorial (receta en
+  skills/editorial-academica/references/titulo.md; `editorial.py titulo` da el diagnóstico completo).
 Las reglas 1 y 7 necesitan secciones identificadas por encabezado; sin ellas solo corren las reglas 2-6.
 """
 import argparse
@@ -922,6 +926,29 @@ def regla_objetivos_sin_rastro(cuerpo):
     return H
 
 
+# ---------------------------------------------------------------- CON-021
+def regla_titulo_objetivo(path):
+    """CON-021: el núcleo del título (objeto y propósito) aparece en el objetivo general. Sin título u objetivo no corre."""
+    import titulo as T
+    try:
+        d = T.leer(path)
+    except Exception:  # noqa: BLE001  (un documento sin portada reconocible no tiene título que comparar)
+        return []
+    if not d["titulo"] or not d["objetivo"]:
+        return []
+    _, cfg, _ = T.config_equipo(path)
+    r = T.incoherencia(d["titulo"], d["objetivo"], cfg)
+    if not r:
+        return []
+    faltan, nuc = r
+    faltan = T._con_acentos(faltan, d["titulo"])
+    pos = next((p for p in d["pars"] if T.RE_SEC_OBJ_GRAL.match(T._norm_encabezado(p["texto"])) and p.get("es_titulo")), None)
+    return [Hallazgo("CON-021", "menor", ubicar(pos) if pos else "objetivo general",
+                     f"el título «{d['titulo'][:90]}{'…' if len(d['titulo']) > 90 else ''}» usa {', '.join(faltan)}, que el objetivo general no usa "
+                     f"({len(faltan)} de {len(nuc)} términos de núcleo)",
+                     "alinear título y objetivo general: el título resume el objeto y el propósito del objetivo (ver `editorial.py titulo`)")]
+
+
 # ---------------------------------------------------------------- principal
 def revisar(path):
     auditar.validar_entrada(path)
@@ -946,6 +973,7 @@ def revisar(path):
     H += regla_forma_repetida(cuerpo)
     H += regla_numeracion(pars, cuerpo)
     H += regla_objetivos_sin_rastro(cuerpo)
+    H += regla_titulo_objetivo(path)
     if "metodo" in detectadas:
         H += regla_causal(cuerpo)
     if str(path).lower().endswith(".docx"):

@@ -15,6 +15,8 @@ Reglas:
   EST-014 menor  encabezado pegado al final de una tabla, imagen o nota (sin espacio antes ni línea en blanco)
   EST-016 menor  numeración de la portada contraria a la preferencia (`portada_numero: si|no` de .editorial.yaml;
                  si no, la del perfil: APA §2.18 pide número —el 1— en la portada; IEEE no define)
+  EST-017 mayor  índice desactualizado: el resultado mostrado del índice de contenido (campo TOC o índice escrito bajo «Índice» o
+                 «Contenido») no coincide con los encabezados de nivel 1 a 3 (texto y orden), o el de tablas o figuras con los rótulos
   EST-015 menor  nota con «Fuente:», remisión a una sección, «Elaboración propia a partir de las fuentes citadas» sin citar,
                  o «Tomado/Adaptado de» sin título entre comillas
 """
@@ -168,8 +170,10 @@ def partes(sec):
             for nom, h, f in ooxml.partes_seccion(sec)]
 
 
-def paginacion(d, perfil):
+def paginacion(d, perfil, posicion=None):
+    """EST-010/EST-011. `posicion` (formato.paginacion.posicion de .editorial.yaml): el lugar declarado decide qué número se conserva."""
     H, vistos = [], set()
+    flag = {"encabezado_derecha": "encabezado-derecha", "pie_derecha": "pie-derecha", "pie_centro": "pie-centro"}.get(posicion or "")
     ieee = perfil.lower().startswith("ieee")
     for k, sec in enumerate(d.sections, 1):
         for nom, h, f in partes(sec):
@@ -183,6 +187,9 @@ def paginacion(d, perfil):
                 corr = ("IEEE no define la numeración de páginas (regla no definida); conservar una sola — preguntar al usuario"
                         if ieee else
                         "conservar solo el número del encabezado, a la derecha (APA §2.18); quitar el del pie — /corregir --paginacion encabezado")
+                if flag:
+                    corr = (f"conservar solo el número declarado en `formato.paginacion.posicion` ({posicion.replace('_', ' ')}) y quitar el otro"
+                            f" — /corregir --paginacion {flag}")
                 H.append(_H("EST-010", "mayor", f"{nom}sección {k}: encabezado y pie", ev, corr))
             for lugar, cs in (("encabezado", ch), ("pie", cf)):
                 for t, _, tot in cs:
@@ -455,6 +462,194 @@ def regla_015(doc, its, ieee):
     return H
 
 
+# ---------------------------------------------------------------- EST-017: índices desactualizados
+IDX_CONTENIDO = {"indice de contenido", "indice general", "indice", "tabla de contenido", "tabla de contenidos", "contenido",
+                 "table of contents", "contents"}
+IDX_TABLAS = {"indice de tablas", "lista de tablas", "list of tables", "tabla de tablas"}
+IDX_FIGURAS = {"indice de figuras", "lista de figuras", "list of figures", "indice de ilustraciones"}
+RE_PRELIM_IDX = re.compile(r"^(resumen|abstract|indice|lista de|tabla de contenido|agradecimientos|dedicatoria|glosario|siglas)")
+RE_TOC_INSTR = re.compile(r"\s*TOC(?![A-Za-z])")
+
+
+def _norm_enc(t):
+    """Texto de un encabezado o entrada de índice comparable: sin acentos, minúsculas, «1.1.» = «1.1», sin puntos guía."""
+    t = auditar.sin_acentos(" ".join((t or "").replace("\t", " ").split())).lower()
+    t = re.sub(r"^(\d+(?:\.\d+)*)\.?\s+", r"\1 ", t)
+    return re.sub(r"[\s.…·:]+$", "", t)
+
+
+def _entrada_limpia(p_el):
+    """Texto de una entrada de índice sin el número de página (lo que sigue al último tabulador o a puntos guía)."""
+    partes = [x.strip() for x in ooxml.texto_xml(p_el).split("\t")]
+    partes = [x for x in partes if x]
+    if len(partes) >= 2 and re.fullmatch(r"\d+|[ivxlcdm]+", partes[-1], re.I):
+        partes = partes[:-1]
+    t = " ".join(partes)
+    return re.sub(r"\s*[.…·]{3,}\s*(?:\d+|[ivxlcdm]+)?\s*$", "", t).strip()
+
+
+def _toc_parrafos(d, todos):
+    """({id(w:p): tipo}, {tipo: (nivel mínimo, máximo)}): párrafos que son resultado de un índice (dentro de un w:sdt de
+    «Contents» o de un campo TOC; tipo «contenido», «tablas» o «figuras» según el modificador \\c) y los niveles del campo."""
+    out, niveles = {}, {}
+    for sdt in d.element.body.iter(qn("w:sdt")):
+        gal = sdt.find(".//" + qn("w:docPartGallery"))
+        if gal is not None and "Contents" in (gal.get(qn("w:val")) or ""):
+            for p in sdt.iter(W_P):
+                out[id(p)] = "contenido"
+    pila = []  # campos abiertos: {"instr": texto}
+
+    def abiertos():
+        """Tipos de los campos TOC abiertos ahora (y sus niveles)."""
+        tipos = set()
+        for c in pila:
+            ins = c["instr"] or ""
+            if not RE_TOC_INSTR.match(ins):
+                continue
+            tipo = "contenido"
+            m = re.search(r'\\c\s+"?([^"\\]+)', ins)
+            if m:
+                tipo = "figuras" if re.match(r"\s*(fig|ilustr)", m.group(1), re.I) else "tablas"
+            tipos.add(tipo)
+            mo = re.search(r'\\o\s+"(\d)-(\d)"', ins)
+            if mo:
+                niveles[tipo] = (int(mo.group(1)), int(mo.group(2)))
+            elif re.search(r'\\t\s+"', ins):
+                lv = [int(x) for x in re.findall(r"[,;]\s*(\d)\s*(?=[,;\"]|$)", ins)]
+                if lv:
+                    niveles[tipo] = (min(lv), max(lv))
+        return tipos
+    for p_el, _ in todos:
+        marcados = abiertos()
+        for n in p_el.iter(qn("w:fldChar"), qn("w:instrText"), qn("w:fldSimple")):
+            if n.tag == qn("w:fldChar"):
+                t = n.get(qn("w:fldCharType"))
+                if t == "begin":
+                    pila.append({"instr": ""})
+                elif t == "end" and pila:
+                    pila.pop()
+            elif n.tag == qn("w:fldSimple"):
+                pila.append({"instr": n.get(qn("w:instr")) or "", "simple": True})
+            elif pila and not pila[-1]["instr"]:
+                pila[-1]["instr"] = n.text or ""
+            marcados |= abiertos()
+        while pila and pila[-1].get("simple"):
+            pila.pop()
+        if marcados and id(p_el) not in out:
+            out[id(p_el)] = sorted(marcados)[0]
+    return out, niveles
+
+
+def regla_017(d):
+    """EST-017: índice de contenido, de tablas y de figuras contra los encabezados y rótulos reales del documento."""
+    import modelo_formato as MF
+    res = MF.Resolutor(d)
+    todos = MF.parrafos_cuerpo(d, incluir_toc=True)
+    toc, niveles = _toc_parrafos(d, todos)
+    RE_ROT = auditar.RE_ROTULO
+    nombres = {"contenido": "índice de contenido", "tablas": "índice de tablas", "figuras": "índice de figuras"}
+    indices = {}   # tipo -> {"entradas": [...], "titulo": texto, "campo": bool}
+    actual = None  # índice escrito a mano, abierto por su título
+    heads, rotulos = [], []
+    for k, (p_el, en_tabla) in enumerate(todos):
+        t = " ".join(ooxml.texto_xml(p_el).split())
+        nv = MF._nivel_enc(p_el, res) if not en_tabla else 0
+        norm = auditar.sin_acentos(t).lower().rstrip(":")
+        norm_sn = re.sub(r"^[0-9ivxlc]+[.)]\s+", "", norm)
+        tipo_titulo = ("contenido" if norm_sn in IDX_CONTENIDO else "tablas" if norm_sn in IDX_TABLAS
+                       else "figuras" if norm_sn in IDX_FIGURAS else None)
+        if id(p_el) in toc:
+            tp = toc[id(p_el)]
+            if actual and tp == "contenido" and actual != "contenido":
+                tp = actual
+            ind = indices.setdefault(tp, {"entradas": [], "titulo": nombres[tp], "campo": True})
+            ind["campo"] = True
+            if t:
+                ind["entradas"].append(_entrada_limpia(p_el))
+            continue
+        if tipo_titulo and len(t) < 60:
+            actual = tipo_titulo
+            indices.setdefault(actual, {"entradas": [], "titulo": t, "campo": False})
+            continue
+        salto = p_el.find(qn("w:pPr") + "/" + qn("w:pageBreakBefore")) is not None or p_el.find(qn("w:pPr") + "/" + qn("w:sectPr")) is not None
+        if actual and (nv or salto):
+            actual = None
+        if actual:
+            if t:
+                indices[actual]["entradas"].append(_entrada_limpia(p_el))
+            continue
+        if nv and t and not en_tabla:
+            heads.append((nv, t))
+        m = RE_ROT.match(t) if (t and not en_tabla) else None
+        if m and len(t) <= 220:
+            palabra, num, punt, resto = m.group(1).lower(), m.group(2), m.group(3), m.group(4).strip()
+            if resto and not punt and not t.isupper():
+                continue  # mención al inicio de una frase
+            if not resto:
+                sig = next((" ".join(ooxml.texto_xml(q).split()) for q, _ in todos[k + 1:k + 4] if ooxml.texto_xml(q).strip()), "")
+                resto = sig if sig and not RE_ROT.match(sig) and len(sig) < 200 else ""
+            rotulos.append(("figura" if palabra.startswith("fig") else "tabla", auditar.numero(num), _norm_enc(resto)))
+    H = []
+    ind = indices.get("contenido")
+    if ind is not None:
+        lo, hi = niveles.get("contenido", (1, 3))
+        hi = min(hi, 3)
+        reales = [(n, t) for n, t in heads if lo <= n <= hi]
+        Hn = [_norm_enc(t) for n, t in reales]
+        En = [_norm_enc(e) for e in ind["entradas"] if e.strip()]
+        if not En:
+            if ind["campo"]:
+                H.append(_H("EST-017", "mayor", ind["titulo"], "el campo del índice no muestra entradas",
+                            "actualizar el campo (clic derecho > Actualizar campo > todo el índice)"))
+        else:
+            sh, se = set(Hn), set(En)
+            sobran = [e for e in ind["entradas"] if e.strip() and _norm_enc(e) not in sh]
+            faltan = [t for (n, t), h in zip(reales, Hn) if h not in se and not RE_PRELIM_IDX.match(h)]
+            orden = [e for e in En if e in sh] != [h for h in Hn if h in se]
+            if sobran or faltan or orden:
+                def ej(xs, n=2):
+                    return ", ".join("«" + _recorta(x, 26) + "»" for x in xs[:n])
+                partes = []
+                if sobran:
+                    partes.append(f"sobran {len(sobran)} entradas que no existen ({ej(sobran)})")
+                if faltan:
+                    partes.append(f"faltan {len(faltan)} encabezados ({ej(faltan)})")
+                if orden and not sobran and not faltan:
+                    partes.append("el orden de las entradas no es el de los encabezados")
+                H.append(_H("EST-017", "mayor", ind["titulo"], "índice desactualizado: " + "; ".join(partes),
+                            "actualizar el índice con los encabezados reales de nivel 1 a 3"))
+    for tipo, kind in (("tablas", "tabla"), ("figuras", "figura")):
+        ind = indices.get(tipo)
+        if ind is None:
+            continue
+        nombre = tipo
+        reales = {n: t for k_, n, t in rotulos if k_ == kind and n is not None}
+        entradas = {}
+        for e in ind["entradas"]:
+            m = RE_ROT.match(e.strip())
+            if m and auditar.numero(m.group(2)) is not None:
+                entradas[auditar.numero(m.group(2))] = _norm_enc(m.group(4))
+        if not ind["entradas"]:
+            if ind["campo"]:
+                H.append(_H("EST-017", "mayor", ind["titulo"], "el campo del índice no muestra entradas", "actualizar el campo"))
+            continue
+        sobran = sorted(set(entradas) - set(reales))
+        faltan = sorted(set(reales) - set(entradas))
+        distintos = [n for n in sorted(set(entradas) & set(reales)) if entradas[n] and reales[n] and entradas[n] != reales[n]
+                     and not reales[n].startswith(entradas[n]) and not entradas[n].startswith(reales[n])]
+        if sobran or faltan or distintos:
+            partes = []
+            if sobran:
+                partes.append(f"{len(sobran)} entradas sin {kind} (n.º {', '.join(map(str, sobran[:3]))})")
+            if faltan:
+                partes.append(f"{len(faltan)} {nombre} no están (n.º {', '.join(map(str, faltan[:3]))})")
+            if distintos:
+                partes.append(f"{len(distintos)} títulos distintos (n.º {', '.join(map(str, distintos[:3]))})")
+            H.append(_H("EST-017", "mayor", ind["titulo"], f"índice de {nombre} desactualizado: " + "; ".join(partes),
+                        f"actualizar el índice con los rótulos reales de {nombre}"))
+    return H
+
+
 # ---------------------------------------------------------------- API
 def revisar_info(path, perfil="apa7", portada_numero=None):
     """(hallazgos, info de portada) de un .docx. portada_numero (si|no) sustituye al de .editorial.yaml."""
@@ -464,10 +659,11 @@ def revisar_info(path, perfil="apa7", portada_numero=None):
     doc = Doc(d)
     its = items_cuerpo(d)
     ieee = (perfil or "apa7").lower().startswith("ieee")
-    H = paginacion(d, perfil or "apa7")
+    H = paginacion(d, perfil or "apa7", (auditar.formato_equipo(str(path))[0].get("paginacion") or {}).get("posicion"))
     H += regla_012_013(doc, its, ieee)
     H += regla_014(doc, its)
     H += regla_015(doc, its, ieee)
+    H += regla_017(d)
     Hp, info = portada(d, path, perfil, portada_numero)
     return H + Hp, info
 

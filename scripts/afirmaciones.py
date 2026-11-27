@@ -117,10 +117,12 @@ def _fuentes_mod():
     return fuentes
 
 
-def extraer_docx(path, red=True):
+def extraer_docx(path, red=True, fuentes=None):
     """V5 sobre un documento ya maquetado (.docx o .md sin [@id]): empareja cada oración con las entradas de su
     lista de referencias por autor-año (APA, con el mismo emparejamiento que usa el juez) o por número [n] (IEEE),
-    y toma el resumen de cada entrada con DOI (Crossref u OpenAlex)."""
+    y toma el resumen de cada entrada con DOI (Crossref u OpenAlex). Con `fuentes` (la lista de `fuentes.json` generada por
+    `editorial.py fuentes --desde-docx`) cada entrada toma su `id`, su `abstract` y su nivel de ese archivo (se empareja por `_ref_n`,
+    o por posición si la lista tiene la misma longitud): no se vuelve a consultar la red."""
     sys.path.insert(0, str(pathlib.Path(__file__).resolve().parent))
     import auditar
     import refs_csl
@@ -134,8 +136,19 @@ def extraer_docx(path, red=True):
     bus.SIN_RED = not red
     resumen = {}
     fallos = {}   # id -> motivo: el resumen no se pudo consultar (distinto de «la fuente no tiene resumen»)
+    por_n = {}
+    if fuentes:
+        por_n = {f.get("_ref_n", k + 1): f for k, f in enumerate(fuentes)} if len(fuentes) == len(items) or any("_ref_n" in f for f in fuentes) else {}
     for i, it in enumerate(items):
         it["id"] = f"ref{i + 1}"
+        f = por_n.get(i + 1)
+        if f is not None:
+            it["id"] = f.get("id") or it["id"]
+            if f.get("abstract"):
+                resumen[it["id"]] = f["abstract"]
+            elif f.get("DOI") or it.get("DOI"):
+                resumen[it["id"]] = ""
+            continue
         if it.get("DOI"):
             try:
                 resumen[it["id"]] = bus.resumen_por_doi(it["DOI"], estricto=True) or ""
@@ -160,8 +173,8 @@ def extraer_docx(path, red=True):
                     k = por_entrada.get(id(j["e"]))
                     if k and k not in ids:
                         ids.append(k)
-            for n in re.findall(r"\[(\d+)\]", o):  # IEEE
-                k = f"ref{n}"
+            for n in re.findall(r"\[(\d+)\]", o):  # IEEE: el número es la posición en la lista
+                k = items[int(n) - 1]["id"] if 0 < int(n) <= len(items) else None
                 if k in etiqueta and k not in ids:
                     ids.append(k)
             if not ids:
@@ -180,7 +193,8 @@ def main():
     p = argparse.ArgumentParser(description="Sustento V5 mecánico: cifras de cada afirmación citada frente al resumen de su fuente.")
     p.add_argument("doc")
     p.add_argument("--perfil", help="se acepta por uniformidad con los demás comandos; el sustento no depende del perfil")
-    p.add_argument("--fuentes", help="fuentes.json (Markdown con [@id]); sin él se usa la lista de referencias del documento")
+    p.add_argument("--fuentes", help="fuentes.json: con Markdown y [@id] son las fuentes citadas; con un .docx (o .md sin [@id]) debe venir de "
+                   "`editorial.py fuentes --desde-docx` y evita consultar la red; sin él se usa la lista de referencias del documento")
     p.add_argument("--json", metavar="RUTA", help="escribe las afirmaciones como JSON")
     p.add_argument("--sin-red", action="store_true")
     a = p.parse_args()
@@ -189,11 +203,11 @@ def main():
     import auditar
     auditar.validar_entrada(a.doc)
     texto = "" if a.doc.lower().endswith(".docx") else pathlib.Path(a.doc).read_text(encoding="utf-8-sig")
-    if a.fuentes and "[@" in texto:
-        fu = json.loads(pathlib.Path(a.fuentes).read_text(encoding="utf-8"))
+    fu = json.loads(pathlib.Path(a.fuentes).read_text(encoding="utf-8")) if a.fuentes else None
+    if fu is not None and "[@" in texto:
         res = extraer(texto, fu)
     else:
-        res = extraer_docx(a.doc, red=not a.sin_red)
+        res = extraer_docx(a.doc, red=not a.sin_red, fuentes=fu)
     if a.json:
         pathlib.Path(a.json).write_text(json.dumps(res, ensure_ascii=False, indent=2), encoding="utf-8")
     sin = [r for r in res if r["cifras_sin_respaldo"]]

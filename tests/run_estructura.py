@@ -11,7 +11,7 @@
   -> EST-016; portada sin número + perfil apa7 sin yaml -> EST-016; portada sin número + `portada_numero: no` -> nada;
   portada con número sin yaml -> sin hallazgo pero maquetacion_info lo informa; IEEE sin yaml -> nada. Las muestras
   oficiales APA (todas llevan número en la portada) no disparan EST-016 (lo cubre MAQUETACION_REAL).
-- Las 7 estructuras de estructuras/*.yaml cargan y tienen secciones obligatorias.
+- Las estructuras de estructuras/*.yaml (incluida protocolo-instituto-ejemplo) cargan y tienen secciones obligatorias; EST-004 (límite de palabras del Resumen y palabras clave) lo cubre tests/run_equipo.py con el perfil ITE.
 """
 import contextlib
 import io

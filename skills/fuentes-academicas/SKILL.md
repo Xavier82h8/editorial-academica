@@ -17,9 +17,16 @@ description: Use when an academic document needs sources — finding relevant, c
 | Solo acceso abierto | `--oa` |
 | Ventana temporal | `--desde 2018` (por defecto, últimos 10 años; `--clasicos` ignora la ventana) |
 | Añadir un DOI conocido | `python <raíz>/scripts/editorial.py fuentes --doi 10.xxxx/yyy --out fuentes.json --append` |
+| Fuentes de un Word existente | `python <raíz>/scripts/editorial.py fuentes --desde-docx doc.docx --out fuentes.json` (extrae DOI y URL de cada referencia, resuelve el DOI, trae el resumen y busca DOI por título + primer autor + año; sin coincidencia alta queda sin DOI con motivo en `_verificacion.sin_doi_motivo`). Después V5: `afirmaciones doc.docx --fuentes fuentes.json` |
 | Auditar las referencias de un documento | extrae los DOI y luego `python <raíz>/scripts/editorial.py fuentes --verificar fuentes.json` (código de salida 1 si alguno falla) |
 
 Ranking: relevancia en OpenAlex + citas por año + tipo de venue (revista o conferencia). Los trabajos retractados quedan excluidos.
+
+## Niveles de evidencia y pirámide
+Cada fuente tiene un nivel (`scripts/niveles.py`; en `fuentes.json` va como `_nivel`): **A** norma oficial (ISO/IEC/IEEE/NIST/NOM), artículo de revista arbitrada, actas IEEE/ACM con DOI; **B** libro, capítulo académico o tesis; **C** informe de organismo o gobierno; **D** documentación de proveedor, software o datos; **E** web, blog, wiki o preprint sin versión publicada. Se clasifica con el tipo de Crossref, el tipo de fuente de OpenAlex, patrones de la referencia y el dominio de la URL, y cada nivel lleva su motivo. `puntuar` muestra la «pirámide de fuentes» (conteo por nivel); FUE-V4N (menor) marca la afirmación sustantiva sostenida solo por fuentes D/E (en `/puntuar` siempre; en `/auditar` con `fuentes: {niveles: true}` en `.editorial.yaml`). Con `formato.fuentes_recientes.arbitradas: true`, INS-008 cuenta como reciente solo el nivel A/B.
+
+## Normas ISO/IEC
+iso.org suele responder 403. `--verificar` prueba iso.org, luego la vista previa oficial de VDE (`assets.vde-verlag.de/iec-normen/preview-pdf/info_isoiec{NNNNN}%7Bed<E>.0%7Den.pdf`, ed1 a ed4) y lee la portada con pdftotext: número, año, edición y título contra la referencia. Resultado `verificado` con `_verificacion.fuente_verificacion`, o `no_verificado` con motivo; nunca se da por verificada una norma sin portada oficial.
 
 ## Proceso
 1. Descompón el tema en 2-4 consultas en inglés (más una en español si el contexto es local) y córrelas con `--append`.

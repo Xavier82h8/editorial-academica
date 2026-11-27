@@ -1,0 +1,92 @@
+# Perfil de equipo institucional: protocolo de Taller de Investigación I, TNE, Instituto Tecnológico de Ejemplo, ciclo 2026.
+# Basado en la guía institucional ITE 2026 (no se distribuye). Cópialo como `.editorial.yaml` en la carpeta del protocolo
+# (ver docs/PERFILES-INSTITUCIONALES.md). Precedencia: perfil de equipo > norma base (APA 7) > estructura de género.
+# Cada excepción convierte los hallazgos de esa regla en «excepción institucional» (no cuentan como error en /auditar ni en
+# /puntuar) y quedan registradas con su motivo. Una excepción solo QUITA exigencias de APA; lo que la guía EXIGE en su lugar
+# (1.5, justificado, nivel 1 en mayúsculas y numerado, capítulo en página nueva, números romanos/arábigos, título de 20
+# palabras, 70 % de fuentes recientes, voz impersonal) lo declara el bloque `formato:` y lo comprueban las reglas INS-001..013;
+# sus excepciones APA (APA-004, 006, 025, 030) se derivan solas. /corregir aplica 1.5, justificado, mayúsculas, numeración,
+# página nueva, secciones de numeración y rótulos IEEE. La parte de contenido la cubre la estructura
+# (estructuras/protocolo-instituto-ejemplo.yaml).
+institucion: "Sistema Tecnológico Nacional (ejemplo), Instituto Tecnológico de Ejemplo (Taller de Investigación I, ciclo 2026)"
+perfil: apa7                      # citas y lista: APA 7.ª edición, autor-año
+estructura: protocolo-instituto-ejemplo   # preliminares + 12 capítulos (estructuras/protocolo-instituto-ejemplo.yaml)
+idioma: es
+voz: impersonal                   # tercera persona / «se» pasiva refleja
+tiempo_verbal: futuro_presente    # el protocolo es prospectivo: «se desarrollará», «se propone»
+minimo_fuentes: 5                 # orientativo: el estado del arte exige al menos 5 artículos o tesis recientes
+anios_fuentes: 5                  # antigüedad máxima orientativa de las fuentes
+porcentaje_recientes: 70          # orientativo: al menos 70 % de las referencias arbitradas y de los últimos 5 años (lo verifica /fuentes y el agente, no auditar.py)
+portada_numero: no                # portada sin número visible; preliminares en romanos minúsculos; cuerpo en arábigos (esquina superior derecha)
+tablas_figuras: ieee              # TABLA I arriba en mayúsculas con romanos; «Fig. 1.» abajo con arábigos; ambas mencionadas antes de aparecer
+formato:                          # formato propio de la guía: se EXIGE (reglas INS-001..013) y sus excepciones APA se derivan solas
+  interlineado: 1.5               # INS-001; APA-004 pasa sola a excepción y APA-033 exige 1.5 a los encabezados (doble si el docente lo indica: 2)
+  alineacion: justificada         # INS-002; APA-006 pasa sola a excepción
+  nivel1: {mayusculas: true, numerado: true}   # INS-003; APA-025 (mayúsculas) y APA-030 (numeración) pasan solas a excepción
+  niveles_numerados: true         # INS-004: «1.1.», «1.2.» con el número de su capítulo
+  capitulo_pagina_nueva: true     # INS-005
+  paginacion: {portada: sin_numero, preliminares: romanos, cuerpo: arabigos}   # INS-006 (y portada_numero: no)
+  titulo_max_palabras: 20         # INS-007
+  fuentes_recientes: {anios: 5, porcentaje: 70, arbitradas: true}   # INS-008 sobre la literatura actualizable; con `arbitradas: true` solo cuentan como recientes las fuentes de nivel A o B (la guía pide «literatura arbitrada de los últimos 5 años»; el año actual es el de hoy, `anio_actual:` lo fija)
+  # Para excluir obras fundacionales que el protocolo usa (instrumento, prueba o teoría original), en bloque:
+  #   fuentes_recientes:
+  #     anios: 5
+  #     porcentaje: 70
+  #     fundacionales:
+  #       - {ref: "Brooke, J. (1996)", motivo: "SUS original; el protocolo aplica el instrumento"}
+  # Leyes, licencias, conjuntos de datos, software y directorios salen solos del cálculo.
+  voz: impersonal                 # INS-009
+  fuente: {nombre: Times New Roman, pt: 12}   # INS-011: Times New Roman 12 en todo, también encabezados y pies, en negro
+  resumen: {palabras: [150, 250], sangria: false, un_parrafo: true, palabras_clave: [3, 5]}   # INS-012: un párrafo sin sangría
+  rotulos_pt: [8, 9]              # INS-013: «TABLA I» y «Fig. 1.» de 8 a 9 pt
+  portada:                        # INS-010: portada oficial, en este orden (la fecha es Mes y Año; los logotipos solo avisan)
+    campos:
+      - {nombre: "institución (SISTEMA TECNOLÓGICO NACIONAL (EJEMPLO))", literal: "SISTEMA TECNOLÓGICO NACIONAL (EJEMPLO)"}
+      - {nombre: "instituto (INSTITUTO TECNOLÓGICO DE EJEMPLO)", literal: "INSTITUTO TECNOLÓGICO DE EJEMPLO"}
+      - {nombre: "departamento (Sistemas y Computación)", literal: "Departamento de Sistemas y Computación"}
+      - {nombre: "docente", patron: '(?i:^\s*(?:docente|profesor|asesor)\b)|^\s*(?:MC|M\.C|Dra?|Mtr[oa]|Ing|Lic)\.\s+[A-ZÁÉÍÓÚÑ][a-záéíóúñ]'}
+      - {nombre: "título del proyecto"}
+      - {nombre: "leyenda oficial del protocolo", literal: "Protocolo de Investigación para la asignatura Taller de Investigación I"}
+      - {nombre: "integrantes", patron: '(?i:^\s*integrantes?\b)'}
+      - {nombre: "lugar (Ciudad Ejemplo, Estado)", patron: '(?i:^\s*Ciudad Ejemplo,\s*Estado)'}
+    fecha: mes_anio               # «Noviembre 2026» o «noviembre de 2026»; no dd/mm/aaaa ni «03/Noviembre/2026»
+    numero_control: true          # cada integrante con número de control (8 dígitos o letra y 8 dígitos; [[PENDIENTE]] cuenta como falta)
+    logos: [SEP, TNE, ITE]      # solo avisa si la portada lleva menos imágenes
+fuentes:                          # FUE-NIV (auditar): lo que la guía pide de las fuentes; los niveles A-E están en scripts/niveles.py
+  minimo_nivel: B                 # cada referencia, salvo documentales (leyes, licencias, datos, software) y fundacionales declaradas, de nivel A o B (menor)
+  porcentaje_arbitradas: 70       # al menos 70 % de las referencias de nivel A o B (norma, revista, actas, libro) (mayor)
+  evitar: [wikipedia, blog, foro] # fuentes que la guía no admite (mayor)
+excepciones:
+  - regla: APA-026                # APA: nivel 2 en title case
+    si_contiene: "title case"
+    motivo: "Guía ITE 2026: título de nivel 2 a la izquierda, negritas, tipo oración"
+  - regla: APA-027
+    si_contiene: "title case"
+    motivo: "Guía ITE 2026: título de nivel 3 a la izquierda, negritas cursivas (tipo oración)"
+  - regla: APA-028
+    si_contiene: "title case"
+    motivo: "Guía ITE 2026: título de nivel 4 con sangría de 1.27 cm, negritas, tipo oración y punto final"
+  - regla: APA-029
+    si_contiene: "title case"
+    motivo: "Guía ITE 2026: título de nivel 5 con sangría de 1.27 cm, negritas cursivas, tipo oración y punto final"
+  - regla: APA-059                # APA: la lista se titula «Referencias»
+    motivo: "Guía ITE 2026, capítulo 11: la lista se titula «Fuentes de información» (numerada, MAYÚSCULAS) y va en página nueva"
+  - regla: APA-017                # portada APA
+    motivo: "Guía ITE 2026: portada oficial con logotipos SEP, TNE e ITE, departamento, leyenda de la asignatura, integrantes con número de control, docente, lugar y fecha"
+  - regla: APA-018
+    motivo: "Guía ITE 2026: título de la portada conciso (15 a 20 palabras como máximo) con el formato de la portada oficial"
+  - regla: APA-019
+    motivo: "Guía ITE 2026: la portada oficial tiene su propia disposición"
+  - regla: APA-020
+    motivo: "Guía ITE 2026: integrantes con nombre completo y número de control en la portada oficial"
+  - regla: APA-021
+    motivo: "Guía ITE 2026: institución y departamento académico según la portada oficial"
+  - regla: APA-022
+    motivo: "Guía ITE 2026: la portada lleva leyenda del protocolo, docente o asesor, lugar (Ciudad Ejemplo, Estado) y fecha (Mes y Año), no curso e instructor al estilo APA"
+  - regla: APA-011                # APA: orden de páginas
+    motivo: "Guía ITE 2026: tras la portada van resumen, índice de contenido, índice de tablas e índice de figuras (páginas i a iv)"
+# Las reglas APA de rotulado de tablas y figuras (APA-089 y APA-090) pasan a excepción solas por `tablas_figuras: ieee`, y corren
+# en su lugar IEEE-089 (TABLA + romano, rótulo arriba, mayúsculas), IEEE-085 (Fig. N. abajo), IEEE-091 (numeración consecutiva),
+# IEEE-092 (orden de primera mención) y APA-091 (mencionadas en el texto antes de aparecer).
+# Lo que la guía exige y las reglas APA ya aceptan (no hace falta excepción): Times New Roman 12 pt en todo, incluidos los títulos
+# (APA-002/APA-003), márgenes de 2.54 cm (APA-001) y sangría de primera línea de 1.27 cm = 0.5 in (APA-007).

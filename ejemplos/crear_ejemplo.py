@@ -112,7 +112,7 @@ def main(salida=None):
         "redes sociales tenían más probabilidad de presentar alteraciones del sueño. Según la OMS, la mitad de los "
         "jóvenes duerme menos de lo recomendado [[FALTA FUENTE: dato de la OMS]]. Algunos autores señalan que la "
         "generación nacida con el teléfono inteligente duerme menos que las anteriores (Twenge, 2017).")
-    d.add_heading("Objetivos", level=2)
+    d.add_heading("Objetivos", level=1)
     d.add_paragraph("1. Describir el tiempo diario que los estudiantes dedican a las redes sociales.")
     d.add_paragraph("2. Relacionar ese tiempo con la calidad del sueño autorreportada.")
     d.add_paragraph("3. Comparar los resultados entre carreras de ingeniería y de humanidades.")
@@ -163,12 +163,12 @@ def main(salida=None):
     d.add_heading("Referencias", level=1)
     for ref in (
         "Levenson, J. C., Shensa, A., Sidani, J. E., Colditz, J. B., & Primack, B. A. (2016). The association between "
-        "social media use and sleep disturbance among young adults. Preventive Medicine, 85, 36-41. "
+        "social media use and sleep disturbance among young adults. Preventive Medicine, 85, 36–41. "
         "doi:10.1016/j.ypmed.2016.01.001",
         "Hale, L., & Guan, S. (2015). Screen time and sleep among school-aged children and adolescents: A systematic "
-        "literature review. Sleep Medicine Reviews, 21, 50-58. https://doi.org/10.1016/j.smrv.2014.07.007",
+        "literature review. Sleep Medicine Reviews, 21, 50–58. https://doi.org/10.1016/j.smrv.2014.07.007",
         "Curcio, G., Ferrara, M., & De Gennaro, L. (2006). Sleep loss, learning capacity and academic performance. "
-        "Sleep Medicine Reviews, 10(5), 323-337. https://doi.org/10.1016/j.smrv.2005.11.001",
+        "Sleep Medicine Reviews, 10(5), 323–337. https://doi.org/10.1016/j.smrv.2005.11.001",
         "Hysing, M., Pallesen, S., Stormark, K. M., Jakobsen, R., Lundervold, A. J., & Sivertsen, B. (2015). Sleep and "
         "use of electronic devices in adolescence: Results from a large population-based study. BMJ Open, 5(1), "
         "e006748. https://doi.org/10.1136/bmjopen-2014-006748",

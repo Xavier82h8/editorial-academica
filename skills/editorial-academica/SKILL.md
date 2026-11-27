@@ -9,7 +9,7 @@ Actúas como **editorial profesional y juez de formato**. Nunca inventas fuentes
 
 ## 0. Cómo invocar los scripts
 
-Todo script se llama con el despachador: `python <raíz>/scripts/editorial.py <subcomando> [argumentos]` (raíz: `${CLAUDE_PLUGIN_ROOT}` en Claude Code; `EDITORIAL_ROOT` o la ruta que dejó el instalador en otras CLI). Subcomandos: `auditar`, `corregir`, `puntuar`, `estructura`, `congruencia`, `maquetacion`, `afirmaciones`, `fuentes`, `convertir`, `render` (`<subcomando> --help` lista las opciones). Códigos de salida: 0 sin hallazgos, 1 hallazgos críticos o mayores, 2 error de uso o de entrada. En mac/Linux usa `python3` si `python` no existe.
+Todo script se llama con el despachador: `python <raíz>/scripts/editorial.py <subcomando> [argumentos]` (raíz: `${CLAUDE_PLUGIN_ROOT}` en Claude Code; `EDITORIAL_ROOT` o la ruta que dejó el instalador en otras CLI). Subcomandos: `auditar`, `corregir`, `puntuar`, `estructura`, `congruencia`, `maquetacion`, `afirmaciones`, `fuentes`, `convertir`, `render`, `modelo`, `titulo`, `repasar`, `perfilar` (`<subcomando> --help` lista las opciones). Códigos de salida: 0 sin hallazgos, 1 hallazgos críticos o mayores, 2 error de uso o de entrada. En mac/Linux usa `python3` si `python` no existe.
 
 Si tu CLI no tiene una herramienta de preguntas de opción múltiple (`AskUserQuestion` en Claude Code, `ask_user` en Gemini, `question` en OpenCode), pregunta en texto con opciones numeradas y espera la respuesta. Los agentes (`<raíz>/agents/<nombre>.md`) son subagentes en Claude Code; en otras CLI ejecuta sus instrucciones tú mismo como pasos secuenciales.
 
@@ -21,10 +21,14 @@ Si tu CLI no tiene una herramienta de preguntas de opción múltiple (`AskUserQu
 | "revisa / califica / audita este documento" | auditar | §2 → agente `juez-formato` |
 | "pásalo de APA a IEEE" | convertir | §2 → re-render referencias con CSL → juez |
 | "búscame fuentes sobre X" | fuentes | skill `fuentes-academicas` |
-| "corrige el formato de este Word" | corregir | `editorial.py corregir <doc.docx> --perfil <id>` (determinista, solo base APA; con base IEEE sale con 2) → lo no automático lo aplica el agente `juez-formato` sobre la copia `.corregido.docx` (el «--fix» es una petición al agente, no un flag de script) |
+| "corrige el formato de este Word" | corregir | `editorial.py corregir <doc.docx> --perfil <id>` (determinista, base APA; con base IEEE solo corrige IEEE-023, IEEE-084 e IEEE-140) → lo no automático lo aplica el agente `juez-formato` sobre la copia `.corregido.docx` (el «--fix» es una petición al agente, no un flag de script) |
 | "¿es coherente? / revisa objetivos y conclusiones" | congruencia | agente `revisor-congruencia` (incluye `congruencia.py`) |
 | "¿mis fuentes existen / dicen eso?" | verificar fuentes | `editorial.py fuentes --verificar fuentes.json` (V1-V4, DOI faltantes) + agente `verificador-afirmaciones` (V5) |
 | "¿qué le falta a mi tesis/protocolo?" | estructura | `editorial.py estructura <doc> --estructura <género> --perfil <id>` |
+| "ponle un título / ¿está bien mi título?" | título concreto | `editorial.py titulo <doc>` y `references/titulo.md`: receta «Sigla: objeto + para qué», 3-4 opciones con conteo, el usuario elige, se fija con `titulo:` en `.editorial.yaml` (vinculante, INS-010; CON-021 lo contrasta con el objetivo general) |
+| "arma la portada / entrega el documento con PDF / actualiza los índices" | portada, indices, entregar | `editorial.py portada <doc> [--campo nombre=valor]` (desde `formato: portada:` y el modelo vinculante; INS-010/INS-015), `indices <doc>` (TOC real con páginas medidas en el PDF), `entregar <doc>` (corregir, portada, índices, PDF, capturas, auditar y puntuar; deja `.entrega.docx` y `.entrega.pdf`). Necesitan LibreOffice y PyMuPDF |
+| "aquí está la guía de mi escuela / conviértela en reglas" | perfilar | `editorial.py perfilar <guia.pdf|docx> [--modelo-portada <pdf|docx> --pagina N]` y `references/perfilar.md`: `.editorial.yaml` + `estructuras/<id>.yaml`, cada valor con su cita de origen (`guía p. N: «…»`); lo ambiguo y las preferencias (registro, extensión, citas, salida, fuentes a evitar) van a `preguntas:` que haces tú; nunca sobrescribe un `.editorial.yaml` existente |
+| "ayúdame a repasar / entender mi protocolo" | repasar | `editorial.py repasar <doc> [--seccion N]`: modo de estudio por capítulo, sin puntaje (la lista de cotejo la revisa el docente) |
 | "califica / ¿qué tan listo está?" | puntuar | `/puntuar`: congruencia 30, fuentes 25, formato 20, estructura 15, redacción 10 |
 
 Perfil de equipo: si el proyecto tiene `.editorial.yaml` (ejemplo en `<raíz>/perfiles/equipo-ejemplo.editorial.yaml`), sus `excepciones` son reglas institucionales (EXC-xxx) y su `perfil`/`estructura` son los valores por defecto.
@@ -48,6 +52,7 @@ Si el usuario no lo dijo, pregunta: norma base, norma de citas, idioma, tipo de 
 4. Cargar solo los `references/` que la tarea necesita (divulgación progresiva).
 5. Ningún marcador `[[FALTA FUENTE: …]]`, `[[TODO]]` o `[[PENDIENTE]]` llega a la entrega: `auditar.py` lo reporta como `EA-001` (crítica). Se resuelve con una fuente verificada o reescribiendo la afirmación sin ella.
 6. Si la norma pudo cambiar (consulta > 6 meses de `<raíz>/normas/VERSION`), sugerir `/actualizar-normas`.
+7. **Formato vinculante.** Un formato, modelo o instrucción que da el usuario es vinculante: se mide, se registra en `vinculante:` y se reproduce al pie de la letra; si algo no cabe o contradice la norma, se pregunta; nunca se adapta en silencio. Decoración libre (p. ej. logos) solo si el usuario lo dice. Medir: `python <raíz>/scripts/editorial.py modelo medir <modelo.pdf|docx> --out spec.json`; registrar en `.editorial.yaml` (`vinculante:` con `id`, `origen`, `fecha`, `tipo: modelo|instruccion`, `texto` o `spec`, `ambito`); lo comprueba INS-015. Precedencia: vinculante > perfil de equipo > norma base > estructura de género.
 
 ## 4. Pipeline de redacción
 

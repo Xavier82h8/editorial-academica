@@ -6,6 +6,14 @@ Uso:
   python fuentes.py --verificar fuentes.json [--json res.json]  # re-verifica cada DOI contra Crossref
   python fuentes.py --doi 10.1109/5.771073 [--out f.json --append]
   python fuentes.py --resumenes fuentes.json          # añade resúmenes a las fuentes que no lo tengan
+  python fuentes.py --desde-docx doc.docx --out fuentes.json [--sin-red]   # fuentes.json desde la lista de referencias de un Word
+
+`--desde-docx`: lee la lista de referencias del documento, extrae DOI y URL de cada entrada, resuelve el DOI (Crossref; OpenAlex
+para resumen y tipo de fuente) y, a las que no tienen DOI, les busca uno por título + primer autor + año (solo coincidencia alta; si
+no, queda sin DOI con el motivo en `_verificacion.sin_doi_motivo`). Cada entrada guarda `_original` (el texto del documento), `_ref_n`
+(posición en la lista) y `_nivel` (A-E, ver scripts/niveles.py); la salida resume DOI resueltos, sin DOI con motivo y la
+pirámide de fuentes. Con `--verificar`, las normas ISO/IEC se comprueban con la vista previa oficial cuando iso.org no responde
+(scripts/normas_iso.py).
 
 Solo stdlib. Sin claves. OpenAlex (búsqueda/citas), Crossref (metadatos canónicos),
 Semantic Scholar (citas influyentes, opcional: falla en silencio por límite de tasa).
@@ -32,6 +40,8 @@ ROOT = pathlib.Path(__file__).resolve().parents[3]
 sys.path.insert(0, str(ROOT / "scripts"))
 import cli  # noqa: E402
 import datos  # noqa: E402
+import niveles  # noqa: E402
+import normas_iso  # noqa: E402
 
 UA = "editorial-academica/0.1 (academic citation plugin)"
 TIPOS_REVISADOS = {"journal-article", "proceedings-article", "book-chapter", "book", "monograph",
@@ -76,6 +86,33 @@ def _get_red(url, tries=3):
             raise
 
 
+def get_texto(url, tries=2):
+    """GET de texto (p. ej. la ficha Atom de arXiv) con la misma caché en disco que `get`; sin red y sin caché lanza URLError."""
+    ruta = CACHE_HTTP / (hashlib.sha1(("txt:" + url).encode()).hexdigest() + ".txt")
+    if ruta.exists() and (SIN_RED or time.time() - ruta.stat().st_mtime < TTL_CACHE):
+        return ruta.read_text(encoding="utf-8")
+    if SIN_RED:
+        raise urllib.error.URLError("sin red y sin caché: " + url)
+    for i in range(tries):
+        try:
+            req = urllib.request.Request(url, headers={"User-Agent": UA})
+            with urllib.request.urlopen(req, timeout=30) as r:
+                t = r.read().decode("utf-8", "replace")
+            CACHE_HTTP.mkdir(parents=True, exist_ok=True)
+            ruta.write_text(t, encoding="utf-8")
+            return t
+        except urllib.error.HTTPError as e:
+            if e.code == 404:
+                return ""
+            if i == tries - 1:
+                raise
+        except urllib.error.URLError:
+            if i == tries - 1:
+                raise
+        time.sleep(2)
+    return ""
+
+
 def openalex_buscar(q, n, desde, idioma, oa, orden=None):
     filtros = [f"from_publication_date:{desde}-01-01", "is_retracted:false",
                "type:article|book|book-chapter|review|dissertation|report|dataset|standard|preprint"]
@@ -111,6 +148,21 @@ def resumen_por_doi(doi, estricto=False):
             raise
         return ""
     return resumen_openalex((w or {}).get("abstract_inverted_index"))
+
+
+def openalex_info(doi, estricto=False):
+    """(resumen, tipo de fuente de OpenAlex: journal, conference, repository, book series…) de un DOI. Un fallo de red/parseo se
+    propaga con estricto=True; si no, devuelve ("", None)."""
+    try:
+        w = get("https://api.openalex.org/works/doi:" + urllib.parse.quote(doi, safe="/")
+                + "?select=abstract_inverted_index,primary_location,type", tries=2)
+    except Exception:
+        if estricto:
+            raise
+        return "", None
+    w = w or {}
+    src = ((w.get("primary_location") or {}).get("source") or {})
+    return resumen_openalex(w.get("abstract_inverted_index")), src.get("type")
 
 
 def crossref(doi):
@@ -481,11 +533,19 @@ def autocitas(items):
 
 
 def doi_por_metadatos(it):
+    """DOI de la obra con el mismo título, primer autor y año (±1) en Crossref, o None (ver doi_por_metadatos_motivo)."""
+    return doi_por_metadatos_motivo(it)[0]
+
+
+def doi_por_metadatos_motivo(it):
     """Busca en Crossref (query.bibliographic) una obra con el mismo título, primer autor y año (±1).
-    Devuelve su DOI o None. Solo se envían título, apellido y año (metadatos públicos de la obra)."""
+    Devuelve (DOI o None, motivo si no hay). Solo se envían título, apellido y año (metadatos públicos de la obra).
+    Coincidencia alta: título equivalente (titulos_equivalentes) Y primer autor Y año; si no, no se acepta."""
     titulo = limpiar_titulo(it.get("title", ""))
-    if len(titulo) < 12 or it.get("type") in ("webpage", "post-weblog", "software", "legislation", "personal_communication"):
-        return None
+    if len(titulo) < 12:
+        return None, "título demasiado corto para buscar por título"
+    if it.get("type") in ("webpage", "post-weblog", "software", "legislation", "personal_communication", "dataset"):
+        return None, f"obra de tipo «{it.get('type')}»: no suele tener DOI (no se buscó)"
     a1 = (it.get("author") or [{}])[0]
     ap = a1.get("family") or a1.get("literal") or ""
     y = ((it.get("issued") or {}).get("date-parts") or [[None]])[0][0]
@@ -493,23 +553,29 @@ def doi_por_metadatos(it):
                                 "select": "DOI,title,author,issued,type"})
     try:
         d = get("https://api.crossref.org/works?" + q, tries=2)
-    except Exception:
-        return None
-    for m in ((d or {}).get("message") or {}).get("items", []):
+    except Exception as ex:  # noqa: BLE001
+        return None, _motivo_red(ex, "búsqueda por título en Crossref")
+    candidatas = ((d or {}).get("message") or {}).get("items", [])
+    if not candidatas:
+        return None, "Crossref no devuelve obras para ese título"
+    motivo = "ninguna candidata de Crossref coincide en título"
+    for m in candidatas:
         if not titulos_equivalentes((m.get("title") or [""])[0], titulo):
             continue
         fm = _norm(((m.get("author") or [{}])[0]).get("family") or ((m.get("author") or [{}])[0]).get("name"))
         fa = _norm(ap)
         if fa and fm and fa not in fm and fm not in fa and not a1.get("literal"):
+            motivo = "el título coincide pero el primer autor no"
             continue
         ym = ((m.get("issued") or {}).get("date-parts") or [[None]])[0][0]
         try:
             if y and ym and abs(int(y) - int(ym)) > 1:
+                motivo = "el título y el autor coinciden pero el año no"
                 continue
         except (TypeError, ValueError):
             pass
-        return m.get("DOI")
-    return None
+        return m.get("DOI"), None
+    return None, motivo
 
 
 def verificar_item(it):
@@ -519,7 +585,22 @@ def verificar_item(it):
          "estado": "verificado", "motivo": None}
     if not doi:
         url = it.get("URL")
-        sug = doi_por_metadatos(it)
+        norma = normas_iso.detectar(it)
+        rn = normas_iso.verificar(norma, SIN_RED) if norma else None
+        if rn:
+            r["_verificacion"] = {k: rn[k] for k in ("estado", "motivo", "fuente_verificacion", "norma", "edicion", "titulo_oficial") if rn.get(k)}
+            if isinstance(it.get("_verificacion"), dict) or "_verificacion" not in it:
+                it.setdefault("_verificacion", {}).update(r["_verificacion"])
+            if rn["estado"] == "verificado":
+                r.update(url="ok", v1=True, ok=True, estado="verificado",
+                         nota=f"norma {rn['norma']} verificada con {rn['fuente_verificacion']}" + (f" ({rn['edicion']})" if rn.get("edicion") else ""))
+                r["fuente_verificacion"] = rn["fuente_verificacion"]
+                return r
+            if rn["estado"] == "difiere":
+                r.update(url="ok", v1=True, ok=False, v2=rn["diferencias"], nota=rn["motivo"])
+                r["fuente_verificacion"] = rn["fuente_verificacion"]
+                return r
+        sug = None if norma else doi_por_metadatos(it)
         if sug:
             r["doi_sugerido"] = sug  # APA 9.34: si la obra tiene DOI, la referencia lo incluye
         if not url:  # libro impreso, ley, comunicación: existe pero no se comprueba en línea
@@ -528,6 +609,8 @@ def verificar_item(it):
             r["ok"] = True
             r["nota"] = (f"existe en Crossref con DOI {sug}: añadirlo" if sug
                          else "sin DOI ni URL: no verificable en línea")
+            if rn and not sug:
+                r["nota"] += "; norma ISO/IEC: " + (rn.get("motivo") or "no verificada")
             if not sug:
                 r["estado"], r["motivo"] = "no_verificado", r["nota"]
             return r
@@ -536,6 +619,9 @@ def verificar_item(it):
         r["ok"] = r["url"] != "roto"
         r["nota"] = {"ok": "URL responde", "roto": "URL rota (404/410 o dominio inexistente)",
                      "no verificable": "el sitio no permite comprobar la URL"}[r["url"]]
+        if rn and rn["estado"] == "no_verificado":  # la URL responde, pero la norma no se pudo comprobar contra una portada oficial
+            r["nota"] += "; norma ISO/IEC: " + (rn.get("motivo") or "no verificada")
+            r["estado"], r["motivo"] = "no_verificado", rn.get("motivo") or r["nota"]
         if r["url"] == "no verificable":
             r["estado"], r["motivo"] = "no_verificado", r["nota"]
         return r
@@ -572,12 +658,113 @@ def cargar_json(path):
         cli.error(f"JSON inválido en {path}: {ex}")
 
 
-def verificar(path, json_out=None):
+RE_DOI = re.compile(r"10\.\d{4,9}/[^\s\"<>]+")
+
+
+def _limpiar_doi(d):
+    return d.rstrip(".,;:)]}»”’'").lower() if d else d
+
+
+def _ids_unicos(items):
+    """Da a cada item un id apellidoAño único (sufijo a, b… si choca) sin fusionar duplicados: conserva el orden de la lista."""
+    usados = set()
+    for it in items:
+        base = clave_legible(it)
+        m = re.match(r"^(.*?)(\d{4}|sf)$", base)
+        if m and len(m.group(1)) > 20:  # autor institucional largo: solo el comienzo («agenciadeasuntosculturales2024»)
+            base = m.group(1)[:20] + m.group(2)
+        cand, k = base, 0
+        while cand in usados:
+            cand = base + "abcdefghijklmnopqrstuvwxyz"[k % 26] + (str(k // 26) if k >= 26 else "")
+            k += 1
+        it["id"] = cand
+        usados.add(cand)
+
+
+def desde_docx(doc, out, resolver=True):
+    """fuentes.json desde la lista de referencias de un .docx/.md (ver el docstring del módulo). Devuelve (items, resumen)."""
+    import auditar
+    import refs_csl
+    auditar.validar_entrada(doc)
+    pars, _ = (auditar.cargar_docx if str(doc).lower().endswith(".docx") else auditar.cargar_md)(str(doc))
+    _, _, entradas = auditar.partir(pars)
+    textos = [" ".join(e["texto"].split()) for e in entradas if e["texto"].strip()]
+    if not textos:
+        cli.error(f"{doc}: no se encontró la lista de referencias")
+    parseadas = refs_csl.parsear_lista(textos)
+    items = []
+    cuenta = {"referencias": len(textos), "doi_en_documento": 0, "doi_resuelto": 0, "doi_no_resuelve": 0, "doi_por_titulo": 0,
+              "sin_doi": 0, "con_resumen": 0, "sin_red": 0}
+    sin_doi_motivos = []
+    for n, (it, texto) in enumerate(zip(parseadas, textos), 1):
+        doi = _limpiar_doi(it.get("DOI") or (RE_DOI.search(texto) or [None])[0])
+        encontrado_por = None
+        if doi:
+            cuenta["doi_en_documento"] += 1
+        elif resolver:
+            sug, motivo = doi_por_metadatos_motivo(it)
+            if sug:
+                doi, encontrado_por = sug.lower(), "título + primer autor + año"
+                cuenta["doi_por_titulo"] += 1
+            else:
+                it.setdefault("_verificacion", {})["sin_doi_motivo"] = motivo
+        if doi and resolver:
+            try:
+                m = crossref(doi)
+                err = None
+            except Exception as ex:  # noqa: BLE001
+                m, err = None, _motivo_red(ex, "DOI no comprobado en Crossref")
+            if m:
+                resumen, tipo_oa = openalex_info(doi)
+                base = a_csl(m, resumen=resumen, extra={"crossref_type": m.get("type"), "openalex_source_type": tipo_oa})
+                dif = comparar(it, {"title": (m.get("title") or [""])[0], "author": m.get("author") or [],
+                                    "year": ((m.get("issued") or m.get("published") or {}).get("date-parts") or [[None]])[0][0],
+                                    "container": (m.get("container-title") or [""])[0]})
+                base["_verificacion"]["coincide_documento"] = not [d for d in dif if "aviso" not in d]
+                if dif:
+                    base["_verificacion"]["diferencias_con_documento"] = dif
+                if encontrado_por:
+                    base["_verificacion"]["doi_encontrado_por"] = encontrado_por
+                if it.get("URL") and not base.get("URL"):
+                    base["URL"] = it["URL"]
+                it = base
+                cuenta["doi_resuelto"] += 1
+                cuenta["con_resumen"] += bool(base.get("abstract"))
+            elif err:
+                it["DOI"] = doi
+                it.setdefault("_verificacion", {}).update({"fuente": "documento", "estado": "no_verificado", "motivo": err})
+                cuenta["sin_red"] += 1
+            else:
+                it["DOI"] = doi
+                it.setdefault("_verificacion", {}).update({"fuente": "documento", "estado": "falla", "motivo": "el DOI no resuelve en Crossref"})
+                cuenta["doi_no_resuelve"] += 1
+        elif doi:
+            it["DOI"] = doi
+        if not it.get("DOI"):
+            cuenta["sin_doi"] += 1
+            sin_doi_motivos.append((n, (it.get("_verificacion") or {}).get("sin_doi_motivo") or "sin DOI ni búsqueda (--sin-red)"))
+        it["_original"] = texto
+        it["_ref_n"] = n
+        it["_nivel"] = niveles.clasificar(it, texto)
+        for k in ("_norma", "_sufijo"):
+            it.pop(k, None)
+        items.append(it)
+        time.sleep(0 if SIN_RED else 0.1)
+    _ids_unicos(items)
+    niv = [i["_nivel"]["nivel"] for i in items]
+    resumen = {**cuenta, "piramide": niveles.piramide(niv), "peso_medio": niveles.peso_medio(niv), "sin_doi_motivos": sin_doi_motivos}
+    if out:
+        pathlib.Path(out).write_text(json.dumps(items, ensure_ascii=False, indent=2), encoding="utf-8", newline="\n")
+    return items, resumen
+
+
+def verificar(path, json_out=None, guardar=False):
     items = cargar_json(path)
     res = []
     for it in items:
         r = verificar_item(it)
         res.append(r)
+        r["nivel"] = niveles.clasificar(it)["nivel"]
         nota = []
         if not r["v1"]:
             nota.append(r.get("nota", "no resuelve"))
@@ -602,8 +789,15 @@ def verificar(path, json_out=None):
     conc = autocitas(items)
     if conc > 0.3:
         print(f"aviso V4: {conc:.0%} de las fuentes comparten primer autor con otra (concentración de autores)")
+    print("\nPirámide de fuentes (nivel de evidencia):")
+    print(niveles.texto_piramide(niveles.piramide([r["nivel"] for r in res]), len(res)))
     if json_out:
         json.dump(res, open(json_out, "w", encoding="utf-8"), ensure_ascii=False, indent=2)
+    if guardar:
+        for it, r in zip(items, res):
+            if r.get("_verificacion"):
+                it.setdefault("_verificacion", {}).update(r["_verificacion"])
+        pathlib.Path(path).write_text(json.dumps(items, ensure_ascii=False, indent=2), encoding="utf-8", newline="\n")
     return 1 if malos else 0
 
 def main():
@@ -620,14 +814,47 @@ def main():
     p.add_argument("--json", help="con --verificar: guarda el resultado V1-V3 por fuente en este JSON")
     p.add_argument("--sin-red", action="store_true", help="solo caché HTTP (regresión sin red)")
     p.add_argument("--doi")
+    p.add_argument("--desde-docx", metavar="DOC", help="genera fuentes.json (--out) desde la lista de referencias de este .docx o .md")
+    p.add_argument("--guardar", action="store_true", help="con --verificar: escribe `_verificacion` (p. ej. fuente_verificacion de las normas ISO) en el mismo fuentes.json")
     p.add_argument("--resumenes", help="añade el resumen (Crossref/OpenAlex) a las fuentes de este JSON que no lo tengan")
+    p.add_argument("--reemplazar", metavar="ORACION", help="propone (sin aplicar) cómo respaldar esta oración: versión publicada de la misma obra y candidatas A/B; con --cita")
+    p.add_argument("--cita", metavar="REFERENCIA", help="con --reemplazar: texto de la referencia citada o su DOI")
+    p.add_argument("--contexto", "--doc", dest="contexto", metavar="DOC.docx",
+                   help="con --reemplazar: .docx del que se extraen 5-8 términos de dominio (título, palabras clave, frecuencia); se exigen en la consulta y en el filtrado")
     a = p.parse_args()
     cli.utf8()
 
     global SIN_RED
     SIN_RED = a.sin_red
+    if a.reemplazar:
+        if not a.cita:
+            p.error("--reemplazar necesita --cita \"<texto de la referencia o DOI>\"")
+        import reemplazo_fuentes
+        try:
+            res = reemplazo_fuentes.proponer(sys.modules[__name__], a.reemplazar, a.cita, n=a.n if a.n != 15 else 5, contexto=a.contexto)
+        except (urllib.error.URLError, OSError) as ex:
+            cli.error(f"sin red o la consulta falló ({type(ex).__name__}): {ex}")
+        reemplazo_fuentes.imprimir(res)
+        if a.out != "fuentes.json":
+            cli.escribir_json(a.out, res, indent=2)
+            print(f"propuesta escrita en {a.out}")
+        sys.exit(0)
     if a.verificar:
-        sys.exit(verificar(a.verificar, a.json))
+        sys.exit(verificar(a.verificar, a.json, a.guardar))
+    if a.desde_docx:
+        items, rs = desde_docx(a.desde_docx, a.out)
+        print(f"{rs['referencias']} referencias en {a.desde_docx}")
+        print(f"  DOI en el documento: {rs['doi_en_documento']}; encontrados por título + autor + año: {rs['doi_por_titulo']}; "
+              f"resueltos en Crossref: {rs['doi_resuelto']}; no resuelven: {rs['doi_no_resuelve']}; sin comprobar (sin red): {rs['sin_red']}")
+        print(f"  sin DOI: {rs['sin_doi']}; con resumen: {rs['con_resumen']}")
+        for n, motivo in rs["sin_doi_motivos"][:12]:
+            print(f"    ref {n}: {motivo}")
+        if len(rs["sin_doi_motivos"]) > 12:
+            print(f"    … y {len(rs['sin_doi_motivos']) - 12} más (en `_verificacion.sin_doi_motivo` de cada entrada)")
+        print("Pirámide de fuentes (nivel de evidencia):")
+        print(niveles.texto_piramide(rs["piramide"], rs["referencias"]))
+        print(f"  peso medio: {rs['peso_medio']}\n{len(items)} entradas en {a.out}")
+        sys.exit(1 if rs["doi_no_resuelve"] else 0)
     if a.resumenes:
         items = cargar_json(a.resumenes)
         n = 0

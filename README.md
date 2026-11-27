@@ -5,11 +5,26 @@
 [![Pruebas](https://github.com/Xavier82h8/editorial-academica/actions/workflows/pruebas.yml/badge.svg)](https://github.com/Xavier82h8/editorial-academica/actions/workflows/pruebas.yml)
 [![Licencia: MIT](https://img.shields.io/badge/licencia-MIT-green.svg)](LICENSE)
 [![Python 3.10+](https://img.shields.io/badge/python-3.10%2B-blue.svg)](requirements.txt)
-[![Versión 0.4.0](https://img.shields.io/badge/versi%C3%B3n-0.4.0-informational.svg)](CHANGELOG.md)
+[![Versión 0.8.0](https://img.shields.io/badge/versi%C3%B3n-0.8.0-informational.svg)](CHANGELOG.md)
 [![APA 7 | IEEE](https://img.shields.io/badge/normas-APA%207%20%7C%20IEEE-8a2be2.svg)](docs/REGLAS.md)
 [![Agent Skills](https://img.shields.io/badge/Agent%20Skills-Claude%20Code%20%7C%20Codex%20%7C%20Gemini%20%7C%20OpenCode-black.svg)](#instalación)
 
 > Tu asesor no debería gastar la revisión en márgenes, sangrías y comas de la lista de referencias. Que lo haga la máquina, con la regla citada, y que la conversación con tu asesor sea sobre tus ideas.
+
+## Lo que hace distinta a editorial-academica
+
+Otras herramientas te dicen qué está mal. Esta además **toma tu formato como ley**, lo mide, lo reproduce y entrega el archivo final comprobado:
+
+1. **Formato vinculante, medido.** Le das una portada o un formato modelo (PDF o Word) y la skill lo mide (fuente, tamaño, color, alineación, espacios, cajas, a 0.1 pt) y lo reproduce al pie de la letra; si algo contradice la norma, pregunta en vez de adaptar. `modelo medir portada.pdf --out spec.json` y la regla INS-015.
+2. **`/perfilar`: la guía de tu escuela se convierte en reglas.** Lee el PDF o Word de la guía y genera el `.editorial.yaml` y la estructura de capítulos, cada valor con su cita de origen (`guía p. 2: «Times New Roman a 12 puntos…»`); lo ambiguo y tus preferencias te las pregunta. `perfilar guia.pdf --modelo-portada portada.pdf`.
+3. **Portada institucional e índices con páginas medidas.** La portada sale del modelo, con tus datos; el índice de contenido, el de tablas y el de figuras son campos reales de Word con el número de página medido en el PDF, no escrito a ojo. `portada tesis.docx` y `indices tesis.docx`.
+4. **`entregar`: .docx y .pdf verificados en un paso.** Corrige, arma portada e índices, genera el PDF, toma capturas y audita el resultado; si queda un marcador `[[PENDIENTE]]`, no entrega en verde. `entregar tesis.docx`.
+5. **Normas ISO verificadas aunque iso.org bloquee.** Comprueba número, año, edición y título de una norma ISO/IEC con la vista previa oficial de otra fuente cuando iso.org no responde, y dice de dónde salió la verificación. `fuentes --verificar fuentes.json`.
+6. **Pirámide de evidencia A-E y afirmaciones sin sustento.** Cada fuente tiene su nivel (A norma o revista arbitrada … E blog, wiki o preprint), y una afirmación con cifra que solo sostiene una fuente D/E se marca (FUE-V4N); `fuentes --reemplazar` propone la versión publicada de la misma obra o una candidata A/B del mismo dominio de tu documento (`--contexto tesis.docx`). `puntuar tesis.docx` muestra la pirámide.
+7. **Un título concreto, coherente con el objetivo.** Diagnostica el título de portada frente al objetivo general (sigla + objeto + para qué, sin método ni cifras) y propone opciones que tú eliges (CON-021). `titulo tesis.docx`.
+8. **`repasar`: estudiar tu protocolo sin calificarlo.** Capítulo por capítulo: qué pide la guía, qué tiene tu documento y preguntas para entenderlo; sin puntaje, porque eso lo decide tu docente. `repasar protocolo.docx --seccion 4`.
+
+**Un caso real, anonimizado:** el protocolo institucional de una asignatura de Taller de Investigación pasó de **87.9 a 91** con estas funciones: portada fiel a la guía medida a 0.1 pt, índice real con páginas medidas, 32 → 19 afirmaciones sin fuente arbitrada y las normas ISO verificadas. Sin nombres de personas, escuela ni proyecto.
 
 ## En un minuto
 
@@ -108,6 +123,10 @@ En Claude Code son `/editorial-academica:<nombre>`; en cualquier otro lado, `pyt
 | `estructura` | Secciones que exige el género y maquetación (paginación, tablas, portada) | `estructura tesis.docx --estructura tesis --perfil apa7` |
 | `fuentes` | Busca y verifica fuentes (V1-V5) y genera `fuentes.json` | `fuentes "evaluación con IA generativa" --n 15 --out fuentes.json` |
 | `convertir` | Pasa un Word de APA a IEEE (o al revés) re-renderizando citas y referencias | `convertir tesis.docx --a ieee` |
+| `modelo` | Mide un modelo de formato (PDF o .docx) y lo compara con tu documento; es el formato vinculante (`vinculante:` en `.editorial.yaml`, regla INS-015) | `modelo medir portada.pdf --out portada-modelo.json` |
+| `perfilar` | La guía de tu escuela (PDF o Word) se convierte en `.editorial.yaml` y estructura de capítulos, cada valor con su cita de origen; nunca sobrescribe tu perfil | `perfilar guia.pdf --modelo-portada portada.pdf` |
+| `portada`, `indices`, `entregar` | Portada desde el modelo, índices con páginas medidas y entrega `.docx` + `.pdf` verificados | `entregar tesis.docx` |
+| `titulo`, `repasar` | Título concreto coherente con el objetivo; modo de estudio por capítulo, sin calificar | `titulo tesis.docx` |
 | `render` | Markdown con `[@id]` a .docx, PDF, LaTeX o md con CSL | `render informe.md --perfil apa7 --fuentes fuentes.json --salida docx` |
 | `informe`, `tesis` | Redacta solo con fuentes verificadas (con tu agente) | `/editorial-academica:informe "tema" --perfil apa7` |
 
@@ -190,9 +209,9 @@ Bandas: **90 o más** Publicable, **75-89** Correcciones menores, **60-74** Corr
 
 En términos técnicos: precisión y exhaustividad (*recall*) de 1,00 en todas las rondas. Ese 1,00 significa que ninguna ronda conocida vuelve a fallar, no que el revisor sea infalible con documentos nuevos.
 
-![¿Quién revisa cada una de las 323 reglas? El programa revisa y corrige 32, revisa otras 54 y el agente de IA juzga 237; de las 115 reglas mecánicas de APA e IEEE, 56 ya están automatizadas](docs/img/reglas-por-familia.png)
+![¿Quién revisa cada una de las 324 reglas? El programa revisa y corrige 35, revisa otras 88 y el agente de IA juzga 201; de las 115 reglas mecánicas de APA e IEEE, 92 ya están automatizadas](docs/img/reglas-por-familia.png)
 
-De las 323 reglas, el programa revisa 86 (y de esas, corrige solo 32); las 237 restantes las juzga tu agente porque piden criterio, como el lenguaje sin sesgo o si una cita respalda lo que se le atribuye. A la derecha está lo pendiente: APA e IEEE tienen 115 reglas que se podrían revisar de forma mecánica y hoy 56 ya lo están.
+De las 324 reglas, el programa revisa 123 (y de esas, corrige 35); las 201 restantes las juzga tu agente porque piden criterio, como el lenguaje sin sesgo o si una cita respalda lo que se le atribuye. A la derecha está lo pendiente: APA e IEEE tienen 115 reglas que se podrían revisar de forma mecánica y hoy 92 ya lo están.
 
 ![Un protocolo de investigación real, revisión tras revisión: de 31.1 a 91.5, baja a 87 con reglas nuevas, sube a 91.4, baja a 85.4 con un revisor más estricto y vuelve a 88.4 tras la corrección automática](docs/img/piloto-evolucion.png)
 
@@ -217,7 +236,7 @@ excepciones:
     motivo: "La guía institucional pide 1.5 in para encuadernar"
 ```
 
-Ejemplo completo en [perfiles/equipo-ejemplo.editorial.yaml](perfiles/equipo-ejemplo.editorial.yaml).
+Ejemplo completo en [perfiles/equipo-ejemplo.editorial.yaml](perfiles/equipo-ejemplo.editorial.yaml). Perfil institucional listo para usar (protocolo de Taller de Investigación I, TNE ITE) y cómo hacer el de tu escuela: [docs/PERFILES-INSTITUCIONALES.md](docs/PERFILES-INSTITUCIONALES.md).
 
 ## Privacidad
 
@@ -257,6 +276,7 @@ Código bajo [licencia MIT](LICENSE). Las plantillas CSL son del proyecto Citati
 - **Source verification V1-V5**: existence, metadata, retractions, quality and claim support against abstracts (Crossref, OpenAlex). Only DOIs, titles and URLs leave your machine, never the document text. Network failures are reported as `no_verificado`, never as verified.
 - **Score 0-100** with the five highest-impact fixes; `corregir` fixes mechanical APA formatting on a copy, never on your original.
 - **Measured**: 0 false positives on 17 official APA/IEEE samples; precision and recall of 1.00 on seeded and blind regression rounds; a [worked example](ejemplos/README.md) from 53.6 to 94.4, rendered with LibreOffice; [live runs](docs/PRUEBAS-EN-VIVO.md) in Codex and OpenCode reaching the same verdict as the judge.
+- **What sets it apart**: your own format is binding (`modelo`, INS-015), `perfilar` turns your school's guide into rules with the quoted source of each value, the cover page and the indexes are built and measured against the PDF, `entregar` delivers a verified .docx + .pdf, ISO standards are verified even when iso.org blocks, and sources are graded A-E.
 - **Honest limits**: V5 checks abstracts only, the auto-corrector targets APA-based profiles, agent rules are non-deterministic, and the official standards are not distributed (`python scripts/obtener_normas.py`).
 
 Install: `/plugin marketplace add Xavier82h8/editorial-academica` (Claude Code), `gemini extensions install https://github.com/Xavier82h8/editorial-academica` (Gemini CLI), `python scripts/instalar.py --cli codex|opencode|cursor|copilot`, or `pip install -r requirements.txt` for the plain CLI. MIT licensed; see [NOTICE](NOTICE) for third-party material. APA® and IEEE® are trademarks of their owners; this project is not affiliated with them.

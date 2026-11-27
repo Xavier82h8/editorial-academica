@@ -225,6 +225,12 @@ def apa_fino(errores):
     E = []
     d = base()
     mid = LOREM + "La Tabla 1 resume los datos y la Figura 1 muestra el flujo del método."
+    if not errores:
+        mid += " El instrumento completo está en el Apéndice A."
+    if errores:  # APA-031: el texto no empieza con «Introduction» (APA 2.26)
+        enc(d, "Introduction", 1)
+        parrafo(d, LOREM)
+        E += [("APA-031", "el texto empieza con un encabezado «Introduction»")]
     enc(d, "Método", 1, centro=False if errores else None, negrita=True)
     if errores:
         E += [("APA-025", "nivel 1 a la izquierda")]
@@ -233,13 +239,17 @@ def apa_fino(errores):
     if errores:
         fmt(p, despues=12, sangria=0.5)
         E += [("APA-005", "espacio después de párrafo de 12 pt"), ("APA-036", "narrativa «Chen et al., 2022, propusieron»")]
-    enc(d, "2.1 Participantes" if errores else "Participantes", 2, antes=12 if errores else 0)
+    enc(d, "2.1 Participantes" if errores else "Participantes", 3 if errores else 2, antes=12 if errores else 0)
     if errores:
-        E += [("APA-030", "encabezado numerado"), ("APA-033", "encabezado con espacio antes de 12 pt")]
+        E += [("APA-030", "encabezado numerado"), ("APA-033", "encabezado con espacio antes de 12 pt"),
+              ("APA-024", "encabezado de nivel 3 justo tras uno de nivel 1")]
     p = d.add_paragraph()
     fmt(p, sangria=0.0 if errores else 0.5)
     p.add_run("Criterios de inclusión.").bold = True
     p.add_run(" " + LOREM)
+    if not errores:  # APA-032: una sección con subencabezados lleva al menos dos
+        enc(d, "Procedimiento", 2)
+        parrafo(d, LOREM)
     if errores:
         E += [("APA-028", "encabezado de nivel 4 en línea sin sangría"), ("APA-007", "ese párrafo tampoco tiene sangría de primera línea")]
     rotulo(d, 1, "Medidas de desempeño") if not errores else None
@@ -261,10 +271,25 @@ def apa_fino(errores):
     if errores:
         parrafo(d, LOREM + "Los modelos profundos superan a los clásicos (Shen et al., 2017; Litjens et al., 2017) y (Litjens, p. 4) lo ilustra.")
         E += [("APA-043", "Shen antes que Litjens"), ("APA-036", "(Litjens, p. 4) sin año")]
+        parrafo(d, LOREM + "Otro estudio informó resultados similares (Ker et al., 2018, 5 de mayo).")
+        E += [("APA-041", "fecha completa en la cita")]
+        parrafo(d, LOREM + "Soto et al. (2020) documentan el uso en el aula; véase el Apéndice B.")
+        E += [("APA-039", "obra de dos autores citada con et al.")]
         parrafo(d, LOREM + "La salud mental es prioritaria (Organización Mundial de la Salud [OMS], 2021).")
+        parrafo(d, LOREM + "Los autores afirman que “las redes profundas superan a los métodos clásicos en la mayoría de las tareas” (Ker et al., 2018).")
+        E += [("APA-048", "cita textual de más de seis palabras sin página")]
+        parrafo(d, LOREM + "El F.B.I. y la NASA usan sistemas similares.")
+        E += [("APA-103", "sigla «F.B.I.» con puntos")]
+        parrafo(d, LOREM + "Un metaanálisis reciente lo confirma (Alfa et al., 2021).")
+        enc(d, "Discusión", 1)
+        parrafo(d, LOREM)
+        enc(d, "Limitaciones", 2)
+        parrafo(d, LOREM)
+        E += [("APA-032", "«Discusión» con un único subencabezado")]
     else:
         parrafo(d, LOREM + "Los modelos profundos superan a los clásicos (Litjens et al., 2017; Shen et al., 2017).")
         parrafo(d, LOREM + "La salud mental es prioritaria (Organización Mundial de la Salud [OMS], 2021).")
+        parrafo(d, LOREM + "Los autores afirman que “las redes profundas superan a los métodos clásicos en la mayoría de las tareas” (Ker et al., 2018, p. 9380).")
     rotulo(d, 1, "Flujo del método", tabla=False) if not errores else None
     if errores:
         r = d.add_paragraph().add_run("Figura 1")
@@ -287,19 +312,133 @@ def apa_fino(errores):
     if errores:
         E += [("APA-072", "revista y volumen sin cursiva"), ("APA-065", "sigla [OMS] en la lista"),
               ("APA-060", "espacio entre entradas")]
+        refs[0] = refs[0].replace("Zhang, K., & Qiu", "Zhang, K., Qiu")
+        refs[2] = refs[2].replace("(2017). A survey", "(2017) A survey")
+        refs.insert(5, "Shen, D., Wu, G., & Suk, H.-I. (2017). Deep learning in medical image analysis: Una segunda mirada. *Annual Review of Biomedical Engineering*, *19*, 249–260.")
+        refs.append("Soto, L., & Vera, M. (2020). *Tutoría inteligente en música*. Editorial Uno.")
+        E += [("APA-063", "Chen sin & antes del último autor"), ("APA-066", "Litjens sin punto tras la fecha"),
+              ("APA-044", "dos obras de Shen, Wu y Suk de 2017 sin a ni b")]
+        refs[1] = refs[1].replace("9375–9389", "9375-9389")
+        refs[0] += " https://example.org/chen"
+        refs[-1] += " https://search.ebscohost.com/login.aspx?direct=true&db=a9h&AN=123456"
+        apellidos = ["Alfa", "Beta", "Gamma", "Delta", "Epsilon", "Zeta", "Eta", "Theta", "Iota", "Kappa", "Lambda", "Mu", "Nu", "Xi",
+                     "Omicron", "Pi", "Rho", "Sigma", "Tau", "Upsilon", "Phi"]
+        refs.insert(0, ", ".join(f"{a}, A." for a in apellidos[:-1]) + f", & {apellidos[-1]}, A. (2021). Un metaanálisis de tutoría inteligente. "
+                    "*Revista de Metaanálisis*, *3*(1), 1–20. https://doi.org/10.1000/rm.3.1.1")
+        E += [("APA-074", "rango de páginas con guion"), ("APA-080", "DOI y URL en la misma entrada"),
+              ("APA-081", "URL de EBSCOhost"), ("APA-064", "21 autores sin puntos suspensivos")]
     for r in refs:
         p = d.add_paragraph()
         p.paragraph_format.left_indent, p.paragraph_format.first_line_indent = Inches(0.5), Inches(-0.5)
         if errores:
             p.paragraph_format.space_after = Pt(9)
         runs_md(p, r)
+    ap = d.add_paragraph()
+    ap.add_run().add_break(WD_BREAK.PAGE)
+    fmt(ap)
+    rot = d.add_paragraph()
+    fmt(rot, centro=True)
+    rot.add_run("Apéndice A").bold = True
+    tit = d.add_paragraph()
+    fmt(tit, centro=True)
+    tit.add_run("Instrumento de medición").bold = True
+    parrafo(d, LOREM)
+    if errores:
+        E += [("APA-015", "el Apéndice A no se menciona en el texto")]
+    return d, E
+
+
+# ------------------------------------------------------------------ IEEE: reglas de la tanda 1 (abstract, figuras, tablas, lista)
+ABSTRACT_FRASE = ("This work studies deep learning methods for medical image analysis and compares their accuracy, cost "
+                  "and robustness across several public datasets and clinical settings. ")
+IEEE_REGLAS_REFS = [
+    "G. Litjens et al., “A survey on deep learning in medical image analysis,” *Med. Image Anal.*, vol. 42, pp. 60–88, Dec. 2017, doi: 10.1016/j.media.2017.07.005.",
+    "D. Shen, G. Wu, and H.-I. Suk, “Deep learning in medical image analysis,” *Annu. Rev. Biomed. Eng.*, vol. 19, pp. 221–248, Jun. 2017, doi: 10.1146/annurev-bioeng-071516-044442.",
+    "J. Ker, L. Wang, J. Rao, and T. Lim, “Deep learning applications in medical image analysis,” *IEEE Access*, vol. 6, pp. 9375–9389, 2018, doi: 10.1109/ACCESS.2017.2788044.",
+    "X. Chen et al., “Recent advances in deep learning for medical image analysis,” *Med. Image Anal.*, vol. 79, Jul. 2022, Art. no. 102444, doi: 10.1016/j.media.2022.102444.",
+    "A. Núñez and M. Ruiz, “Wireless sensor networks for environmental monitoring,” *Sensors Lett.*, vol. 3, no. 2, pp. 1–9, Mar. 2019, doi: 10.1000/sl.3.2.1.",
+    "L. Torres, “Data quality guide,” Ministry of Health, Lima, Peru, 2021. [Online]. Available: https://example.org/guia",
+    "G. Litjens et al., “A survey on deep learning in medical image analysis,” *Med. Image Anal.*, vol. 42, pp. 60–88, Dec. 2017, doi: 10.1016/j.media.2017.07.005.",
+]
+
+
+def ieee_reglas(errores):
+    """Documento IEEE con abstract, figuras, tablas y lista: IEEE-009, 019, 020, 022, 023, 034, 041, 061, 084, 089, 091, 092."""
+    E = []
+    d = base()
+    enc(d, "Abstract", 1, centro=False)
+    n_frases = 2 if errores else 8
+    parrafo(d, (ABSTRACT_FRASE * n_frases).strip(), sangria=0.0)
+    if errores:
+        E += [("IEEE-061", "abstract de 50 palabras")]
+    enc(d, "I. Introduction", 1, centro=False)
+    parrafo(d, LOREM + "The first survey is reported in [1].")
+    if errores:
+        parrafo(d, LOREM + "Figure 2 shows the pipeline and Fig. 1 the data [2], as discussed in ibid [1].")
+        E += [("IEEE-084", "«Figure 2» en el texto"), ("IEEE-092", "Fig. 2 se menciona antes que Fig. 1"),
+              ("IEEE-009", "«ibid.» en el texto")]
+        parrafo(d, LOREM + "This agrees with Shen and Wu [2] and with the MATLAB® toolbox.")
+        E += [("IEEE-007", "obra de 3 autores citada con dos apellidos y «and»"), ("IEEE-129", "símbolo ® en el texto")]
+    else:
+        parrafo(d, LOREM + "Fig. 1 shows the data and Fig. 2 the pipeline [2].")
+        parrafo(d, LOREM + "This agrees with Shen et al. [2] and with the MATLAB toolbox.")
+    parrafo(d, LOREM + "TABLE I summarizes the metrics [3] and TABLE II the costs [4], [5].")
+    parrafo(d, LOREM + "Fig. 4 shows the results [6], [7]." if errores else LOREM + "Fig. 3 shows the results [6], [7].")
+    if errores:
+        E += [("IEEE-091", "figuras 1, 2 y 4")]
+    for k, (n, t) in enumerate((("1", "Data"), ("2", "Pipeline"), ("4" if errores else "3", "Results")), 1):
+        p = d.add_paragraph()
+        fmt(p, centro=True, linea=1.0)
+        p.add_run().add_picture(io.BytesIO(PNG_1X1), width=Inches(1))
+        c = d.add_paragraph()
+        fmt(c, centro=True, linea=1.0)
+        c.add_run(f"Fig. {n}. {t}.")
+    for n, t in (("1" if errores else "I", "Metrics"), ("2" if errores else "II", "Costs")):
+        c = d.add_paragraph()
+        fmt(c, centro=True, linea=1.0)
+        c.add_run(f"TABLE {n}")
+        c2 = d.add_paragraph()
+        fmt(c2, centro=True, linea=1.0)
+        c2.add_run(t.upper())
+        tabla(d)
+    if errores:
+        E += [("IEEE-089", "rótulo «TABLE 1» con número arábigo")]
+    enc(d, "II. Methods", 1, centro=False)
+    parrafo(d, LOREM)
+    if errores:
+        enc(d, "III. Acknowledgment", 1, centro=False)
+        parrafo(d, LOREM)
+        E += [("IEEE-070", "ACKNOWLEDGMENT y REFERENCES numerados con los demás encabezados")]
+    titulo_refs(d, "IV. REFERENCES" if errores else "REFERENCES")
+    refs = list(IEEE_REGLAS_REFS)
+    if errores:
+        refs[1] = refs[1].replace(", and H.-I. Suk", " & H.-I. Suk")
+        E += [("IEEE-023", "«&» antes del último autor")]
+        refs[2] = refs[2].replace("J. Ker, L. Wang, J. Rao, and T. Lim,", "Ker, J., Wang, L., Rao, J., and Lim, T.,")
+        E += [("IEEE-020", "«Apellido, I.»")]
+        refs[3] = refs[3].replace("X. Chen et al.,", "X. Chen, Y. Li, Z. Wang, K. Zhang, Q. Wu, H. Sun, and R. Gao,")
+        E += [("IEEE-022", "7 autores sin et al.")]
+        refs[4] = refs[4].replace(" Mar. 2019,", "")
+        E += [("IEEE-034", "entrada sin año")]
+        refs[5] = refs[5].replace("[Online]. Available: ", "")
+        E += [("IEEE-041", "URL sin «[Online]. Available:»")]
+        E += [("IEEE-019", "la entrada 7 repite la 1")]
+        refs[2] = refs[2].replace("vol. 6, pp. 9375–9389", "Vol. 6, pp. 9375-9389")
+        E += [("IEEE-031", "«Vol.» en mayúscula y páginas con guion")]
+        refs[3] = refs[3].replace("Jul. 2022", "July 2022")
+        E += [("IEEE-032", "mes sin abreviar")]
+    else:
+        refs[6] = "S. Kim, “Medical imaging at scale,” *J. Imaging*, vol. 5, no. 1, pp. 1–12, Jan. 2020, doi: 10.3390/jimaging5010001."
+    for i, r in enumerate(refs, 1):
+        entrada(d, f"[{i}]\t" + r)
     return d, E
 
 
 def main():
     OUT.mkdir(exist_ok=True)
     esperado = {}
-    for nombre, fn, perfil in (("apa7", apa, "apa7"), ("ieee", ieee, "ieee"), ("apa7_fino", apa_fino, "apa7")):
+    for nombre, fn, perfil in (("apa7", apa, "apa7"), ("ieee", ieee, "ieee"), ("apa7_fino", apa_fino, "apa7"),
+                               ("ieee_reglas", ieee_reglas, "ieee")):
         for err in (False, True):
             d, E = fn(err)
             f = OUT / f"{nombre}_{'errores' if err else 'correcto'}.docx"

@@ -21,6 +21,7 @@ import yaml
 sys.path.insert(0, str(pathlib.Path(__file__).resolve().parent))
 import auditar  # noqa: E402
 import cli  # noqa: E402
+import institucional  # noqa: E402
 import maquetacion  # noqa: E402
 import ooxml  # noqa: E402
 
@@ -44,18 +45,37 @@ REGLAS = {"APA-001": "margenes", "APA-002": "fuente", "APA-003": "fuente", "APA-
           "APA-005": "espaciado", "APA-006": "alineacion", "APA-007": "sangria", "APA-008": "pagina",
           "APA-025": "encabezados", "APA-026": "encabezados", "APA-027": "encabezados", "APA-030": "numeracion",
           "APA-059": "rotulo", "APA-012": "rotulo", "APA-060": "refs_formato", "APA-061": "refs_orden",
-          "APA-028": "enc_linea", "APA-029": "enc_linea", "APA-036": "narrativa", "APA-037": "conjuncion", "APA-043": "orden_cita", "APA-076": "doi",
+          "APA-028": "enc_linea", "APA-029": "enc_linea", "APA-036": "narrativa", "APA-037": "conjuncion", "APA-043": "orden_cita", "APA-076": "doi", "APA-074": "rangos",
           "APA-065": "sigla", "APA-093": "tablas", "APA-145": "puntuacion", "APA-115": "puntuacion",
-          "IEEE-140": "puntuacion", "EST-010": "paginacion", "EST-011": "paginacion", "EST-012": "maqueta",
-          "EST-013": "maqueta", "EST-014": "maqueta"}
+          "IEEE-140": "puntuacion", "IEEE-023": "ieee_autores", "IEEE-084": "ieee_figura", "EST-010": "paginacion", "EST-011": "paginacion", "EST-012": "maqueta",
+          "EST-013": "maqueta", "EST-014": "maqueta",
+          "INS-001": "ins_cuerpo", "INS-002": "ins_cuerpo", "INS-003": "ins_enc", "INS-004": "ins_enc", "INS-005": "ins_enc",
+          "INS-006": "ins_pagina", "INS-011": "ins_tipo", "INS-012": "ins_resumen", "INS-013": "ins_rotulos",
+          "IEEE-085": "rotulos_ieee", "IEEE-089": "rotulos_ieee"}
+REGLAS_IEEE = {"IEEE-023", "IEEE-084", "IEEE-140"}
 # reglas que solo se corrigen en parte: lo que sobra se informa como no automático
 NO_AUTO = {"APA-028": "encabezados de nivel 4 con estilo «Heading 4»: requieren fusionar el encabezado con el párrafo siguiente",
            "APA-029": "encabezados de nivel 5 con estilo «Heading 5»: requieren fusionar el encabezado con el párrafo siguiente",
            "APA-036": "citas legales sin año, p. ej. «(art. 16, fr. VI)» o «(LFDA, art. 27)»: decidir la obra y el año a mano"}
+NO_AUTO["INS-003"] = "numeración de capítulos que no es claramente consecutiva (o ya numerada con otro orden): se numera a mano"
+NO_AUTO["INS-004"] = "subcapítulos ya numerados con el número de otro capítulo: se renumeran a mano"
+NO_AUTO["INS-006"] = "numeración por sección (portada, preliminares en romanos, cuerpo desde 1): si no se pudo separar en secciones, se hace en Word (Insertar > Saltos > Página siguiente; Formato del número de página)"
+NO_AUTO["INS-007"] = "título de la portada más largo que el máximo: acortarlo es decisión del autor"
+NO_AUTO["INS-008"] = "fuentes recientes insuficientes: hay que buscar fuentes más recientes (/fuentes)"
+NO_AUTO["INS-009"] = "primera persona en el cuerpo: reescribir en voz impersonal (tercera persona o «se»)"
+NO_AUTO["INS-010"] = "portada oficial: los campos, la fecha Mes y Año, los números de control y el título fijado (`titulo:`) los aporta el autor; la portada se arma con el modelo"
+NO_AUTO["INS-012"] = "resumen: la sangría se quita sola; el número de palabras, de párrafos y de palabras clave los decide el autor"
+NO_AUTO["INS-015"] = "fidelidad al modelo vinculante: se reproduce el modelo a mano (o se le pregunta al usuario si no cabe); corregir no toca la portada ni los ámbitos vinculantes"
+NO_AUTO["EST-017"] = "índice desactualizado: se actualiza en Word (clic derecho > Actualizar campo > todo el índice)"
 NO_AUTO["EST-015"] = "nota de tabla/figura sin formato APA: elegir la obra; plantilla propuesta en /estructura"
 NO_AUTO["EST-016"] = "numeración de la portada: decisión del usuario o de la institución; --portada-numero si|no o `portada_numero:` en .editorial.yaml"
 PARCIALES = set(NO_AUTO)
-MODOS_PAGINACION = ("encabezado", "pie", "ninguna")
+MODOS_PAGINACION = ("encabezado", "pie", "ninguna", "encabezado-derecha", "pie-derecha", "pie-centro")
+# (lugar, lado): «encabezado» y «pie» son los alias de siempre (encabezado a la derecha; pie con el número centrado si hay que crearlo y
+# sin tocar la alineación de un número que ya existe); los modos con lado fijan la alineación del número
+MODO_LUGAR_LADO = {"encabezado": ("encabezado", "derecha"), "encabezado-derecha": ("encabezado", "derecha"), "pie": ("pie", None),
+                   "pie-derecha": ("pie", "derecha"), "pie-centro": ("pie", "centro"), "ninguna": ("ninguna", None)}
+POSICION_A_MODO = {"encabezado_derecha": "encabezado-derecha", "pie_derecha": "pie-derecha", "pie_centro": "pie-centro"}
 
 
 # ---------------------------------------------------------------- utilidades XML
@@ -312,6 +332,25 @@ def corregir_parrafos_formato(d, pares, que):
     return n
 
 
+def corregir_espaciado_encabezados(d, heads, il):
+    """APA-033 con formato institucional: interlineado `il` y espacio antes/después 0 en los encabezados. Devuelve cuántos."""
+    n = 0
+    for el, p, _nivel in heads:
+        if p.get("en_tabla"):
+            continue
+        par = Paragraph(el, d._body)
+        tocado = False
+        ls = p["interlineado"]
+        if not (isinstance(ls, (int, float)) and abs(ls - il) < 0.05):
+            par.paragraph_format.line_spacing = il
+            tocado = True
+        if p.get("esp_antes", 0) > auditar.TOL_PT or p.get("esp_despues", 0) > auditar.TOL_PT:
+            fijar_espaciado(par)
+            tocado = True
+        n += tocado
+    return n
+
+
 def corregir_sangria(d, pares, todos, cuerpo, entradas, fin_p):
     A = auditar
     ids_ent = {id(e) for e in entradas}
@@ -536,6 +575,32 @@ def _vaciar_parte(parte_el, tipos):
     return total
 
 
+def _alinear_numero_pie(parte_el, lado):
+    """Alinea (derecha|centro) el párrafo del pie que lleva PAGE. Si solo tiene el número (y tabuladores), quita los tabuladores
+    y fija la alineación; si tiene más texto y se pide la derecha, pone un tabulador posicional derecho antes del campo.
+    Devuelve el número de párrafos cambiados."""
+    n = 0
+    destino = "right" if lado == "derecha" else "center"
+    for p_el in list(parte_el.iter(qn("w:p"))):
+        if not ooxml.tiene_pagina(p_el):
+            continue
+        resto = ooxml.texto_visible(p_el).strip()
+        if not resto or resto.isdigit():
+            for r_el in list(p_el.findall(qn("w:r"))):
+                hijos = [c for c in r_el if c.tag != qn("w:rPr")]
+                if hijos and all(c.tag in (qn("w:tab"), qn("w:ptab")) for c in hijos):
+                    p_el.remove(r_el)
+                    n += 1
+            jc = p_el.find(qn("w:pPr") + "/" + qn("w:jc"))
+            actual = jc.get(qn("w:val")) if jc is not None else None
+            if actual not in (destino, "end" if destino == "right" else destino):
+                Paragraph(p_el, None).paragraph_format.alignment = WD_ALIGN_PARAGRAPH.RIGHT if destino == "right" else WD_ALIGN_PARAGRAPH.CENTER
+                n += 1
+        elif lado == "derecha" and p_el.find(".//" + qn("w:ptab")) is None and p_el.find(".//" + qn("w:tab")) is None:
+            n += _poner_ptab_antes_de_pagina(p_el)
+    return n
+
+
 def _solo_numero_en_pie(parte_el):
     """Pie con PAGE: quita NUMPAGES y las palabras «Página»/«de», dejando solo el número. Devuelve n de cambios."""
     n = 0
@@ -574,11 +639,13 @@ def _pagina_tras_texto(hdr_el):
 
 
 def corregir_paginacion(d, secciones, modo, portada=None, solo_portada=False):
-    """modo: encabezado | pie | ninguna. Nunca deja PAGE en encabezado y pie a la vez.
+    """modo: encabezado | pie | ninguna | encabezado-derecha | pie-derecha | pie-centro (ver MODO_LUGAR_LADO). Nunca deja PAGE en
+    encabezado y pie a la vez.
     portada (si | no | None) gobierna la primera página de la sección 0: «no» no la toca (la quita corregir_portada);
     None solo la toca si ya lleva número (no pone número a una portada que no lo tiene); «si» la numera como el resto.
     solo_portada: solo esa parte. Devuelve {"APA-008": n, "EST-010": n, "EST-011": n}."""
     r = {"APA-008": 0, "EST-010": 0, "EST-011": 0}
+    modo, lado = MODO_LUGAR_LADO.get(modo, (modo, None))
 
     def acum(q):
         r["EST-010"] += q.get("PAGE", 0)
@@ -607,10 +674,12 @@ def corregir_paginacion(d, secciones, modo, portada=None, solo_portada=False):
                 if f is not None:
                     if ooxml.tiene_pagina(f._element):
                         r["EST-011"] += _solo_numero_en_pie(f._element)
+                        if lado:
+                            r["EST-010"] += _alinear_numero_pie(f._element, lado)
                     else:
                         vacio = next((p for p in f.paragraphs if not p.text.strip() and not list(p._p.iter(qn("w:fldChar")))), None)
                         par = vacio if vacio is not None else f.add_paragraph()
-                        par.paragraph_format.alignment = WD_ALIGN_PARAGRAPH.CENTER
+                        par.paragraph_format.alignment = WD_ALIGN_PARAGRAPH.RIGHT if lado == "derecha" else WD_ALIGN_PARAGRAPH.CENTER
                         poner_campo_pagina(par._p)
                         r["EST-010"] += 1
             else:
@@ -899,11 +968,61 @@ def ordenar_refs(entradas):
     return sum(1 for (_, a), (_, b) in zip(con, orden) if a is not b)
 
 
-def quitar_vacios(d, todos, fin_p):
+class Proteccion:
+    """Elementos que corregir no toca: la portada de un perfil institucional (`formato:`/`vinculante:` presente) y los ámbitos
+    de las entradas `vinculante:` de tipo modelo (o con un ámbito distinto de `documento`). Guarda una copia al crearse y
+    `restaurar()` la devuelve al documento justo antes de guardar, conservando solo el w:sectPr vivo (márgenes y numeración).
+    La unidad es el párrafo, o la tabla de nivel superior que lo contiene."""
+
+    def __init__(self, d, els, pars, fin_p, fmt):
+        import modelo_formato as MF
+        base = list(els[:fin_p]) if fmt else []
+        for v in (fmt or {}).get("vinculante") or []:
+            if v["tipo"] == "modelo" or v["ambito"] != "documento":
+                base += [p_el for p_el, _ in MF.ambito_parrafos(d, MF.Resolutor(d), v["ambito"])]
+        raices, vistos = [], set()
+        for el in base:
+            t = el
+            for a in el.iterancestors(qn("w:tbl")):
+                t = a  # la última es la tabla de nivel superior
+            if id(t) not in vistos:
+                vistos.add(id(t))
+                raices.append(t)
+        self.items = [(el, copy.deepcopy(el)) for el in raices]
+        self.ids = {id(el) for el in raices}
+
+    def contiene(self, el):
+        return id(el) in self.ids or any(id(a) in self.ids for a in el.iterancestors(qn("w:tbl")))
+
+    def restaurar(self):
+        n = 0
+        for el, copia in self.items:
+            padre = el.getparent()
+            if padre is None:
+                continue
+            nuevo = copy.deepcopy(copia)
+            if el.tag == qn("w:p"):
+                vivo = el.find(qn("w:pPr") + "/" + qn("w:sectPr"))
+                if vivo is not None:
+                    ppr = nuevo.find(qn("w:pPr"))
+                    if ppr is None:
+                        ppr = OxmlElement("w:pPr")
+                        nuevo.insert(0, ppr)
+                    for x in ppr.findall(qn("w:sectPr")):
+                        ppr.remove(x)
+                    ppr.append(copy.deepcopy(vivo))
+            padre.replace(el, nuevo)
+            n += 1
+        return n
+
+
+def quitar_vacios(d, todos, fin_p, prot=None):
     n = 0
     for p in todos[fin_p:]:
         if not p.get("en_tabla") and auditar.es_vacio(p) and not auditar.vacio_legitimo(todos, p):
             el = ELEM_DE[id(p)]
+            if prot is not None and prot.contiene(el):
+                continue
             if el.getparent() is not None and el.find(qn("w:pPr") + "/" + qn("w:sectPr")) is None:
                 el.getparent().remove(el)
                 n += 1
@@ -1221,6 +1340,382 @@ def corregir_puntuacion(pares, cuerpo, entradas):
     return n
 
 
+def corregir_rangos(pares, entradas):
+    """APA-074: rango de páginas con guion («pp. 10-20», «3(2), 45-67») -> raya en («10–20») solo en las entradas de la lista."""
+    ids = {id(e) for e in entradas}
+    n = 0
+    for el, p in pares:
+        if id(p) not in ids:
+            continue
+        ed = [(a, a + 1, "–") for a in auditar.rangos_guion(texto_de(el))]
+        n += aplicar_ediciones(el, ed) and len(ed)
+    return n
+
+
+# ---------------------------------------------------------------- IEEE-023 / IEEE-084
+def corregir_ieee_autores(pares, entradas):
+    """IEEE-023: «&» o « y » entre autores de una entrada -> «and» (con coma seriada si hay 3 o más autores)."""
+    A = auditar
+    ids = {id(e) for e in entradas}
+    n = 0
+    for el, p in pares:
+        if id(p) not in ids:
+            continue
+        t = texto_de(el)
+        pre = re.match(r"\s*\[\d+\]\s*", t)
+        ini = pre.end() if pre else 0
+        c = A.RE_COMILLA.search(t, ini)
+        if not c:
+            continue
+        ed = []
+        for m in A.RE_Y_AUTORES.finditer(t, ini, c.start()):
+            serial = t[ini:m.start()].count(",") >= 1 and t[m.start() - 1] != ","
+            ed.append((m.start(), m.end(), ", and " if serial else " and "))
+        n += aplicar_ediciones(el, ed) and len(ed)
+    return n
+
+
+def corregir_ieee_figura(pares, cuerpo):
+    """IEEE-084: «Figure N» / «Figures N» en el texto -> «Fig. N» / «Figs. N» (no toca pies de figura, notas ni tablas)."""
+    A = auditar
+    ids = {id(p) for p in cuerpo}
+    n = 0
+    for el, p in pares:
+        if id(p) not in ids:
+            continue
+        ed = [(m.start(), m.end(), "Figs. " if m.group(1) == "Figures" else "Fig. ") for m in A.figure_en_texto({**p, "texto": texto_de(el)})]
+        n += aplicar_ediciones(el, ed) and len(ed)
+    return n
+
+
+# ---------------------------------------------------------------- formato institucional (INS-001..006) y rótulos IEEE
+def _poner_en_inicio(el, prefijo):
+    """Antepone `prefijo` al texto del primer w:t del párrafo (conserva el formato del primer run)."""
+    for t in el.iter(qn("w:t")):
+        t.text = prefijo + (t.text or "")
+        t.set(XML_SPACE, "preserve")
+        return True
+    return False
+
+
+def _mayusculas(el):
+    n = 0
+    for t in el.iter(qn("w:t")):
+        if t.text and t.text != t.text.upper():
+            t.text = t.text.upper()
+            n = 1
+    return n
+
+
+def corregir_ins_cuerpo(d, S, fmt):
+    """INS-001 (interlineado) e INS-002 (alineación) en los párrafos que juzga institucional.seleccion. {regla: n}."""
+    I = institucional
+    r = {"INS-001": 0, "INS-002": 0}
+    il, al = fmt.get("interlineado"), fmt.get("alineacion")
+    for p in S["cuerpo"] + S["refs"]:
+        par = Paragraph(ELEM_DE[id(p)], d._body)
+        if il and not (isinstance(p["interlineado"], (int, float)) and abs(p["interlineado"] - il) < 0.05):
+            par.paragraph_format.line_spacing = il
+            r["INS-001"] += 1
+    for p in S["cuerpo"]:
+        if al and not I.excluido_alineacion(p, S["ids_ent"]) and ("JUSTIFY" in p["alineacion"]) != (al == "justificada"):
+            Paragraph(ELEM_DE[id(p)], d._body).paragraph_format.alignment = (
+                WD_ALIGN_PARAGRAPH.JUSTIFY if al == "justificada" else WD_ALIGN_PARAGRAPH.LEFT)
+            r["INS-002"] += 1
+    return r
+
+
+def corregir_ins_tipografia(d, fu):
+    """INS-011: fuente, tamaño y color negro de los runs de encabezados y pies que no cumplen `fuente:`. Devuelve runs tocados."""
+    from docx.shared import RGBColor
+    n = 0
+    for _etiq, r_el, _ in institucional.desajustes_tipografia(d, fu):
+        f = Run(r_el, None).font
+        if fu.get("nombre"):
+            f.name = fu["nombre"]
+            rf = r_el.find(qn("w:rPr") + "/" + qn("w:rFonts"))
+            for a in ("w:asciiTheme", "w:hAnsiTheme", "w:eastAsiaTheme", "w:cstheme"):
+                if rf.get(qn(a)) is not None:
+                    del rf.attrib[qn(a)]
+            for a in ("w:eastAsia", "w:cs"):
+                rf.set(qn(a), fu["nombre"])
+        if fu.get("pt"):
+            f.size = Pt(fu["pt"])
+        f.color.rgb = RGBColor(0, 0, 0)
+        n += 1
+    return n
+
+
+def corregir_ins_resumen(d, pars, prot=None):
+    """INS-012: quita la sangría de primera línea del resumen y de su línea de palabras clave. Devuelve párrafos tocados."""
+    info = institucional.info_resumen(pars)
+    n = 0
+    if info:
+        _enc, cuerpo, claves = info
+        for q in cuerpo + ([claves] if claves else []):
+            if q["sangria1"] > 0.05 and not (prot is not None and prot.contiene(ELEM_DE[id(q)])):
+                Paragraph(ELEM_DE[id(q)], d._body).paragraph_format.first_line_indent = Pt(0)
+                n += 1
+    return n
+
+
+def corregir_ins_rotulos(d, pars, S, rango, prot=None):
+    """INS-013: lleva el tamaño de los rótulos al límite del rango más cercano. Devuelve rótulos tocados."""
+    n = 0
+    for p in institucional.rotulos_fuera(pars, S, rango):
+        if prot is not None and prot.contiene(ELEM_DE[id(p)]):
+            continue
+        tam = [z for _, z in p.get("fuentes", ()) if z]
+        objetivo = rango[1] if max(tam) > rango[1] else rango[0]
+        for r in Paragraph(ELEM_DE[id(p)], d._body).runs:
+            if r.text.strip():
+                r.font.size = Pt(objetivo)
+        n += 1
+    return n
+
+
+def corregir_ins_encabezados(d, S, fmt, pars, ids, avisos):
+    """INS-003 (nivel 1 en mayúsculas y numerado), INS-004 (nivel 2 «N.k.») e INS-005 (capítulo en página nueva). La numeración
+    solo se añade si los capítulos son claramente consecutivos (los ya numerados coinciden con su posición); si no, se avisa."""
+    I = institucional
+    r = {"INS-003": 0, "INS-004": 0, "INS-005": 0}
+    n1 = fmt.get("nivel1") or {}
+    if "INS-003" in ids and n1.get("mayusculas"):
+        for p in S["h1"]:
+            r["INS-003"] += _mayusculas(ELEM_DE[id(p)])
+    caps = I.numeracion_n1(S["h1"])
+    num = {id(p): n for p, n in caps}
+    if n1.get("numerado") and "INS-003" in ids:
+        faltan = [(k, p) for k, (p, n) in enumerate(caps, 1) if n is None and not p.get("numerado")]
+        coinciden = all(n is None or n == k for k, (_, n) in enumerate(caps, 1))
+        if faltan and coinciden:
+            for k, p in faltan:
+                if _poner_en_inicio(ELEM_DE[id(p)], f"{k}. "):
+                    num[id(p)] = k
+                    r["INS-003"] += 1
+        elif faltan:
+            avisos.append("INS-003: los capítulos ya numerados no coinciden con su posición; la numeración de nivel 1 no se toca")
+    # INS-004 también cuando INS-003 acaba de numerar los capítulos: antes no había «N.» que exigir a los subcapítulos,
+    # así que la auditoría previa no lo marcaba y quedaba para una segunda pasada
+    if fmt.get("niveles_numerados") and ("INS-004" in ids or r["INS-003"]):
+        hijos = {}
+        padre = None
+        for p in sorted(S["h1"] + S["h2"], key=lambda q: q["i"]):
+            if auditar.nivel_estilo(p) == 1:
+                padre = None if I.es_prelim(p) or not num.get(id(p)) else p
+            elif padre is not None and not p.get("numerado"):
+                hijos.setdefault(id(padre), []).append(p)
+        for pid, lista in hijos.items():
+            n = num[pid]
+            esperado = [(k, p) for k, p in enumerate(lista, 1)]
+            ok = all(I.RE_NUM2.match(p["texto"]) is None or (int(I.RE_NUM2.match(p["texto"]).group(1)) == n
+                                                              and int(I.RE_NUM2.match(p["texto"]).group(2)) == k) for k, p in esperado)
+            if not ok:
+                avisos.append(f"INS-004: subcapítulos del capítulo {n} con numeración que no coincide; no se tocan")
+                continue
+            for k, p in esperado:
+                if I.RE_NUM2.match(p["texto"]) is None and _poner_en_inicio(ELEM_DE[id(p)], f"{n}.{k}. "):
+                    r["INS-004"] += 1
+    if fmt.get("capitulo_pagina_nueva") and "INS-005" in ids:
+        for p in S["h1"]:
+            if not I.inicia_pagina(pars, p):
+                Paragraph(ELEM_DE[id(p)], d._body).paragraph_format.page_break_before = True
+                r["INS-005"] += 1
+    return r
+
+
+def _quitar_refs_seccion(sp):
+    for tag in ("w:headerReference", "w:footerReference", "w:titlePg"):
+        for x in sp.findall(qn(tag)):
+            sp.remove(x)
+
+
+def _numeracion_seccion(sp, fmt, inicio):
+    for x in sp.findall(qn("w:pgNumType")):
+        sp.remove(x)
+    pg = OxmlElement("w:pgNumType")
+    pg.set(qn("w:fmt"), fmt)
+    if inicio:
+        pg.set(qn("w:start"), str(inicio))
+    _insertar_antes(sp, pg, ["cols", "formProt", "vAlign", "noEndnote", "titlePg", "textDirection", "bidi", "rtlGutter",
+                             "docGrid", "printerSettings"])
+
+
+def corregir_ins_paginacion(out, pg, avisos):
+    """INS-006: separa portada, preliminares y cuerpo en secciones (salto de sección siguiente página) y fija el formato de
+    número de página: preliminares en lowerRoman desde i, cuerpo en decimal desde 1. Solo toca w:sectPr / w:pgNumType;
+    el número visible (campo PAGE) lo sigue poniendo el encabezado. Devuelve el número de secciones modificadas."""
+    I = institucional
+    pars, _ = auditar.cargar_docx(str(out))
+    pars = [p for p in pars if not p.get("nota_pie")]
+    cuerpo, titulo, entradas = auditar.partir(pars)
+    S = I.seleccion(pars, cuerpo, entradas)
+    d = auditar.abrir_docx(str(out))
+    els = elementos(d)
+    if len(els) != len(pars) or not (pg.get("preliminares") or pg.get("cuerpo")):
+        return 0
+    sec_de, s = {}, 0
+    for p in pars:
+        sec_de[p["i"]] = s
+        s += bool(p.get("sect"))
+    if s != len(d.sections) - 1:
+        avisos.append("INS-006: las secciones del documento no se pudieron alinear con sus párrafos; numeración por sección manual")
+        return 0
+    cortes = sorted({k for k in (S["fin_p"], S["cuerpo_ini"]) if k})
+    base = {k: copy.deepcopy(d.sections[sec_de[k - 1]]._sectPr) for k in cortes if k - 1 in sec_de}
+    n = 0
+    for k in sorted(cortes, reverse=True):
+        prev = pars[k - 1] if k - 1 < len(pars) else None
+        if prev is None or prev.get("sect"):
+            continue
+        if prev.get("en_tabla"):
+            avisos.append("INS-006: el límite entre portada, preliminares y cuerpo cae junto a una tabla; sección por separar a mano")
+            continue
+        sp = base[k]
+        if k != cortes[0] or sec_de[k - 1] != 0:
+            _quitar_refs_seccion(sp)
+        els[k - 1].get_or_add_pPr().append(sp)
+        n += 1
+    # roles por sección sobre la estructura nueva
+    sec, roles = 0, {}
+    for el, p in zip(els, pars):
+        r = "portada" if p["i"] < S["fin_p"] else ("cuerpo" if S["cuerpo_ini"] is not None and p["i"] >= S["cuerpo_ini"] else "preliminares")
+        roles.setdefault(sec, set()).add(r)
+        if el.find(qn("w:pPr") + "/" + qn("w:sectPr")) is not None:
+            sec += 1
+    secs = d.sections
+    visto = set()
+    for k, sc in enumerate(secs):
+        rs = roles.get(k, set())
+        if len(rs) != 1:
+            continue
+        rol = next(iter(rs))
+        sp = sc._sectPr
+        if rol == "preliminares" and pg.get("preliminares") == "romanos":
+            _numeracion_seccion(sp, "lowerRoman", None if rol in visto else 1)
+        elif rol == "cuerpo" and pg.get("cuerpo") == "arabigos":
+            _numeracion_seccion(sp, "decimal", None if rol in visto else 1)
+        else:
+            continue
+        if rol in ("preliminares", "cuerpo") and "portada" in {x for r_ in roles.values() for x in r_}:
+            for x in sp.findall(qn("w:titlePg")):
+                sp.remove(x)
+        visto.add(rol)
+        n += 1
+    if n:
+        d.save(str(out))
+    return n
+
+
+RE_MEN_TABLA = re.compile(r"\b(tablas?)\s+(\d+(?:\s*(?:,|y|e|a|–|-)\s*\d+)*)(?!\d)", re.I)
+RE_MEN_FIG = re.compile(r"\b(figuras?)\s+(\d+(?:\s*(?:,|y|e|a|–|-)\s*\d+)*)(?!\d)", re.I)
+
+
+def _poner_texto(el, texto, tam=None, centrar=True):
+    """Sustituye el contenido del párrafo por un solo run (con el formato del primero, sin negrita ni cursiva)."""
+    runs = [r for r in el.findall(qn("w:r"))]
+    rpr = copy.deepcopy(runs[0].find(qn("w:rPr"))) if runs and runs[0].find(qn("w:rPr")) is not None else OxmlElement("w:rPr")
+    for ch in list(el):
+        if ch.tag != qn("w:pPr"):
+            el.remove(ch)
+    for tag in ("w:b", "w:bCs", "w:i", "w:iCs"):
+        for x in rpr.findall(qn(tag)):
+            rpr.remove(x)
+    if tam:
+        for tag in ("w:sz", "w:szCs"):
+            for x in rpr.findall(qn(tag)):
+                rpr.remove(x)
+            e = OxmlElement(tag)
+            e.set(qn("w:val"), str(int(tam * 2)))
+            rpr.append(e)
+    r = OxmlElement("w:r")
+    r.append(rpr)
+    t = OxmlElement("w:t")
+    t.text = texto
+    t.set(XML_SPACE, "preserve")
+    r.append(t)
+    el.append(r)
+    if centrar:
+        Paragraph(el, None).paragraph_format.alignment = WD_ALIGN_PARAGRAPH.CENTER
+
+
+def corregir_rotulos_ieee(d, pares):
+    """`tablas_figuras: ieee`: «Tabla N» -> «TABLA <romano>» con el título en mayúsculas encima; «Figura N» + título ->
+    «Fig. N. Título» debajo de la imagen; las menciones del texto («Tabla 3», «Figuras 2 y 3») pasan a «TABLA III», «Figs. 2 y 3».
+    Devuelve el número de rótulos y menciones cambiados (0 si ya estaba)."""
+    A = auditar
+    n = 0
+    vis = [(el, p) for el, p in pares if not p.get("en_tabla") and (p["texto"].strip() or p.get("imagen"))]
+    sin_ind = {id(p) for p in A.sin_indices([p for _, p in vis])}
+    rot = {id(r[2]): r for r in A.separar_rotulos([p for _, p in vis if id(p) in sin_ind])[0]}
+    el_de = {id(p): el for el, p in pares}
+    # menciones en el texto (los rótulos se tratan aparte)
+    for el, p in pares:
+        if id(p) in rot:
+            continue
+        t = texto_de(el)
+        ed = []
+        for m in RE_MEN_TABLA.finditer(t):
+            nums = re.sub(r"\d+", lambda x: A.romano_a_texto(int(x.group(0))), m.group(2))
+            ed.append((m.start(), m.end(), ("TABLAS " if m.group(1).lower().endswith("s") else "TABLA ") + nums))
+        for m in RE_MEN_FIG.finditer(t):
+            ed.append((m.start(), m.end(), ("Figs. " if m.group(1).lower().endswith("s") else "Fig. ") + m.group(2)))
+        n += aplicar_ediciones(el, ed) and len(ed)
+    pos = {id(p): k for k, (_, p) in enumerate(vis)}
+    for el, p in list(pares):
+        r = rot.get(id(p))
+        if r is None or not r[3].isdigit():
+            continue
+        tipo, num, _, tok, palabra = r
+        k = pos[id(p)]
+        t = texto_de(el).strip()
+        resto = re.match(r"\s*\S+?\s*\d+\s*[.:—–-]?\s*(.*)$", t, re.S)
+        resto = resto.group(1).strip() if resto else ""
+        sig = vis[k + 1][1] if k + 1 < len(vis) else None
+        sig_el = vis[k + 1][0] if sig is not None else None
+        titulo_aparte = None
+        if not resto and sig is not None and not sig.get("imagen") and id(sig) not in rot and len(sig["texto"]) < 250:
+            titulo_aparte = (sig_el, sig["texto"].strip())
+        titulo = resto or (titulo_aparte[1] if titulo_aparte else "")
+        if tipo == "tabla":
+            if palabra == "TABLA" and not resto and not (titulo_aparte and titulo_aparte[1] != titulo_aparte[1].upper()):
+                continue
+            nuevo = f"TABLA {A.romano_a_texto(num)}" + (f". {resto.upper()}" if resto else "")
+            if nuevo != t:
+                _poner_texto(el, nuevo, centrar=False)
+                Paragraph(el, None).paragraph_format.alignment = WD_ALIGN_PARAGRAPH.CENTER
+                n += 1
+            if titulo_aparte and titulo_aparte[1] != titulo_aparte[1].upper():
+                _poner_texto(titulo_aparte[0], titulo_aparte[1].upper())
+                n += 1
+            continue
+        # figura: «Fig. N. Título» debajo de la imagen
+        imagen = None
+        for q_el, q in vis[k + 1:k + 4]:
+            if q.get("imagen"):
+                imagen = q_el
+                break
+        antes_img = vis[k - 1][1].get("imagen") if k else False
+        nuevo = f"Fig. {num}." + (f" {titulo}" if titulo else "")
+        if antes_img:  # ya va debajo: solo se reescribe el rótulo
+            if palabra.lower() == "fig." and re.match(r"\s*fig\.\s*\d+\s*\.\s*\S", t, re.I):
+                continue
+            _poner_texto(el, nuevo, 9)
+            if titulo_aparte:
+                titulo_aparte[0].getparent().remove(titulo_aparte[0])
+            n += 1
+        elif imagen is not None:  # va encima: se baja bajo la imagen
+            nuevo_el = copy.deepcopy(el)
+            _poner_texto(nuevo_el, nuevo, 9)
+            imagen.addnext(nuevo_el)
+            Paragraph(imagen, None).paragraph_format.keep_with_next = True
+            el.getparent().remove(el)
+            if titulo_aparte:
+                titulo_aparte[0].getparent().remove(titulo_aparte[0])
+            n += 1
+    return n
+
+
 # ---------------------------------------------------------------- principal
 def conteo(r):
     c = {}
@@ -1237,8 +1732,8 @@ def corregir(path, perfil, out=None, solo=None, silencioso=False, paginacion=Non
     log = (lambda *a: None) if silencioso else print
     auditar.validar_entrada(path, (".docx",))
     cfg = auditar.cargar_perfil(perfil)
-    if cfg["base"] != "apa7":
-        log(f"Perfil {perfil}: base {cfg['base']} no soportado aún (solo base APA 7).")
+    if cfg["base"] not in ("apa7", "ieee"):
+        log(f"Perfil {perfil}: base {cfg['base']} no soportado aún (solo base APA 7; base IEEE solo IEEE-023, IEEE-084 e IEEE-140).")
         return None
     path = pathlib.Path(path)
     out = pathlib.Path(out) if out else path.with_name(path.stem + ".corregido.docx")
@@ -1253,13 +1748,20 @@ def corregir(path, perfil, out=None, solo=None, silencioso=False, paginacion=Non
     portada_numero = portada_numero or auditar.portada_numero_equipo(str(path))
     if portada_numero and not explicita and solo and "EST-016" not in solo:
         portada_numero = None
+    declarada = POSICION_A_MODO.get(((auditar.formato_equipo(str(path))[0]).get("paginacion") or {}).get("posicion"))
+    if paginacion is None and declarada:  # `formato: paginacion: {posicion: …}` de .editorial.yaml vale como instrucción explícita
+        paginacion = declarada
+        avisos.append(f"número de página según `formato.paginacion.posicion` de .editorial.yaml: --paginacion {declarada}")
     modo = paginacion or ("encabezado" if cfg["base"] == "apa7" else None)
     if modo is None:
-        avisos.append("numeración de página sin tocar: IEEE no la define; elige --paginacion encabezado|pie|ninguna")
+        avisos.append("numeración de página sin tocar: IEEE no la define; elige --paginacion encabezado-derecha|pie-derecha|pie-centro|ninguna")
+    lugar_modo = MODO_LUGAR_LADO.get(modo, (modo, None))[0] if modo else None
     antes = auditar.auditar(str(path), perfil)
     antes["hallazgos"] = list(antes["hallazgos"]) + maquetacion.revisar(str(path), cfg["base"], portada_numero)
     ids = {h["id"] for h in antes["hallazgos"]}
     objetivo = {r for r in REGLAS if r in ids and (not solo or r in solo)}
+    if cfg["base"] == "ieee":  # base IEEE: solo lo propio de IEEE (el resto de REGLAS es maquetación APA)
+        objetivo &= REGLAS_IEEE
 
     pars, secciones = auditar.cargar_docx(str(path))
     pars = [p for p in pars if not p.get("nota_pie")]
@@ -1275,6 +1777,10 @@ def corregir(path, perfil, out=None, solo=None, silencioso=False, paginacion=Non
     for el, p in pares:
         ELEM_DE[id(p)] = el
     fin_p = auditar.fin_portada(pars)
+    equipo_fmt, _av = auditar.formato_equipo(str(path))
+    prot = Proteccion(d, els, pars, fin_p, equipo_fmt)
+    if prot.items:
+        avisos.append(f"{len(prot.items)} bloques (portada institucional o ámbito de `vinculante:`) no se tocan: se reproducen tal cual")
     ids_ent = {id(e) for e in entradas}
     heads = []
     for el, p in pares:
@@ -1305,12 +1811,23 @@ def corregir(path, perfil, out=None, solo=None, silencioso=False, paginacion=Non
         else:
             n_f = corregir_fuente(d, pares)
             reg(["APA-002", "APA-003"], n_f + corregir_aspecto_encabezados(d, pares, pars, ("times new roman", 12.0)))
-    if "interlineado" in grupos:
+    S_ins = institucional.seleccion(pars, cuerpo, entradas) if equipo_fmt else None
+    if "interlineado" in grupos and not (equipo_fmt and equipo_fmt.get("interlineado")):
         reg(["APA-004"], corregir_parrafos_formato(d, pares, "interlineado"))
     if "espaciado" in grupos:
         reg(["APA-005"], corregir_parrafos_formato(d, pares, "espaciado"))
-    if "alineacion" in grupos:
+    if "alineacion" in grupos and not (equipo_fmt and equipo_fmt.get("alineacion")):
         reg(["APA-006"], corregir_parrafos_formato(d, pares, "alineacion"))
+    if "ins_cuerpo" in grupos:
+        for r_, n_ in corregir_ins_cuerpo(d, S_ins, equipo_fmt).items():
+            if r_ in objetivo:
+                aplicadas[r_] = n_
+    if equipo_fmt and equipo_fmt.get("interlineado") and "APA-033" in ids and (not solo or "APA-033" in solo):
+        # con interlineado institucional APA-004 no corre, así que los encabezados no se tocaban: toman el interlineado
+        # del perfil y sin espacio extra (APA §2.26); EST-014 repone después el espacio tras una tabla o figura
+        n_33 = corregir_espaciado_encabezados(d, heads, equipo_fmt["interlineado"])
+        if n_33:
+            aplicadas["APA-033"] = n_33
     if "enc_linea" in grupos:
         n_enc = corregir_enc_linea(d, pares, entradas, titulo, fin_p, objetivo)
         reg(["APA-028", "APA-029"], n_enc)
@@ -1331,14 +1848,14 @@ def corregir(path, perfil, out=None, solo=None, silencioso=False, paginacion=Non
         for r_, n_ in cp.items():
             if n_ and (not solo or r_ in solo):
                 aplicadas[r_] = aplicadas.get(r_, 0) + n_
-        if modo != "encabezado" and "APA-008" in objetivo:
-            avisos.append("APA-008 sigue señalado: con --paginacion " + modo + (" no hay número en el encabezado" if modo == "pie" else " no hay número de página") + " (APA §2.18 lo pide arriba a la derecha)")
+        if lugar_modo != "encabezado" and "APA-008" in objetivo:
+            avisos.append("APA-008 sigue señalado: con --paginacion " + modo + (" no hay número en el encabezado" if lugar_modo == "pie" else " no hay número de página") + " (APA §2.18 lo pide arriba a la derecha)")
     if portada_numero == "no":
         n_portada += corregir_portada(d, "no")
     elif portada_numero == "si":
-        if modo in ("encabezado", "pie") and d.sections[0].different_first_page_header_footer:
+        if lugar_modo in ("encabezado", "pie") and d.sections[0].different_first_page_header_footer:
             n_portada += sum(corregir_paginacion(d, secciones, modo, "si", solo_portada=True).values())
-        elif modo == "ninguna":
+        elif lugar_modo == "ninguna":
             avisos.append("portada_numero: si pero --paginacion ninguna: la portada queda sin número")
     if n_portada:
         aplicadas["EST-016"] = n_portada
@@ -1347,12 +1864,30 @@ def corregir(path, perfil, out=None, solo=None, silencioso=False, paginacion=Non
         reg(["APA-025", "APA-026", "APA-027"], n)
     if "numeracion" in grupos:
         reg(["APA-030"], corregir_numeracion(d, heads))
+    if "ins_enc" in grupos:
+        for r_, n_ in corregir_ins_encabezados(d, S_ins, equipo_fmt, pars, objetivo, avisos).items():
+            if r_ in objetivo and n_:
+                aplicadas[r_] = n_
+    if "ins_tipo" in grupos and equipo_fmt.get("fuente"):
+        n_ = corregir_ins_tipografia(d, equipo_fmt["fuente"])
+        if n_:
+            aplicadas["INS-011"] = n_
+    if "ins_resumen" in grupos:
+        n_ = corregir_ins_resumen(d, pars, prot)
+        if n_:
+            aplicadas["INS-012"] = n_
+    if "ins_rotulos" in grupos and equipo_fmt.get("rotulos_pt"):
+        n_ = corregir_ins_rotulos(d, pars, S_ins, equipo_fmt["rotulos_pt"], prot)
+        if n_:
+            aplicadas["INS-013"] = n_
     if "rotulo" in grupos and titulo is not None:
         reg(["APA-059", "APA-012"], corregir_rotulo(d, pars, titulo, es_ingles(cuerpo, cfg), objetivo) or 1)
     if "refs_formato" in grupos:
         reg(["APA-060"], corregir_refs_formato(d, entradas))
     if "doi" in grupos:
         reg(["APA-076"], corregir_doi(entradas))
+    if "rangos" in grupos:
+        reg(["APA-074"], corregir_rangos(pares, entradas))
     if "narrativa" in grupos:
         reg(["APA-036"], corregir_narrativa(pares, cuerpo, es_ingles(cuerpo, cfg)))
     if "conjuncion" in grupos:
@@ -1361,14 +1896,29 @@ def corregir(path, perfil, out=None, solo=None, silencioso=False, paginacion=Non
         reg(["APA-043"], corregir_orden_cita(pares, cuerpo, auditar.grupos_apa(cuerpo, entradas)))
     if "puntuacion" in grupos:
         reg(["APA-145", "APA-115", "IEEE-140"], corregir_puntuacion(pares, cuerpo, entradas))
+    if "ieee_autores" in grupos:
+        reg(["IEEE-023"], corregir_ieee_autores(pares, entradas))
+    if "ieee_figura" in grupos:
+        reg(["IEEE-084"], corregir_ieee_figura(pares, cuerpo))
     sigla_n = corregir_sigla(pares, cuerpo, entradas) if "sigla" in grupos else 0
     reg(["APA-065"], sigla_n)
     if "refs_orden" in grupos or (sigla_n and (not solo or "APA-061" in solo)):
         movidas = ordenar_refs(entradas)
         reg(["APA-061"], movidas)
     if "tablas" in grupos:
-        reg(["APA-093"], corregir_tablas(pares))
+        reg(["APA-093"], corregir_tablas([(el, p) for el, p in pares if p["i"] >= fin_p and not prot.contiene(el)]))
+    if "rotulos_ieee" in grupos and cfg["base"] == "apa7" and auditar.tablas_figuras_equipo(str(path)) == "ieee":
+        n_rot = corregir_rotulos_ieee(d, pares)
+        if n_rot:
+            for r_ in ("IEEE-085", "IEEE-089"):
+                if r_ in objetivo:
+                    aplicadas[r_] = n_rot
+    prot.restaurar()
     d.save(str(out))
+    if "ins_pagina" in grupos and equipo_fmt.get("paginacion"):
+        n_pg = corregir_ins_paginacion(out, equipo_fmt["paginacion"], avisos)
+        if n_pg:
+            aplicadas["INS-006"] = n_pg
     if "APA-005" in objetivo or "APA-033" in ids:
         # los párrafos vacíos solo son espaciadores una vez corregidas las sangrías: se evalúan sobre la salida
         pars2, _ = auditar.cargar_docx(str(out))
@@ -1379,7 +1929,7 @@ def corregir(path, perfil, out=None, solo=None, silencioso=False, paginacion=Non
             ELEM_DE.clear()
             for el, p in zip(els2, pars2):
                 ELEM_DE[id(p)] = el
-            nv = quitar_vacios(d2, pars2, auditar.fin_portada(pars2))
+            nv = quitar_vacios(d2, pars2, auditar.fin_portada(pars2), Proteccion(d2, els2, pars2, auditar.fin_portada(pars2), equipo_fmt))
             if nv:
                 d2.save(str(out))
                 if "APA-005" in objetivo:
@@ -1390,9 +1940,15 @@ def corregir(path, perfil, out=None, solo=None, silencioso=False, paginacion=Non
         maq.add("EST-014")  # quitar el espacio de los encabezados (APA-033) no debe pegar uno a una tabla o figura
     if maq:
         d3 = auditar.abrir_docx(str(out))
+        pars3, _ = auditar.cargar_docx(str(out))
+        pars3 = [p for p in pars3 if not p.get("nota_pie")]
+        els3 = elementos(d3)
+        prot3 = Proteccion(d3, els3, pars3, auditar.fin_portada(pars3), equipo_fmt) if len(els3) == len(pars3) else None
         for r_, n_ in corregir_maquetacion(d3, maq).items():
             if n_:
                 aplicadas[r_] = aplicadas.get(r_, 0) + n_
+        if prot3 is not None:
+            prot3.restaurar()
         d3.save(str(out))
     despues = auditar.auditar(str(out), perfil)
     despues["hallazgos"] = list(despues["hallazgos"]) + maquetacion.revisar(str(out), cfg["base"], portada_numero)
@@ -1429,8 +1985,10 @@ def main():
                     help="si: la portada lleva número de página como el resto (APA §2.18, el 1); no: portada sin número (primera "
                          "página distinta, conserva el running head). Por defecto: `portada_numero:` de .editorial.yaml; sin él no se toca")
     ap.add_argument("--paginacion", choices=MODOS_PAGINACION,
-                    help="dónde queda el número de página: encabezado (a la derecha, APA §2.18; por defecto en APA), pie o ninguna. "
-                         "Nunca deja número en encabezado y pie a la vez; en IEEE sin este flag no se toca")
+                    help="dónde queda el número de página: encabezado-derecha (APA §2.18; por defecto en APA; alias «encabezado»), "
+                         "pie-derecha, pie-centro (alias «pie»: centrado si hay que crearlo, sin tocar la alineación de uno existente) "
+                         "o ninguna. Nunca deja número en encabezado y pie a la vez; en IEEE sin este flag no se toca. Sin el flag se usa "
+                         "`formato: paginacion: {posicion: pie_derecha}` de .editorial.yaml si existe")
     a = ap.parse_args()
     cli.utf8()
     perfil = cli.perfil_por_defecto(ap, a.perfil, a.documento)

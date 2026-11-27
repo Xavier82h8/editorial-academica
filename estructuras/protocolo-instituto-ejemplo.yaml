@@ -1,0 +1,319 @@
+# Estructura institucional: protocolo de investigación de Taller de Investigación I (TNE, Instituto Tecnológico de
+# Ejemplo, ciclo 2026). Sigue la guía institucional ITE 2026 (no se distribuye): preliminares + 12 capítulos.
+# Los alias toleran numeración («1.», «1.1.»), acentos y mayúsculas (la comparación normaliza el encabezado).
+# Claves propias de esta estructura (scripts/estructura.py, regla EST-004):
+#   palabras: min-max         límite de palabras de la sección (el Resumen cuenta sin la línea de palabras clave)
+#   palabras_clave: min-max   número de términos de la línea «Palabras clave: a, b, c» de la sección
+# Úsala con perfiles/instituto-ejemplo-protocolo.editorial.yaml (copiado como .editorial.yaml).
+id: protocolo-instituto-ejemplo
+nombre: Protocolo de investigación TNE ITE (Taller de Investigación I, 2026)
+front_matter:
+- portada oficial (logos SEP/TNE/ITE, sin número visible)
+- resumen / abstract (150-250 palabras, 3-5 palabras clave)
+- índice de contenido
+- índice de tablas
+- índice de figuras
+secciones:
+- nombre: Resumen
+  alias:
+  - resumen
+  - abstract
+  - resumen abstract
+  obligatoria: true
+  proposito: Síntesis de 150-250 palabras en un solo párrafo, sin sangría, con contexto del problema, objetivo general, metodología, tecnologías clave e impacto esperado
+  preguntas:
+  - ¿Dice en un párrafo qué problema, para qué, cómo, con qué tecnologías y con qué impacto?
+  palabras: 150-250
+  palabras_clave: 3-5
+- nombre: Índice de contenido
+  alias:
+  - indice de contenido
+  - indice general
+  - tabla de contenido
+  - tabla de contenidos
+  obligatoria: true
+  proposito: Tabla de contenido automática con capítulos, subcapítulos y páginas
+  preguntas: []
+- nombre: Índice de tablas
+  alias:
+  - indice de tablas
+  - lista de tablas
+  obligatoria: true
+  proposito: Listado automático de tablas (TABLA I, II…) con su página
+  preguntas: []
+- nombre: Índice de figuras
+  alias:
+  - indice de figuras
+  - lista de figuras
+  obligatoria: true
+  proposito: Listado automático de figuras (Fig. 1, 2…) con su página
+  preguntas: []
+- nombre: Presentación del proyecto
+  alias:
+  - presentacion del proyecto
+  obligatoria: true
+  proposito: Introducción ejecutiva (capítulo 1; página nueva) sobre la naturaleza, el propósito y la razón del proyecto
+  preguntas:
+  - ¿Qué necesidad o área de oportunidad se atiende y cuál es la solución propuesta?
+  - ¿Por qué es pertinente resolverla ahora y qué beneficios aporta?
+- nombre: Antecedentes y contexto general
+  alias:
+  - antecedentes y contexto general
+  - antecedentes y contexto
+  - contexto general
+  obligatoria: true
+  proposito: Entorno organizacional, industrial, social o académico donde surge la oportunidad, con datos o literatura reciente
+  preguntas:
+  - ¿Dónde surge la oportunidad de mejora y con qué datos o literatura se sustenta?
+- nombre: Propósito y justificación
+  alias:
+  - proposito y justificacion
+  - proposito y justificacion del proyecto
+  - justificacion del proyecto
+  obligatoria: true
+  proposito: Finalidad y relevancia desde cuatro dimensiones (conveniencia técnica, relevancia social, implicaciones prácticas, valor metodológico o innovación)
+  preguntas:
+  - ¿Cuál es la finalidad y por qué es relevante en las cuatro dimensiones?
+- nombre: Planteamiento del problema
+  alias:
+  - planteamiento del problema
+  obligatoria: true
+  proposito: Situación problemática con precisión técnica (capítulo 2; página nueva)
+  preguntas:
+  - ¿Qué falla o limitación concreta se observa y qué métricas lo evidencian?
+- nombre: Descripción y delimitación del problema
+  alias:
+  - descripcion y delimitacion del problema
+  - descripcion y delimitacion
+  - delimitacion del problema
+  - descripcion del problema
+  obligatoria: true
+  proposito: Síntomas, causas raíz, consecuencias y límites espaciales, temporales y tecnológicos
+  preguntas:
+  - ¿Dónde, cuándo y hasta qué alcance tecnológico se delimita el problema?
+- nombre: Pregunta(s) de investigación
+  alias:
+  - pregunta s de investigacion
+  - preguntas de investigacion
+  - pregunta de investigacion
+  obligatoria: true
+  proposito: Interrogante central (y secundarias) clara, específica, medible y respondible con evidencia empírica o pruebas técnicas
+  preguntas:
+  - ¿La pregunta central es medible y coherente con el problema y con el objetivo general?
+- nombre: Objetivos y metas
+  alias:
+  - objetivos y metas
+  obligatoria: true
+  proposito: Resultados concretos del proyecto, con verbos en infinitivo y criterios SMART (capítulo 3; página nueva)
+  preguntas: []
+- nombre: Objetivo general
+  alias:
+  - objetivo general
+  obligatoria: true
+  proposito: Propósito global coherente con el título y la pregunta; responde qué se hará, cómo (con qué tecnología o método) y para qué
+  preguntas:
+  - ¿Responde qué se hará, cómo y para qué, y empieza con verbo en infinitivo?
+- nombre: Objetivos específicos
+  alias:
+  - objetivos especificos
+  obligatoria: true
+  proposito: De 3 a 5 objetivos secuenciales y verificables, cada uno con verbo en infinitivo (análisis, diseño, desarrollo, validación)
+  preguntas:
+  - ¿Son 3-5, en orden lógico, y cada uno es medible?
+- nombre: Metas de la investigación
+  alias:
+  - metas de la investigacion
+  - metas de investigacion
+  - entregables y metricas
+  obligatoria: true
+  proposito: Productos tangibles e indicadores de éxito de cada objetivo específico (entregables y métricas)
+  preguntas:
+  - ¿Cada objetivo específico tiene un entregable y una métrica?
+- nombre: Marco teórico
+  alias:
+  - marco teorico
+  obligatoria: true
+  proposito: Sustento científico y tecnológico de lo general a lo particular, con citas APA 7 (capítulo 4; página nueva)
+  preguntas: []
+- nombre: Estado del arte
+  alias:
+  - estado del arte
+  - antecedentes investigativos
+  obligatoria: true
+  proposito: Al menos 5 artículos científicos o tesis de los últimos 5 años, comparando metodologías, tecnologías, resultados y limitaciones frente a la propuesta
+  preguntas:
+  - ¿Son al menos 5 trabajos recientes y se comparan con la propuesta?
+- nombre: Bases teóricas y conceptuales
+  alias:
+  - bases teoricas y conceptuales
+  - bases teoricas
+  obligatoria: true
+  proposito: Definición formal de los conceptos fundamentales del dominio y de la computación involucrados
+  preguntas: []
+- nombre: Marco tecnológico
+  alias:
+  - marco tecnologico
+  - herramientas estandares y frameworks
+  obligatoria: true
+  proposito: Justificación técnica de lenguajes, bases de datos, arquitecturas, protocolos y normas frente a otras alternativas
+  preguntas:
+  - ¿Por qué cada tecnología es idónea frente a las alternativas?
+- nombre: Hipótesis o supuestos de investigación
+  alias:
+  - hipotesis o supuestos de investigacion
+  - hipotesis o supuestos
+  - hipotesis y supuestos
+  obligatoria: true
+  proposito: Proposición afirmativa verificable (capítulo 5; página nueva)
+  preguntas:
+  - ¿Es medible, nombra sus variables y es coherente con problema, pregunta y objetivo general?
+- nombre: Formulación de la hipótesis
+  alias:
+  - formulacion de la hipotesis
+  obligatoria: false
+  proposito: Hipótesis causa-efecto o comparativa para estudios explicativos o experimentales
+  preguntas: []
+  orden_libre: true
+- nombre: Supuesto de investigación
+  alias:
+  - supuesto de investigacion
+  obligatoria: false
+  proposito: Supuesto tecnológico (desempeño esperado del artefacto) para proyectos de desarrollo tecnológico o aplicados
+  preguntas: []
+  orden_libre: true
+- nombre: Definición operacional de variables e indicadores
+  alias:
+  - definicion operacional de variables e indicadores
+  - definicion operacional de variables
+  - variables e indicadores
+  obligatoria: true
+  proposito: Variable independiente y dependiente(s) con indicadores y unidades de medida
+  preguntas:
+  - ¿Cada variable tiene indicador y unidad de medida?
+- nombre: Diseño metodológico
+  alias:
+  - diseno metodologico
+  obligatoria: true
+  proposito: Procedimiento técnico y científico reproducible (capítulo 6; página nueva)
+  preguntas: []
+- nombre: Enfoque, alcance y tipo de estudio
+  alias:
+  - enfoque alcance y tipo de estudio
+  - enfoque alcance y tipo
+  obligatoria: true
+  proposito: Enfoque (cuantitativo, cualitativo, mixto), alcance (exploratorio, descriptivo, correlacional, explicativo) y tipo (aplicada, tecnológica, experimental)
+  preguntas: []
+- nombre: Población, muestra y escenario de pruebas
+  alias:
+  - poblacion muestra y escenario de pruebas
+  - poblacion muestra y escenario
+  obligatoria: true
+  proposito: Usuarios, empresas, datasets o entornos de hardware y red de validación, con criterios de inclusión y exclusión
+  preguntas: []
+- nombre: Metodología de desarrollo tecnológico y procedimientos
+  alias:
+  - metodologia de desarrollo tecnologico y procedimientos
+  - metodologia de desarrollo
+  obligatoria: true
+  proposito: Marco de trabajo de ingeniería (Scrum, XP, Cascada, CRISP-DM, modelo V) con fases y actividades
+  preguntas: []
+- nombre: Técnicas e instrumentos de recolección de datos
+  alias:
+  - tecnicas e instrumentos de recoleccion de datos
+  - tecnicas e instrumentos
+  obligatoria: true
+  proposito: Herramientas para capturar información antes, durante y después de la implementación (entrevistas, encuestas SUS, logs, benchmarks)
+  preguntas: []
+- nombre: Técnicas de procesamiento y análisis de datos
+  alias:
+  - tecnicas de procesamiento y analisis de datos
+  - procesamiento y analisis de datos
+  obligatoria: true
+  proposito: Cómo se analizarán los resultados (estadística descriptiva, pruebas de hipótesis, matrices de confusión, métricas ISO/IEC 25010)
+  preguntas: []
+- nombre: Impacto social, tecnológico y ético
+  alias:
+  - impacto social tecnologico y etico
+  obligatoria: true
+  proposito: Repercusiones del proyecto y cumplimiento de estándares profesionales y normativos (capítulo 7; página nueva)
+  preguntas: []
+- nombre: Impacto social y económico
+  alias:
+  - impacto social y economico
+  - impacto economico
+  obligatoria: true
+  proposito: Beneficios directos e indirectos para usuarios, comunidad, productividad regional o sostenibilidad
+  preguntas: []
+- nombre: Innovación y aporte tecnológico
+  alias:
+  - innovacion y aporte tecnologico
+  - aporte tecnologico
+  obligatoria: true
+  proposito: Grado de novedad técnica, optimización de procesos o transferencia tecnológica
+  preguntas: []
+- nombre: Factibilidad, escalabilidad y consideraciones éticas
+  alias:
+  - factibilidad escalabilidad y consideraciones eticas
+  - consideraciones eticas
+  obligatoria: true
+  proposito: Capacidad de crecer y compromisos éticos y legales (LFPDPPP, ciberseguridad, licenciamiento, sesgos algorítmicos)
+  preguntas: []
+- nombre: Cronograma de actividades
+  alias:
+  - cronograma de actividades
+  - cronograma
+  obligatoria: true
+  proposito: Planificación temporal (a 2 semestres o 6-12 meses) con tabla de actividades y entregables y diagrama de Gantt como figura IEEE (capítulo 8)
+  preguntas:
+  - ¿Cada fase de la metodología tiene actividades, periodo, responsable y entregable?
+  - ¿Hay tabla (TABLA N) y diagrama de Gantt (Fig. N) mencionados antes de aparecer?
+- nombre: Recursos necesarios y presupuesto
+  alias:
+  - recursos necesarios y presupuesto
+  - recursos necesarios
+  obligatoria: true
+  proposito: Recursos humanos, materiales, tecnológicos y financieros, con costo de oportunidad aunque sean propios o de código abierto (capítulo 9)
+  preguntas: []
+- nombre: Recursos humanos
+  alias:
+  - recursos humanos
+  obligatoria: true
+  proposito: Roles técnicos y horas-hombre estimadas
+  preguntas: []
+- nombre: Recursos tecnológicos
+  alias:
+  - recursos tecnologicos
+  - recursos tecnologicos hardware y software
+  obligatoria: true
+  proposito: Equipos, servidores o nube, licencias, herramientas de desarrollo y dispositivos de prueba
+  preguntas: []
+- nombre: Presupuesto consolidado
+  alias:
+  - presupuesto consolidado
+  obligatoria: true
+  proposito: Tabla (estilo IEEE) con concepto, cantidad, costo unitario, subtotal, fuente de financiamiento y total en MXN
+  preguntas:
+  - ¿El presupuesto cubre todas las fases del cronograma?
+- nombre: Conclusiones preliminares y viabilidad
+  alias:
+  - conclusiones preliminares y viabilidad
+  - conclusiones preliminares
+  obligatoria: true
+  proposito: "Factibilidad y pertinencia integral en presente o futuro (capítulo 10): viabilidad técnica y operativa, viabilidad económica, aportes y competencias esperadas"
+  preguntas:
+  - ¿Argumenta viabilidad técnica y operativa, viabilidad económica y aportes y competencias?
+- nombre: Fuentes de información
+  alias:
+  - fuentes de informacion
+  obligatoria: true
+  proposito: Lista alfabética APA 7 con sangría francesa de 1.27 cm; al menos 70 % de literatura arbitrada o técnica de los últimos 5 años (capítulo 11)
+  preguntas:
+  - ¿Al menos 70 % son arbitradas y de los últimos 5 años?
+- nombre: Anexos
+  alias:
+  - anexos
+  - anexo
+  obligatoria: true
+  proposito: Documentación complementaria (Anexo A, B, C…) ordenada alfabéticamente y referenciada en el texto («véase Anexo A»); capítulo 12
+  preguntas:
+  - ¿Cada anexo se menciona en el texto?

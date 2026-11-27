@@ -9,6 +9,8 @@ Reglas:
   EST-001 mayor  sección obligatoria ausente
   EST-002 menor  secciones obligatorias fuera del orden del género
   EST-003 menor  extensión de una sección muy lejos de la orientativa (< 1/2 o > 2 veces), solo en documentos de 800+ palabras
+  EST-004 menor  sección con `palabras: min-max` (p. ej. Resumen 150-250) fuera del rango, o con `palabras_clave: min-max`
+                 y una línea «Palabras clave:» con otro número de términos (o ausente)
 La introducción sin encabezado (APA 2.11) cuenta como presente si hay texto antes del primer encabezado de sección.
 Salida JSON: {documento, estructura, secciones: [{nombre, presente, encabezado, palabras}], hallazgos, cobertura}
 cobertura = obligatorias presentes / obligatorias (dimensión «Estructura» de /puntuar).
@@ -18,6 +20,7 @@ Maquetación (solo .docx, scripts/maquetacion.py), se suma a «hallazgos» y va 
   EST-012 mayor  tabla/figura que puede partirse    EST-013 menor  tabla larga sin fila de encabezado repetida
   EST-014 menor  encabezado pegado a tabla/figura/nota    EST-015 menor  nota «Fuente:»/remite a sección/«Adaptado de» sin título
   EST-016 menor  numeración de la portada contraria a `portada_numero:` de .editorial.yaml (o a APA §2.18: la portada lleva el 1)
+  EST-017 mayor  índice de contenido, de tablas o de figuras desactualizado respecto de los encabezados y rótulos reales
 «maquetacion_info»: {portada_numero: encabezado|pie|ninguno, preferencia: si|no|None, perfil_pide: si|None}
 --perfil <id> elige el perfil de formato (por defecto el de .editorial.yaml, si no apa7); --estructura por defecto
 la de .editorial.yaml, si no «informe».
@@ -45,6 +48,19 @@ def norm(t):
     return re.sub(r"[^a-z0-9 ]+", " ", t).strip()
 
 
+RE_CLAVE = re.compile(r"^\s*(palabras?\s+clave|keywords?|key\s+words)\s*[:.]", re.I)
+# secciones preliminares que se reconocen por su texto exacto en negrita y centrado, aunque no lleven estilo de encabezado
+PRELIMINARES = {norm(x) for x in ("Resumen", "Abstract", "Índice de contenido", "Índice general", "Índice", "Tabla de contenido",
+                                  "Tabla de contenidos", "Índice de tablas", "Lista de tablas", "Índice de figuras", "Lista de figuras")}
+
+
+def es_preliminar_plano(p):
+    """Párrafo cuyo texto es exactamente el nombre de una sección preliminar, en negrita y centrado (sin estilo de encabezado)."""
+    tr = [b for t, _, b in p.get("tramos", ()) if t.strip()]
+    return (not p.get("en_tabla") and "CENTER" in p.get("alineacion", "") and bool(tr) and all(tr)
+            and norm(p["texto"]) in PRELIMINARES)
+
+
 def cargar(path):
     meta = {}
     if path.lower().endswith(".docx"):
@@ -66,19 +82,22 @@ def bloques(pars, meta):
         encs = [norm(p["texto"]) for p in pars if p.get("es_titulo") and p["texto"].strip()]
         rep = [t for t in encs if encs.count(t) > 1]
         titulo = rep[0] if rep else ""
-    out = [[None, "", 0, 0]]
+    out = [[None, "", 0, 0, None]]  # 5.º: términos de la línea «Palabras clave:» del bloque (None si no hay)
     for p in pars:
         t = p["texto"].strip()
         estilo = (p.get("estilo") or "").lower()
-        es_enc = p.get("es_titulo") and not estilo.startswith(("title", "título", "titulo")) and len(t) < 160
+        # «Title» y «Título» (sin número) son el título del documento; «Título 1 preliminar» o un estilo basado en Heading N, un encabezado
+        es_enc = ((p.get("es_titulo") and not estilo.startswith("title") and not re.match(r"t[ií]tulo(?!\s*\d)", estilo)) or es_preliminar_plano(p)) and len(t) < 160
         if es_enc and norm(t) != titulo:
-            out.append([norm(t), t, 0, p.get("nivel") or 1])
+            out.append([norm(t), t, 0, p.get("nivel") or auditar.nivel_estilo(p) or 1, None])
         elif es_enc and titulo and norm(t) == titulo:
-            out.append([None, "", 0, 1])  # título repetido antes del cuerpo (APA 2.11): empieza la introducción
+            out.append([None, "", 0, 1, None])  # título repetido antes del cuerpo (APA 2.11): empieza la introducción
+        elif RE_CLAVE.match(t) and not p.get("en_tabla"):  # las palabras clave no cuentan en el límite de palabras del resumen
+            out[-1][4] = [x for x in re.split(r"[,;]", RE_CLAVE.sub("", t, count=1).strip().rstrip(".")) if x.strip()]
         elif not p.get("en_tabla"):
             out[-1][2] += len(t.split())
     if meta.get("abstract"):
-        out.insert(0, ["resumen", "Resumen (metadatos)", len(str(meta["abstract"]).split()), 1])
+        out.insert(0, ["resumen", "Resumen (metadatos)", len(str(meta["abstract"]).split()), 1, None])
     return out
 
 
@@ -115,6 +134,9 @@ def perfil_de(path, perfil=None):
 def revisar(path, genero, perfil=None):
     auditar.validar_entrada(path)
     ruta_g = ROOT / "estructuras" / f"{genero}.yaml"
+    eq = auditar.buscar_equipo(path)  # estructura propia del proyecto (la que genera `perfilar`): <carpeta de .editorial.yaml>/estructuras/<id>.yaml
+    if eq and (eq.parent / "estructuras" / f"{genero}.yaml").is_file():
+        ruta_g = eq.parent / "estructuras" / f"{genero}.yaml"
     if not ruta_g.is_file():
         print(f"estructura desconocida: {genero}. Válidas: {', '.join(sorted(f.stem for f in (ROOT / 'estructuras').glob('*.yaml')))}",
               file=sys.stderr)
@@ -125,7 +147,7 @@ def revisar(path, genero, perfil=None):
     total = sum(b[2] for b in bl)
     H, filas, pos = [], [], []
     todos_alias = [[norm(a) for a in s.get("alias", [])] + [norm(s["nombre"])] for s in est["secciones"]]
-    finales = [norm(a) for a in ("referencias", "references", "bibliografia", "apendices", "anexos", "appendix", "appendices")]
+    finales = [norm(a) for a in ("referencias", "references", "bibliografia", "fuentes de informacion", "apendices", "anexos", "appendix", "appendices")]
     total -= sum(palabras_seccion(bl, i) for i, b in enumerate(bl) if b[0] and coincide(finales, b[0]))  # % sobre el cuerpo
     libres = [i for i, b in enumerate(bl) if b[0] and b[3] <= 1 and not any(coincide(al, b[0]) for al in todos_alias)]
     for s in est["secciones"]:
@@ -147,6 +169,20 @@ def revisar(path, genero, perfil=None):
                                       f"añadir la sección: {s.get('proposito', '')}"))
         if s.get("obligatoria") and presente and not s.get("orden_libre"):
             pos.append((idx[0], s["nombre"]))
+        for clave, que in (("palabras", "palabras"), ("palabras_clave", "palabras clave")):
+            r_ = re.match(r"(\d+)\s*-\s*(\d+)$", str(s.get(clave, "")).strip())
+            if not (r_ and presente):
+                continue
+            lo_, hi_ = int(r_.group(1)), int(r_.group(2))
+            if clave == "palabras":
+                n_ = palabras
+            else:
+                kw = bl[idx[0]][4]
+                n_ = len(kw) if kw is not None else 0
+            if not lo_ <= n_ <= hi_:
+                H.append(auditar.Hallazgo("EST-004", "menor", enc or s["nombre"],
+                                          f"{s['nombre']}: {n_} {que} (el género pide {lo_}-{hi_})",
+                                          f"ajustar a {lo_}-{hi_} {que}"))
         m = re.match(r"(\d+)\s*-\s*(\d+)\s*%", str(s.get("extension", "")))
         if m and presente and total >= 800:
             lo, hi = int(m.group(1)) / 100, int(m.group(2)) / 100
@@ -198,7 +234,7 @@ def main():
     for i, h in enumerate([h for h in r["hallazgos"] if id(h) not in maq], 1):
         fila(i, h)
     if a.doc.lower().endswith(".docx"):
-        print(f"MAQUETACIÓN: {len(r['maquetacion'])} hallazgos (EST-010..EST-016)")
+        print(f"MAQUETACIÓN: {len(r['maquetacion'])} hallazgos (EST-010..EST-017)")
         print(maquetacion.linea_portada(r["maquetacion_info"]))
         for i, h in enumerate(r["maquetacion"], 1):
             fila(i, h)

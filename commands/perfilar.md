@@ -1,0 +1,10 @@
+---
+description: 'Convierte la guía de formato de tu escuela (PDF o .docx) en reglas: .editorial.yaml y estructura de capítulos, cada valor con su cita de origen'
+argument-hint: '<guia.pdf|docx> [--modelo-portada <pdf|docx> --pagina N] [--out .editorial.yaml] [--estructura-id ID] [--responder respuestas.yaml]'
+---
+1. Pide al usuario la guía (y, si la tiene, un modelo de portada). Corre `python ${CLAUDE_PLUGIN_ROOT}/scripts/editorial.py perfilar $ARGUMENTS`: extrae fuente y tamaño, márgenes, interlineado, alineación, sangría, jerarquía de títulos 1-5, paginación por partes, tablas y figuras, norma de citas, % y años de fuentes, título máximo, voz y tiempo, resumen, portada y los capítulos y subcapítulos numerados con su descripción. Cada valor lleva su origen (`guía p. N: «cita literal»`).
+2. Sigue `skills/editorial-academica/references/perfilar.md`. Si `.editorial.yaml` ya existe, el script escribe `.editorial.propuesto.yaml` y un diff legible: enséñalo y pregunta qué adopta; nunca sobrescribas.
+3. Haz las `preguntas:` de la salida (con `AskUserQuestion`, `ask_user`, `question`, o texto con opciones numeradas, una a la vez): lo que la guía no dijo o es ambiguo y las preferencias que ninguna guía dice (registro, persona, extensión por sección, densidad de citas, salida .docx + .pdf, fuentes a evitar). Guarda las respuestas en un `respuestas.yaml` y repite con `--responder`.
+4. Una instrucción del usuario que contradiga la guía se pregunta primero; si confirma, se registra en `vinculante:` como excepción con motivo. Con el perfil aprobado, corre `/auditar` y `/estructura` para comprobarlo.
+
+Códigos de salida de los scripts: 0 (aunque queden preguntas), 2 error de uso o de entrada (guía inexistente, no soportada o sin texto).

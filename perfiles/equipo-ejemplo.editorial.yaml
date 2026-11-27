@@ -24,3 +24,44 @@ excepciones:
 #                           institucional «la institución pide portada sin número»)
 # Sin esta clave, /estructura pregunta. /corregir --portada-numero si|no lo aplica (y es su valor por defecto si está aquí).
 # portada_numero: no
+# Tablas y figuras al estilo IEEE sobre una base APA (TABLA I arriba en mayúsculas con romanos, «Fig. 1.» abajo):
+#   tablas_figuras: ieee   -> APA-089/APA-090 pasan a excepción institucional y corren IEEE-085, 089, 091, 092 y la mención previa (APA-091).
+# tablas_figuras: ieee
+# Formato propio de la institución (reglas INS-001..009). Una excepción solo QUITA exigencias de APA; `formato:` EXIGE las de la
+# escuela y deriva solo las excepciones APA que contradicen (interlineado -> APA-004/033, justificada -> APA-006, nivel1
+# mayúsculas -> APA-025, numeración -> APA-030). Sin el bloque no corre ninguna regla INS. Todas las claves son opcionales:
+# formato:
+#   interlineado: 1.5                 # INS-001 (2 = doble)
+#   alineacion: justificada           # INS-002 (justificada | izquierda)
+#   nivel1: {mayusculas: true, numerado: true}   # INS-003: «1. TÍTULO» (Resumen e índices sin número)
+#   niveles_numerados: true           # INS-004: «1.1.» con el número de su capítulo
+#   capitulo_pagina_nueva: true       # INS-005
+#   paginacion: {portada: sin_numero, preliminares: romanos, cuerpo: arabigos}   # INS-006 (secciones con w:pgNumType)
+#   titulo_max_palabras: 20           # INS-007 (título de la portada)
+#   fuentes_recientes: {anios: 5, porcentaje: 70}   # INS-008
+#   anio_actual: 2026                 # opcional; por defecto el año de hoy
+#   voz: impersonal                   # INS-009 (primera persona)
+#   fuente: {nombre: Times New Roman, pt: 12}   # INS-011: fuente y tamaño de encabezados y pies, en negro (/corregir lo arregla)
+#   resumen: {palabras: [150, 250], sangria: false, un_parrafo: true, palabras_clave: [3, 5]}   # INS-012 (/corregir quita la sangría)
+#   rotulos_pt: [8, 9]                # INS-013: tamaño de «TABLA N» y «Fig. N.» (/corregir lo arregla)
+#   portada:                          # INS-010: portada oficial, en este orden
+#     campos:
+#       - {nombre: "institución", literal: "INSTITUTO TECNOLÓGICO (EJEMPLO)"}
+#       - {nombre: "departamento", literal: "Departamento de Sistemas"}
+#       - {nombre: "título del proyecto"}                       # sin patrón: exige un título (5 palabras o más)
+#       - {nombre: "leyenda oficial", literal: "Proyecto para la asignatura Taller de Investigación I"}
+#       - {nombre: "integrantes", patron: '(?i:^\s*integrantes?\b)'}
+#       - {nombre: "lugar", patron: '(?i:^\s*ciudad ejemplo,\s*estado)'}
+#     fecha: mes_anio                 # «Noviembre 2026»; no dd/mm/aaaa
+#     numero_control: true            # 8 dígitos (o letra y 8); [[PENDIENTE]] cuenta como falta
+#     logos: [Logo A, Logo B]         # solo avisa si la portada lleva menos imágenes
+# Formato vinculante (INS-015): lo que el usuario da como modelo o instrucción se cumple al pie de la letra. Se mide con
+# `python scripts/editorial.py modelo medir portada.pdf --out portada-modelo.json` y se registra aquí. Precedencia:
+# vinculante > perfil de equipo > norma base > estructura. Una entrada inválida es error de uso (código 2).
+# vinculante:
+#   - id: portada-modelo
+#     origen: "captura 26-nov"        # de dónde viene
+#     fecha: 2026-11-26
+#     tipo: modelo                    # modelo (spec medida) | instruccion (texto)
+#     spec: portada-modelo.json       # ruta relativa a este archivo
+#     ambito: portada                 # portada | documento | seccion:<nombre>

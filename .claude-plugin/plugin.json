@@ -1,7 +1,7 @@
 {
   "name": "editorial-academica",
   "description": "Juez y editorial académica: redacta, audita, corrige y puntúa tesis, informes y artículos en APA 7 o IEEE (o combinados), con fuentes verificadas (existencia, retractación, DOI, sustento), congruencia interna y estructura por género.",
-  "version": "0.4.0",
+  "version": "0.8.0",
   "author": {
     "name": "Javier Karim Andrade Talamante"
   },

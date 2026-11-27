@@ -12,7 +12,7 @@ Dimensiones (pesos):
   Congruencia 30  scripts/congruencia.py (+ hallazgos del agente revisor-congruencia si se pasan): −5 crítica, −2 mayor, −0.5 menor
   Fuentes     25  V1-V3 (fuentes.py): si alguna falla vale 0 y bloquea «Publicable»; V4 calidad 40 %; V5 sustento 60 %
   Formato     20  scripts/auditar.py: −6 crítica, −3 mayor, −1 menor
-  Estructura  15  scripts/estructura.py: 15 × cobertura de obligatorias, −1 por EST-002/EST-003
+  Estructura  15  scripts/estructura.py: 15 × cobertura de obligatorias, −1 por EST-002/EST-003/EST-004
   Redacción   10  señales mecánicas por cada 1000 palabras (puntuación, marcadores EA-001, oraciones > 40 palabras)
 Bandas: ≥ 90 Publicable · 75-89 Correcciones menores · 60-74 Correcciones mayores · < 60 Rechazado.
 Bloqueo: una fuente que falle V1-V3 o una incongruencia crítica impide «Publicable».
@@ -46,7 +46,7 @@ def banda(p):
 
 def dim_formato(doc, perfil):
     r = auditar.auditar(doc, perfil)
-    H = [h for h in r["hallazgos"] if h["id"] != "EA-001"]
+    H = [h for h in r["hallazgos"] if h["id"] != "EA-001" and not h["id"].startswith("FUE-")]  # FUE-V4N cuenta en «Fuentes»
     # por regla distinta: peso base la primera vez y 1/4 del peso por cada repetición, hasta el doble del base
     # (10 citas mal formadas son un problema de formato, no diez)
     pen, vistos = [], {}
@@ -82,7 +82,10 @@ def items_fuentes(doc, fuentes, r_fmt):
     pars, _ = (auditar.cargar_docx if doc.lower().endswith(".docx") else auditar.cargar_md)(doc)
     _, _, entradas = auditar.partir(pars)
     textos = [e["texto"] for e in entradas if e["texto"].strip()]
-    return (refs_csl.parsear_lista(textos) if textos else []), "lista del documento"
+    items = refs_csl.parsear_lista(textos) if textos else []
+    for it, t in zip(items, textos):
+        it["_original"] = t
+    return items, "lista del documento"
 
 
 def dim_fuentes(doc, fuentes, evidencias, r_fmt, sin_red):
@@ -145,7 +148,19 @@ def dim_fuentes(doc, fuentes, evidencias, r_fmt, sin_red):
     if v5 is None:
         v5 = 0.5  # sustento no verificable: ni premio ni castigo completo
         det5 = "no verificable (sin fuentes.json/.md ni evidencias.json)"
-    puntos = 0.0 if fallan else 10 * v4 + 15 * v5
+    # pirámide de fuentes (nivel de evidencia A-E, scripts/niveles.py) y FUE-V4N (afirmación sustantiva solo con fuente D/E)
+    import niveles
+    nivs = [(it.get("_nivel") or niveles.clasificar(it, it.get("_original")))["nivel"] for it in items]
+    v4n = []
+    try:  # FUE-V4N: afirmaciones sustantivas cuyas citas son todas de nivel D/E (aquí siempre; en auditar solo con `fuentes: {niveles: true}`)
+        pars_, _ = (auditar.cargar_docx if doc.lower().endswith(".docx") else auditar.cargar_md)(doc)
+        cuerpo_, _, entradas_ = auditar.partir(pars_)
+        v4n = niveles.hallazgos_nivel_bajo(pars_, [p for p in cuerpo_ if p["texto"].strip()], entradas_, auditar.Hallazgo, auditar)[0]
+    except Exception:  # noqa: BLE001  (sin lista o cuerpo analizable no hay afirmaciones que medir)
+        v4n = []
+    for h in v4n:
+        pen.append((0.5, h))
+    puntos = 0.0 if fallan else max(0.0, 10 * v4 + 15 * v5 - 0.5 * min(len(v4n), 6))  # tope de 3 puntos
     if no_ver:  # solo se reporta: el costo ya está en V4
         pen.append((0.0, {"id": "FUE-V3N", "severidad": "menor", "ubicacion": "lista de referencias",
                           "evidencia": f"{len(no_ver)} de {len(res)} fuentes con DOI sin comprobar (V1/V3): "
@@ -158,7 +173,8 @@ def dim_fuentes(doc, fuentes, evidencias, r_fmt, sin_red):
     det = {"origen": origen, "total": len(res), "con_doi": len(con_doi), "fallan_v123": len(fallan),
            "url_ok": len(url_ok), "url_rotas": len(rotas), "sin_enlace_comprobable": len(sin_ver),
            "no_verificado": len(no_ver),
-           "v4": round(v4, 3), "v5": round(v5, 3), "v5_detalle": det5}
+           "v4": round(v4, 3), "v5": round(v5, 3), "v5_detalle": det5,
+           "piramide": niveles.piramide(nivs), "peso_medio_nivel": niveles.peso_medio(nivs), "afirmaciones_nivel_bajo": len(v4n)}
     return puntos, pen, bool(fallan), det
 
 
@@ -267,7 +283,13 @@ def main():
     print(f"PUNTAJE: {r['total']}/100 — {r['banda']}" + (f"   (bloqueos: {', '.join(r['bloqueos'])})" if r["bloqueos"] else ""))
     for k, v in r["dimensiones"].items():
         print(f"  {k:<12} {v:>5} / {r['maximos'][k]}")
-    print(f"  fuentes: {r['detalle_fuentes']}")
+    det = dict(r["detalle_fuentes"])
+    pir = det.pop("piramide", None)
+    print(f"  fuentes: {det}")
+    if pir:
+        import niveles
+        print("\nPirámide de fuentes (nivel de evidencia; peso medio " + str(det.get("peso_medio_nivel")) + "):")
+        print(niveles.texto_piramide(pir, det.get("total")))
     print("\nCorrecciones de mayor impacto:")
     for i, t in enumerate(r["top5"], 1):
         print(f"  {i}. +{t['puntos']} {t['dimension']} | {t['id']} {t['severidad']} | {t['ubicacion']} | {t['evidencia']} | {t['correccion']}")
