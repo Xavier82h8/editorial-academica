@@ -8,7 +8,7 @@
     {
       "name": "editorial-academica",
       "description": "Juez y editorial académica APA 7 / IEEE con fuentes verificadas",
-      "version": "0.8.0",
+      "version": "0.9.0",
       "source": "./",
       "repository": "https://github.com/Xavier82h8/editorial-academica",
       "homepage": "https://github.com/Xavier82h8/editorial-academica"

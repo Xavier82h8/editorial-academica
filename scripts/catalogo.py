@@ -11,7 +11,7 @@ Fuentes de datos (no se escribe ninguna regla a mano salvo FUE-*, RED-* y EA-001
   APA-xxx / IEEE-xxx  skills/apa7|ieee/references/checklist.md (columnas ID, regla, severidad, fix, fuente)
   CON-001..020        docstring de scripts/congruencia.py (deterministas) y agents/revisor-congruencia.md (agente)
   EST-001..004        docstring de scripts/estructura.py;  EST-010..017: docstring de scripts/maquetacion.py
-  INS-001..015        docstring de scripts/institucional.py (formato institucional del bloque `formato:` y modelos del bloque `vinculante:` de .editorial.yaml)
+  INS-001..016        docstring de scripts/institucional.py (formato institucional del bloque `formato:` y modelos del bloque `vinculante:` de .editorial.yaml)
 Clasificación «Evaluación»: `determinista` si el ID aparece en algún script (el juez lo emite); `agente` si solo está en el
 checklist o en las instrucciones de un agente; `+ corregible` si está en `corregir.REGLAS`.
 Salida: 0 correcto (o catálogo al día); 1 con --comprobar si está desactualizado; 2 error de uso.
@@ -165,6 +165,8 @@ def recolectar():
         r.update(auto=True, fuente="Guía institucional declarada en `formato:` del perfil de equipo (" + PLUGIN + ")", grupo="Institucional")
         if r["id"] == "INS-015":
             r["fuente"] = "Modelo vinculante del usuario, declarado en `vinculante:` del perfil de equipo (" + PLUGIN + ")"
+        if r["id"] == "INS-016":
+            r["fuente"] = "Medida pedida por el usuario, declarada en `medidas:` del perfil de equipo (" + PLUGIN + ")"
         reglas.append(r)
     for i, (sev, desc, fuente) in OTRAS.items():
         reglas.append({"id": i, "sev": sev, "desc": desc, "fuente": fuente, "auto": True, "grupo": "Entrega"})

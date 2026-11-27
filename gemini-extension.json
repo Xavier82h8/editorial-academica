@@ -1,6 +1,6 @@
 {
   "name": "editorial-academica",
-  "version": "0.8.0",
+  "version": "0.9.0",
   "description": "Editorial y juez académico: redacta, audita, corrige y puntúa tesis, informes y artículos en APA 7 o IEEE (o combinados), con fuentes verificadas, congruencia interna y estructura por género.",
   "contextFileName": "GEMINI.md"
 }

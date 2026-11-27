@@ -877,7 +877,7 @@ def construir(g, estructura_id, modelo=None, pagina=1, responder=None):
 ORDEN_FORMATO = ["interlineado", "alineacion", "nivel1", "niveles_numerados", "capitulo_pagina_nueva", "paginacion", "titulo_max_palabras",
                  "fuentes_recientes", "voz", "fuente", "resumen", "rotulos_pt", "portada"]
 ORDEN_TOP = ["institucion", "perfil", "estructura", "idioma", "voz", "tiempo_verbal", "minimo_fuentes", "anios_fuentes", "porcentaje_recientes",
-             "portada_numero", "tablas_figuras", "formato", "fuentes", "reglas_guia", "preferencias", "vinculante", "origenes", "preguntas"]
+             "portada_numero", "tablas_figuras", "formato", "fuentes", "medidas", "reglas_guia", "preferencias", "vinculante", "origenes", "preguntas"]
 
 
 def perfil_dict(d, preguntas, vinculante=None):
@@ -891,6 +891,14 @@ def perfil_dict(d, preguntas, vinculante=None):
     m = planos.get("reglas_guia.margenes_cm")
     if m is not None and abs(float(m) - 2.54) > 0.06:
         anid.setdefault("excepciones", []).append({"regla": "APA-001", "motivo": f"Guía: márgenes de {m} cm"})
+    # medidas: lo que la guía fija y `medir` comprueba (INS-016); el interlineado, la fuente y la alineación ya los cubre `formato:`
+    meds = []
+    for clave, que, alcance in (("reglas_guia.margenes_cm", "margenes", "documento"), ("reglas_guia.sangria_primera_linea_cm", "sangria_primera_linea", "cuerpo")):
+        if clave in d.v:
+            valor, org = d.v[clave]
+            meds.append({"que": que, "valor": float(valor), "unidad": "cm", "alcance": alcance, "origen": org})
+    if meds:
+        anid["medidas"] = meds
     anid["origenes"] = {k: o for k, (_, o) in d.v.items()}
     if vinculante:
         anid["vinculante"] = vinculante
@@ -958,7 +966,7 @@ def _contiene_tokens(gold, gen):
 def comparar_perfil(gen, ref):
     """Compara un perfil generado con uno de referencia, clave por clave del de referencia (formato, fuentes y nivel superior).
     Devuelve {total, coinciden, porcentaje, formato: {total, coinciden, porcentaje}, fallas: [(clave, esperado, obtenido)]}."""
-    a_ref = {k: v for k, v in aplanar(ref).items() if not k.startswith(("excepciones", "origenes", "preguntas", "vinculante", "reglas_guia", "preferencias"))}
+    a_ref = {k: v for k, v in aplanar(ref).items() if not k.startswith(("excepciones", "origenes", "preguntas", "vinculante", "reglas_guia", "preferencias", "medidas"))}
     a_gen = aplanar(gen)
     claves = {}
     # lo comparable: claves de referencia agrupadas (portada.campos como conjunto de primeras palabras)

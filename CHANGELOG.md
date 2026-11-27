@@ -2,6 +2,19 @@
 
 Formato basado en [Keep a Changelog](https://keepachangelog.com/es-ES/1.1.0/); versionado semántico.
 
+## [0.9.0] - 2026-11-27
+### Destacado
+- **`editorial.py medir`: la medida efectiva de un Word y de su PDF.** Ficha técnica con el valor que de verdad ve Word (docDefaults, estilo y sus bases, numeración, párrafo directo, run) por sección (página, márgenes, encabezado y pie, `w:pgNumType`, posición del número de página) y por grupo de párrafos y estilo (fuente, tamaño, interlineado auto ×1.5 frente a exacto 18 pt, espacios, sangría izquierda, derecha, de primera línea y francesa, alineación, color), cada longitud en cm, pt e in, con el conteo de párrafos por valor y las excepciones. Con PDF (PyMuPDF): márgenes reales, número de página por página, sangría visible, paso de línea y fuentes; sus discrepancias con el .docx son avisos, nunca violaciones.
+- **Tus instrucciones, como reglas medibles.** `medir --regla "márgenes 3 cm izquierda"` y el bloque `medidas:` de `.editorial.yaml` (`{que, valor, unidad, tolerancia, alcance, origen}`); parser en español e inglés básico; lo ambiguo vuelve como pregunta y lo que no se puede medir sale «no medible: …». `auditar` emite INS-016 con el origen del usuario.
+### Añadido
+- `scripts/medir.py` (ficha, PDF, discrepancias, CLI), `scripts/medidas.py` (parser, evaluador, INS-016, excepciones APA derivadas), `scripts/unidades.py` (equivalencias y tolerancias en un solo lugar: 1.27 cm = 0.5 in = 36 pt; twips, EMU, medios puntos; interlineado 1.5 = auto ×1.5 = exacto 18 pt con 12 pt, y × 1.15 como aproximación declarada; tolerancias ±0.05 cm, ±0.5 pt, ±0.25 pt sobreescribibles por regla).
+- Regla nueva **INS-016** (mayor): medida pedida por el usuario (`medidas:`); las exigencias APA que contradice (APA-001, APA-004, APA-033, APA-007, APA-006, APA-002, APA-008) pasan solas a excepción con el origen.
+- `perfilar` emite el bloque `medidas:` con los márgenes y la sangría de primera línea que fija la guía, cada uno con su cita de origen.
+- Comando `/medir` (`commands/medir.md|toml`) y `skills/editorial-academica/references/medir.md`.
+- `tests/run_v09.py` (unidades, herencia, equivalencias que no dan hallazgo y valores fuera de tolerancia que sí, parser con casos ambiguos, PDF sintético, discrepancia docx/PDF como aviso, render real con LibreOffice, «no medible», INS-016, perfilar, CLI, exportación) y puerta en `tests/run_todo.py`.
+### Cambiado
+- `scripts/exportar_publico.py --forzar`: si el destino ya tiene remoto `origin`, conserva su `.git`, hace `git fetch origin` y crea el commit con `git commit-tree` del árbol exportado y por padre `origin/main` (historial conservado, push sin force; nunca hace push). Sin remoto, commit único como antes. El barrido de anonimización no cambia.
+
 ## [0.8.0] - 2026-11-27
 ### Destacado
 - **`/perfilar`: la guía de tu escuela se convierte en reglas.** `editorial.py perfilar <guia.pdf|docx> [--modelo-portada <pdf|docx> --pagina N] [--out .editorial.yaml] [--estructura-id ID] [--responder respuestas.yaml]` lee la guía de formato y genera `.editorial.yaml` + `estructuras/<id>.yaml`, cada valor con su origen (`guía p. N: «cita literal»`); lo ambiguo y las preferencias (registro, persona, extensión por sección, densidad de citas, salida, fuentes a evitar) van a `preguntas:`. Nunca sobrescribe: `.editorial.propuesto.yaml` y un diff legible. Prueba dorada local con una guía real: 100 % de las claves de formato, 12/12 capítulos con sus 24 subcapítulos.

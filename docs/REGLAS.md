@@ -2,7 +2,7 @@
 
 <!-- Generado por scripts/catalogo.py; no editar a mano (python scripts/catalogo.py). -->
 
-**342 reglas**: 141 con comprobación determinista (las emite un script), 201 que evalúa el agente (juicio), 46 que `corregir.py` corrige de forma automática.
+**343 reglas**: 142 con comprobación determinista (las emite un script), 201 que evalúa el agente (juicio), 46 que `corregir.py` corrige de forma automática.
 
 | Familia | Reglas | Deterministas | De agente | Corregibles |
 |---|---:|---:|---:|---:|
@@ -10,7 +10,7 @@
 | IEEE | 140 | 34 | 106 | 5 |
 | CON | 21 | 13 | 8 | 0 |
 | EST | 12 | 12 | 0 | 5 |
-| INS | 14 | 14 | 0 | 9 |
+| INS | 15 | 15 | 0 | 9 |
 | EA | 1 | 1 | 0 | 0 |
 | FUE | 8 | 8 | 0 | 0 |
 | RED | 1 | 1 | 0 | 0 |
@@ -383,6 +383,7 @@ Solo se evalúan con `formato:` o `vinculante:` en el perfil de equipo; las emit
 | INS-012 | mayor | determinista + corregible | `resumen: {palabras: [150, 250], sangria: false, un_parrafo: true, palabras_clave: [3, 5]}` el resumen (palabras, un solo párrafo sin contar la línea de palabras clave, sin sangría de primera línea, número de palabras clave);… | Guía institucional declarada en `formato:` del perfil de equipo (Práctica editorial del plugin) |
 | INS-013 | menor | determinista + corregible | `rotulos_pt: [8, 9]` tamaño de los rótulos «TABLA N» y «Fig. N.» fuera de ese rango; `corregir` lo arregla | Guía institucional declarada en `formato:` del perfil de equipo (Práctica editorial del plugin) |
 | INS-015 | mayor | determinista | Fidelidad al modelo: cada entrada tipo `modelo` de `vinculante:` se compara con su ámbito (portada, documento o seccion:<nombre>): orden de líneas, texto fijo, fuente, tamaño (0.5 pt), negrita, cursiva, color, alineación y cajas… | Modelo vinculante del usuario, declarado en `vinculante:` del perfil de equipo (Práctica editorial del plugin) |
+| INS-016 | mayor | determinista | Medida pedida por el usuario: cada regla del bloque `medidas:` de .editorial.yaml (`{que, valor, unidad, tolerancia, alcance, origen}`: márgenes, sangría, interlineado, fuente, tamaño, espacio antes/después, número de página,… | Medida pedida por el usuario, declarada en `medidas:` del perfil de equipo (Práctica editorial del plugin) |
 
 ## EA: entrega
 

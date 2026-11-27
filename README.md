@@ -5,7 +5,7 @@
 [![Pruebas](https://github.com/Xavier82h8/editorial-academica/actions/workflows/pruebas.yml/badge.svg)](https://github.com/Xavier82h8/editorial-academica/actions/workflows/pruebas.yml)
 [![Licencia: MIT](https://img.shields.io/badge/licencia-MIT-green.svg)](LICENSE)
 [![Python 3.10+](https://img.shields.io/badge/python-3.10%2B-blue.svg)](requirements.txt)
-[![Versión 0.8.0](https://img.shields.io/badge/versi%C3%B3n-0.8.0-informational.svg)](CHANGELOG.md)
+[![Versión 0.9.0](https://img.shields.io/badge/versi%C3%B3n-0.9.0-informational.svg)](CHANGELOG.md)
 [![APA 7 | IEEE](https://img.shields.io/badge/normas-APA%207%20%7C%20IEEE-8a2be2.svg)](docs/REGLAS.md)
 [![Agent Skills](https://img.shields.io/badge/Agent%20Skills-Claude%20Code%20%7C%20Codex%20%7C%20Gemini%20%7C%20OpenCode-black.svg)](#instalación)
 
@@ -23,6 +23,8 @@ Otras herramientas te dicen qué está mal. Esta además **toma tu formato como 
 6. **Pirámide de evidencia A-E y afirmaciones sin sustento.** Cada fuente tiene su nivel (A norma o revista arbitrada … E blog, wiki o preprint), y una afirmación con cifra que solo sostiene una fuente D/E se marca (FUE-V4N); `fuentes --reemplazar` propone la versión publicada de la misma obra o una candidata A/B del mismo dominio de tu documento (`--contexto tesis.docx`). `puntuar tesis.docx` muestra la pirámide.
 7. **Un título concreto, coherente con el objetivo.** Diagnostica el título de portada frente al objetivo general (sigla + objeto + para qué, sin método ni cifras) y propone opciones que tú eliges (CON-021). `titulo tesis.docx`.
 8. **`repasar`: estudiar tu protocolo sin calificarlo.** Capítulo por capítulo: qué pide la guía, qué tiene tu documento y preguntas para entenderlo; sin puntaje, porque eso lo decide tu docente. `repasar protocolo.docx --seccion 4`.
+
+9. **`medir`: la medida efectiva, sin falsos hallazgos por tecnicismos.** Ficha técnica del Word con el valor que de verdad ve Word (herencia de estilos resuelta; interlineado automático ×1.5 frente a exacto 18 pt; 1.27 cm = 0.5 in = 36 pt) por sección y por grupo de párrafos, y del PDF (márgenes reales, posición del número de página, sangría visible). Lo que pides, «márgenes 3 cm a la izquierda», se vuelve una regla medible con su origen (INS-016); lo que no entiende te lo pregunta y lo que no se puede medir lo dice («no medible: …»). `medir tesis.docx --pdf tesis.pdf --regla "sangría francesa 1.27 cm en referencias"`.
 
 **Un caso real, anonimizado:** el protocolo institucional de una asignatura de Taller de Investigación pasó de **87.9 a 91** con estas funciones: portada fiel a la guía medida a 0.1 pt, índice real con páginas medidas, 32 → 19 afirmaciones sin fuente arbitrada y las normas ISO verificadas. Sin nombres de personas, escuela ni proyecto.
 
@@ -124,6 +126,7 @@ En Claude Code son `/editorial-academica:<nombre>`; en cualquier otro lado, `pyt
 | `fuentes` | Busca y verifica fuentes (V1-V5) y genera `fuentes.json` | `fuentes "evaluación con IA generativa" --n 15 --out fuentes.json` |
 | `convertir` | Pasa un Word de APA a IEEE (o al revés) re-renderizando citas y referencias | `convertir tesis.docx --a ieee` |
 | `modelo` | Mide un modelo de formato (PDF o .docx) y lo compara con tu documento; es el formato vinculante (`vinculante:` en `.editorial.yaml`, regla INS-015) | `modelo medir portada.pdf --out portada-modelo.json` |
+| `medir` | Ficha técnica de medidas efectivas (márgenes, sangría, interlineado, fuente, número de página) del Word y su PDF; tus instrucciones como reglas medibles (INS-016), con equivalencias y tolerancias declaradas | `medir tesis.docx --pdf tesis.pdf --regla "márgenes 3 cm izquierda"` |
 | `perfilar` | La guía de tu escuela (PDF o Word) se convierte en `.editorial.yaml` y estructura de capítulos, cada valor con su cita de origen; nunca sobrescribe tu perfil | `perfilar guia.pdf --modelo-portada portada.pdf` |
 | `portada`, `indices`, `entregar` | Portada desde el modelo, índices con páginas medidas y entrega `.docx` + `.pdf` verificados | `entregar tesis.docx` |
 | `titulo`, `repasar` | Título concreto coherente con el objetivo; modo de estudio por capítulo, sin calificar | `titulo tesis.docx` |
@@ -276,7 +279,7 @@ Código bajo [licencia MIT](LICENSE). Las plantillas CSL son del proyecto Citati
 - **Source verification V1-V5**: existence, metadata, retractions, quality and claim support against abstracts (Crossref, OpenAlex). Only DOIs, titles and URLs leave your machine, never the document text. Network failures are reported as `no_verificado`, never as verified.
 - **Score 0-100** with the five highest-impact fixes; `corregir` fixes mechanical APA formatting on a copy, never on your original.
 - **Measured**: 0 false positives on 17 official APA/IEEE samples; precision and recall of 1.00 on seeded and blind regression rounds; a [worked example](ejemplos/README.md) from 53.6 to 94.4, rendered with LibreOffice; [live runs](docs/PRUEBAS-EN-VIVO.md) in Codex and OpenCode reaching the same verdict as the judge.
-- **What sets it apart**: your own format is binding (`modelo`, INS-015), `perfilar` turns your school's guide into rules with the quoted source of each value, the cover page and the indexes are built and measured against the PDF, `entregar` delivers a verified .docx + .pdf, ISO standards are verified even when iso.org blocks, and sources are graded A-E.
+- **What sets it apart**: your own format is binding (`modelo`, INS-015), `perfilar` turns your school's guide into rules with the quoted source of each value, the cover page and the indexes are built and measured against the PDF, `entregar` delivers a verified .docx + .pdf, ISO standards are verified even when iso.org blocks, `medir` gives the effective measurements of a Word file and its PDF (margins, indents, line spacing, page-number position) and turns your instructions into measurable rules with tolerances, and sources are graded A-E.
 - **Honest limits**: V5 checks abstracts only, the auto-corrector targets APA-based profiles, agent rules are non-deterministic, and the official standards are not distributed (`python scripts/obtener_normas.py`).
 
 Install: `/plugin marketplace add Xavier82h8/editorial-academica` (Claude Code), `gemini extensions install https://github.com/Xavier82h8/editorial-academica` (Gemini CLI), `python scripts/instalar.py --cli codex|opencode|cursor|copilot`, or `pip install -r requirements.txt` for the plain CLI. MIT licensed; see [NOTICE](NOTICE) for third-party material. APA® and IEEE® are trademarks of their owners; this project is not affiliated with them.

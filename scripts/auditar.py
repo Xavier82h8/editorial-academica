@@ -2362,7 +2362,7 @@ def auditar(path, perfil_id, equipo=None):
     if plantilla:
         avisos.append("Plantilla con texto de ejemplo: no se compara lo citado con la lista de referencias (son ejemplos).")
         H = [h for h in H if h["id"] not in ("APA-034", "APA-035", "IEEE-012", "IEEE-013", "IEEE-014")]
-    if fmt:  # INS-001..015: formato institucional (`formato:`) y modelos vinculantes (`vinculante:`) (solo .docx)
+    if fmt:  # INS-001..015 (INS-016 va aparte, más abajo): formato institucional (`formato:`) y modelos vinculantes (`vinculante:`) (solo .docx)
         avisos += av_fmt
         if path.lower().endswith(".docx"):
             import institucional
@@ -2371,6 +2371,13 @@ def auditar(path, perfil_id, equipo=None):
             avisos += institucional.avisos_extra(path, pars, cuerpo, titulo, entradas, fmt)
         else:
             avisos.append("formato: las reglas INS solo se evalúan en .docx")
+    if path.lower().endswith(".docx"):  # INS-016: medidas pedidas por el usuario (bloque `medidas:` de .editorial.yaml; scripts/medidas.py)
+        import medidas as _M
+        reglas_m, no_med_m, _ = _M.leer_medidas_yaml(path, equipo)
+        if reglas_m:
+            h_m, av_m = _M.hallazgos(path, [dict(p) for p in pars], reglas_m, no_med_m, Hallazgo)
+            H += h_m
+            avisos += av_m
     H, excepciones, equipo_ruta = aplicar_equipo(H, path, equipo)
     if equipo_ruta:
         avisos.append(f"Perfil de equipo: {equipo_ruta} ({len(excepciones)} hallazgos pasan a excepción institucional)")
@@ -2514,6 +2521,12 @@ def aplicar_equipo(H, path, equipo=None):
     if cfg.get("tablas_figuras") == "ieee":  # el rótulo APA (número en negrita, título encima de figuras) lo sustituye el IEEE
         reglas += [{"regla": r, "motivo": "la institución rotula tablas y figuras en estilo IEEE (tablas_figuras: ieee)"}
                    for r in ("APA-089", "APA-090")]
+    if cfg.get("medidas"):  # lo pedido en `medidas:` sustituye la exigencia APA equivalente (margen, interlineado, sangría…)
+        import medidas as _M
+        try:
+            reglas += _M.excepciones_derivadas(_M.normalizar_medidas(cfg["medidas"])[0])
+        except _M.ErrorMedidas as e:
+            _error(f"{ruta}: {e}")
     if isinstance(cfg.get("formato"), dict):  # excepciones que se derivan solas de `formato:`
         import institucional
         reglas += institucional.excepciones_derivadas(institucional.normalizar(cfg["formato"])[0])

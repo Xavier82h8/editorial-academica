@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Reglas institucionales INS-001..015: el formato propio de la escuela, declarado en el bloque opcional `formato:` de
+"""Reglas institucionales INS-001..016: el formato propio de la escuela, declarado en el bloque opcional `formato:` de
 .editorial.yaml, y los modelos o instrucciones vinculantes del usuario, declarados en `vinculante:`. Sin esos bloques no corre
 nada. Solo se evalúan .docx.
 
@@ -41,6 +41,11 @@ Claves de `formato:` y reglas (todas opcionales; cada una activa su regla):
   INS-015 mayor  fidelidad al modelo: cada entrada tipo `modelo` de `vinculante:` se compara con su ámbito (portada, documento o
                  seccion:<nombre>): orden de líneas, texto fijo, fuente, tamaño (0.5 pt), negrita, cursiva, color, alineación y cajas
                  (relleno y borde con color y grosor); cada diferencia es evidencia (INS-014 queda reservada)
+  INS-016 mayor  medida pedida por el usuario: cada regla del bloque `medidas:` de .editorial.yaml (`{que, valor, unidad, tolerancia, alcance,
+                 origen}`: márgenes, sangría, interlineado, fuente, tamaño, espacio antes/después, número de página, alineación; ver
+                 scripts/medidas.py) se mide sobre el valor efectivo del .docx (herencia resuelta como Word) y se compara con las
+                 equivalencias y tolerancias de scripts/unidades.py; el hallazgo lleva el origen del mensaje del usuario. Lo no medible
+                 sale como aviso «no medible: …», nunca como cumplido
 
 Formato vinculante (`vinculante:` en .editorial.yaml, lista de {id, origen, fecha, tipo: modelo|instruccion, texto, spec, ambito}):
 lo que el usuario da como formato, modelo o instrucción es regla. `modelo` lleva la spec JSON medida (`editorial.py modelo medir`);

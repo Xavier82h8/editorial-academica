@@ -59,6 +59,10 @@ Las severidades: mayor lo que se ve a simple vista en cada página (001-006, 010
 
 **Portada construida por el plugin.** `formato: portada: campos:` fija los campos y su orden; `portada: logos:` acepta nombres sueltos (`[SEP, TNE, ITE]`: solo avisa si faltan imágenes) o `[{nombre, ruta, alto_cm}]` (rutas relativas al `.editorial.yaml`; `editorial.py portada` pone la fila de logos arriba y deja el hueco si falta el archivo). Con un `vinculante` tipo `modelo` de ámbito `portada`, `editorial.py portada` la reproduce: marca cada línea de la spec medida con `"campo": "<nombre del campo>"` (las líneas sin marca se asocian por su contenido), `"nombre_negrita": true` en las líneas «Nombre — No. de control» y `"y_fija": true` en el pie que va en posición absoluta. INS-015 compara las líneas en orden: la spec debe tener tantas líneas de título e integrantes como la portada final.
 
+## Medidas pedidas: el bloque `medidas:` (INS-016)
+
+Márgenes, sangrías, interlineado, fuente, tamaño, espacios, número de página y alineación que el usuario (o la guía) fija como valor medible: `medidas: [{que, valor, unidad, tolerancia, alcance, origen}]` (o `{frase: "…", origen: "…"}`, que se parsea al leer). `auditar` mide el valor efectivo del .docx (`editorial.py medir`) y emite INS-016 (mayor) con el origen; la exigencia APA equivalente (APA-001, APA-004, APA-033, APA-007, APA-006, APA-002, APA-008) pasa sola a excepción. `perfilar` lo rellena con los márgenes y la sangría de primera línea de la guía. Detalle en `skills/editorial-academica/references/medir.md`.
+
 ## Formato vinculante: el bloque `vinculante:` (INS-015)
 
 Lo que el usuario da como formato, modelo o instrucción es regla y se cumple al pie de la letra: se mide, se registra y se reproduce; si algo no cabe o contradice la norma, se pregunta; nunca se adapta en silencio. Decoración libre (p. ej. logos) solo si el usuario lo dice.
