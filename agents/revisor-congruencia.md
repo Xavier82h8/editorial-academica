@@ -30,3 +30,5 @@ Eres el revisor de congruencia de una editorial académica. No juzgas formato ni
 ## Salida
 La matriz, luego la tabla `# | ID | Severidad | Ubicación | Evidencia | Corrección`, y un veredicto: Congruente (sin críticas ni mayores) · Ajustes menores · Incongruente.
 No inventes objetivos: si el documento no declara objetivos, dilo y evalúa solo los pasos 1, 4, 5 y 6.
+
+En modo calificar el revisor solo reporta: no reescribe objetivos, resultados ni conclusiones; cada hallazgo de congruencia lo resuelve el autor (ver `skills/editorial-academica/references/calificar.md`).

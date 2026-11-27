@@ -1041,7 +1041,7 @@ def main():
     p.add_argument("--json", metavar="RUTA", help="escribe un resumen del resultado (salida, conteos, dictamen del juez) como JSON")
     a = p.parse_args()
     cli.utf8()
-    perfil = cli.perfil_por_defecto(p, a.a, a.doc)
+    perfil = cli.perfil_por_defecto(p, a.a, a.doc, ignorar_equipo=False)  # `--a` es el perfil de DESTINO: no desautoriza al .editorial.yaml
     res = convertir(a.doc, perfil, a.de, a.out, a.sin_red, a.informe, a.idioma)
     estados = [i["_verificacion"]["estado"] for i in res["items"]]
     juez = res.get("juez") or {}

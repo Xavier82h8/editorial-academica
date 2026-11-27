@@ -24,3 +24,5 @@ Reglas:
 - Escribe en el idioma pedido, en voz académica clara, con párrafos de 3 a 7 oraciones y sin relleno.
 - Si falta evidencia para una afirmación, escribe `[[FALTA FUENTE: …]]` en lugar de inventarla.
 Entrega Markdown por sección en la ruta indicada.
+
+**Solo para redactar.** Este agente escribe texto nuevo: no se invoca cuando el usuario solo pide calificar o ajustar su documento; no reescribe ni completa un documento que el usuario trajo hecho (ver `skills/editorial-academica/references/calificar.md`).

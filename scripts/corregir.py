@@ -1724,7 +1724,53 @@ def conteo(r):
     return c
 
 
-def corregir(path, perfil, out=None, solo=None, silencioso=False, paginacion=None, portada_numero=None):
+# Reglas cuya corrección cambia el TEXTO del documento (rótulos de sección, citas, forma y orden de referencias, numeración y
+# mayúsculas de títulos, puntuación, siglas, rótulos de tablas y figuras). En modo fiel no se aplican: se proponen.
+# Orden = orden en que se encadenan las propuestas.
+ORDEN_TEXTO = ["APA-030", "INS-003", "INS-004", "APA-059", "APA-076", "APA-074", "APA-065", "APA-036", "APA-037", "APA-043",
+               "APA-145", "APA-115", "IEEE-140", "IEEE-023", "IEEE-084", "IEEE-085", "IEEE-089", "APA-061"]
+REGLAS_TEXTO = set(ORDEN_TEXTO)
+MOTIVO_TEXTO = {
+    "APA-030": "APA 7 §2.27: los encabezados de un trabajo de estudiante no llevan número ni letra de lista",
+    "INS-003": "formato institucional: capítulos (nivel 1) numerados y/o en mayúsculas",
+    "INS-004": "formato institucional: subcapítulos numerados «N.k.»",
+    "APA-059": "APA 7 §9.43: la lista se rotula «Referencias» (References), sin numeración ni otro nombre",
+    "APA-076": "APA 7 §9.34: el DOI se escribe como URL https://doi.org/…",
+    "APA-074": "APA 7 §9.26: rangos de páginas con raya corta (–), no con guion",
+    "APA-065": "APA 7 §6.25: la sigla se define la primera vez, entre paréntesis tras el nombre completo",
+    "APA-036": "APA 7 §8.11: cita narrativa «Autor (año)», con el año entre paréntesis",
+    "APA-037": "APA 7 §8.17: «y» (no «&») en la cita narrativa en español; «&» solo entre paréntesis",
+    "APA-043": "APA 7 §8.12: varias obras en una cita, en orden alfabético",
+    "APA-145": "APA 7 §6.1: la puntuación va después del paréntesis de cita, no antes",
+    "APA-115": "APA 7: espaciado y puntuación junto a la cita",
+    "IEEE-140": "IEEE: puntuación junto al corchete de la cita",
+    "IEEE-023": "IEEE: forma de los autores en la lista (inicial antes del apellido)",
+    "IEEE-084": "IEEE: rótulo de figura «Fig. N.»",
+    "IEEE-085": "formato institucional: rótulos de tabla en estilo IEEE",
+    "IEEE-089": "formato institucional: rótulos de figura en estilo IEEE",
+    "APA-061": "APA 7 §9.44: la lista de referencias va en orden alfabético por autor",
+}
+
+
+def corregir(path, perfil, out=None, solo=None, silencioso=False, paginacion=None, portada_numero=None, fiel=False,
+             aplicar=None, solo_ids=None):
+    """Corrige `path` y escribe la salida. Devuelve el dict de `_corregir` más `fidelidad` (certificado de texto: ver
+    fidelidad.py) y `propuestas`.
+    Modo completo (por defecto): como siempre, corrige formato y también texto por regla; el certificado lista lo que cambió.
+    `fiel=True`: solo cambia formato; todo lo que cambiaría texto queda como propuesta en `<doc>.propuestas.json` y no se aplica.
+    `aplicar`: ruta de ese JSON; aplica las propuestas aprobadas (todas, o las de `solo_ids`: ids «P001» o reglas) sobre la
+    salida fiel. En fiel y en aplicar, un cambio de texto sin aprobar es un error (SystemExit 1) y no se escribe la salida."""
+    import fiel as F
+    path = pathlib.Path(path)
+    out = pathlib.Path(out) if out else path.with_name(path.stem + ".corregido.docx")
+    if out.resolve() == path.resolve():
+        raise SystemExit("--out no puede ser el documento original")
+    return F.corregir_con_certificado(path, perfil, out, solo, silencioso, paginacion, portada_numero,
+                                      fiel or bool(aplicar), aplicar, solo_ids)
+
+
+def _corregir(path, perfil, out=None, solo=None, silencioso=False, paginacion=None, portada_numero=None, excluir_texto=False,
+              etiqueta_salida=None):
     """Corrige `path` y devuelve dict con antes, despues, aplicadas {regla: n}, no_auto, avisos.
     paginacion: encabezado | pie | ninguna. Por defecto, APA -> encabezado; base IEEE -> no se toca (IEEE no la define).
     portada_numero: si | no | None. Por defecto el `portada_numero:` de .editorial.yaml; sin él no se toca la portada
@@ -1762,6 +1808,8 @@ def corregir(path, perfil, out=None, solo=None, silencioso=False, paginacion=Non
     objetivo = {r for r in REGLAS if r in ids and (not solo or r in solo)}
     if cfg["base"] == "ieee":  # base IEEE: solo lo propio de IEEE (el resto de REGLAS es maquetación APA)
         objetivo &= REGLAS_IEEE
+    if excluir_texto:  # modo fiel: lo que cambiaría texto no se aplica (queda en `despues` y como propuesta)
+        objetivo -= REGLAS_TEXTO
 
     pars, secciones = auditar.cargar_docx(str(path))
     pars = [p for p in pars if not p.get("nota_pie")]
@@ -1954,7 +2002,7 @@ def corregir(path, perfil, out=None, solo=None, silencioso=False, paginacion=Non
     despues["hallazgos"] = list(despues["hallazgos"]) + maquetacion.revisar(str(out), cfg["base"], portada_numero)
     ca, cd = conteo(antes), conteo(despues)
     no_auto = sorted(cd)
-    log(f"Entrada: {path}\nSalida:  {out}")
+    log(f"Entrada: {path}\nSalida:  {etiqueta_salida or out}")
     log("Reglas corregidas (párrafos/elementos tocados):")
     for r in sorted(aplicadas):
         log(f"  {r}: {aplicadas[r]}")
@@ -1979,8 +2027,16 @@ def main():
     ap.add_argument("documento")
     ap.add_argument("--perfil", help="id de perfil; por defecto el `perfil:` de .editorial.yaml")
     ap.add_argument("--json", metavar="RUTA", help="escribe el resultado (antes/después, reglas aplicadas) como JSON")
+    ap.add_argument("--equipo", help="ruta de .editorial.yaml: se aplica aunque pidas otro --perfil (sin él, un --perfil explícito ignora el .editorial.yaml de la carpeta si declara otro perfil o trae bloque institucional)")
     ap.add_argument("--out")
-    ap.add_argument("--solo", help="reglas separadas por coma, p. ej. APA-002,APA-004")
+    ap.add_argument("--solo", help="reglas separadas por coma, p. ej. APA-002,APA-004 (con --aplicar-propuestas: ids de propuesta o reglas, p. ej. P001,P003)")
+    ap.add_argument("--fiel", action="store_true",
+                    help="modo fiel: solo cambia formato (márgenes, fuente, interlineado, sangrías, espacios, paginación, bordes, saltos); "
+                         "nunca el texto. Lo que cambiaría texto (rótulos de sección, citas, orden y forma de referencias, numeración o "
+                         "mayúsculas de títulos) se escribe como PROPUESTA en <doc>.propuestas.json y se lista; un cambio de texto sin aprobar "
+                         "es un error y no se escribe la salida. Úsalo siempre que el usuario solo pida calificar o ajustar")
+    ap.add_argument("--aplicar-propuestas", metavar="ARCHIVO.json", dest="aplicar_propuestas",
+                    help="aplica las propuestas de un <doc>.propuestas.json (todas, o las que nombre --solo) sobre la salida fiel; implica --fiel")
     ap.add_argument("--portada-numero", choices=("si", "no"), dest="portada_numero",
                     help="si: la portada lleva número de página como el resto (APA §2.18, el 1); no: portada sin número (primera "
                          "página distinta, conserva el running head). Por defecto: `portada_numero:` de .editorial.yaml; sin él no se toca")
@@ -1991,9 +2047,13 @@ def main():
                          "`formato: paginacion: {posicion: pie_derecha}` de .editorial.yaml si existe")
     a = ap.parse_args()
     cli.utf8()
-    perfil = cli.perfil_por_defecto(ap, a.perfil, a.documento)
+    perfil = cli.perfil_por_defecto(ap, a.perfil, a.documento, a.equipo)
     solo = {x.strip().upper() for x in a.solo.split(",")} if a.solo else None
-    r = corregir(a.documento, perfil, a.out, solo, paginacion=a.paginacion, portada_numero=a.portada_numero)
+    solo_ids = None
+    if a.aplicar_propuestas:  # con --aplicar-propuestas, --solo nombra propuestas, no reglas
+        solo_ids, solo = (sorted(solo) if solo else None), None
+    r = corregir(a.documento, perfil, a.out, solo, paginacion=a.paginacion, portada_numero=a.portada_numero, fiel=a.fiel,
+                 aplicar=a.aplicar_propuestas, solo_ids=solo_ids)
     if r is None:
         sys.exit(cli.ERROR)
     cli.escribir_json(a.json, r)

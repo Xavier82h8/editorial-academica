@@ -266,6 +266,7 @@ def main():
     p.add_argument("--evidencias")
     p.add_argument("--congruencia-llm")
     p.add_argument("--sin-red", action="store_true")
+    p.add_argument("--equipo", help="ruta de .editorial.yaml: se aplica aunque pidas otro --perfil")
     p.add_argument("--json", metavar="RUTA", help="escribe el resultado completo como JSON")
     p.add_argument("--sin-historial", action="store_true",
                    help="no escribe el historial `.editorial/puntajes.jsonl` junto al documento (es del proyecto del usuario)")
@@ -274,8 +275,8 @@ def main():
     for opcion, ruta in (("--fuentes", a.fuentes), ("--evidencias", a.evidencias), ("--congruencia-llm", a.congruencia_llm)):
         if ruta and not pathlib.Path(ruta).is_file():
             cli.error(f"{opcion}: no existe el archivo {ruta}")
-    a.perfil = cli.perfil_por_defecto(p, a.perfil, a.doc)
-    eq = auditar.buscar_equipo(a.doc)
+    a.perfil = cli.perfil_por_defecto(p, a.perfil, a.doc, a.equipo)
+    eq = auditar.buscar_equipo(a.doc, a.equipo)
     cfg = (auditar.yaml.safe_load(eq.read_text(encoding="utf-8")) or {}) if eq else {}
     a.estructura = a.estructura or cfg.get("estructura") or "informe"
     r = puntuar(a.doc, a.perfil, a.estructura, a.fuentes, a.evidencias, a.congruencia_llm, a.sin_red)

@@ -7,7 +7,7 @@ Escrito a mano (no lo genera ningún script). Fecha: 19-nov-2026, sobre el catá
 - **Esfuerzo 1-5**: 1 = regex sobre lo que el juez ya extrae (entradas, cuerpo, rótulos); 3 = requiere parsear autores o secciones; 5 = requiere entender el texto.
 - **FP**: riesgo de marcar texto correcto.
 
-La frecuencia es cualitativa (lo que aparece en `pruebas-editorial/piloto`, `ejemplos/` y los ciegos docs/docs2/docs3), no un conteo medido.
+La frecuencia es cualitativa (lo que aparece en `pruebas-editorial/piloto` (histórico; hoy `protocolo-ith-final/`), `ejemplos/` y los ciegos docs/docs2/docs3), no un conteo medido.
 
 ## Tanda 1 (v0.5.0): reglas que pasan a ser deterministas
 

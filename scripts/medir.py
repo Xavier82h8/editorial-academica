@@ -819,6 +819,7 @@ def main(argv=None):
     ap.add_argument("--contra", metavar="perfil|RUTA", help="evalúa también lo medible de `formato:` y `reglas_guia:` del perfil (`perfil` = el .editorial.yaml del documento)")
     ap.add_argument("--equipo", help="ruta de .editorial.yaml (si no, se busca hacia arriba desde el documento)")
     ap.add_argument("--resumen", action="store_true", help="no imprime la ficha, solo el veredicto de las reglas")
+    ap.add_argument("--perfil", help="id de perfil (opcional: medir no lo necesita; si lo das y el .editorial.yaml declara otro, ese archivo se ignora)")
     a = ap.parse_args(argv)
     cli.utf8()
     ruta = pathlib.Path(a.documento)
@@ -827,6 +828,7 @@ def main(argv=None):
     ext = ruta.suffix.lower()
     if ext not in (".docx", ".pdf"):
         cli.error(f"formato no soportado: {ext} (usa .docx o .pdf)")
+    cli.perfil_por_defecto(ap, a.perfil, str(ruta), a.equipo, defecto="ninguno")
     pdfm = avisos_pdf = None
     ficha = None
     if ext == ".pdf":

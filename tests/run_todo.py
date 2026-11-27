@@ -169,6 +169,12 @@ def puerta_v09():
     return code == 0, chr(10).join(l for l in out.splitlines() if l.startswith(("FALLA", "SALTADA", "== v0.9"))) or out.strip()[-300:]
 
 
+def puerta_v10():
+    """v0.10 «modo fiel»: precedencia de `--perfil`, `corregir --fiel` y propuestas, certificado de fidelidad, `calificar` de solo lectura, `comparar`."""
+    code, out = correr(["tests/run_v10.py"])
+    return code == 0, chr(10).join(l for l in out.splitlines() if l.startswith(("FALLA", "SALTADA", "== precedencia", "== modo fiel"))) or out.strip()[-300:]
+
+
 def puerta_perfilar():
     """`/perfilar`: guía sintética (.docx y PDF) -> perfil y estructura con origen, preguntas, sin sobrescribir, modelo de portada, inglés."""
     code, out = correr(["tests/run_perfilar.py"])
@@ -290,6 +296,7 @@ def construir_pruebas(rapido):
     pruebas.append(("v0.7: título, niveles de fuentes, --desde-docx, normas ISO, repasar, paginación", puerta_v07))
     pruebas.append(("v0.8: portada, índices, entregar, fuentes --reemplazar, bloque fuentes: del perfil", puerta_v08))
     pruebas.append(("v0.9: medir, reglas medibles del usuario (INS-016), unidades y tolerancias, exportación con historial", puerta_v09))
+    pruebas.append(("v0.10 modo fiel: precedencia de perfil, --fiel y propuestas, certificado, calificar de solo lectura, comparar", puerta_v10))
     pruebas.append(("/perfilar: guía -> reglas con origen, preguntas, sin sobrescribir", puerta_perfilar))
     pruebas.append(("/puntuar estable y sensible", puerta_puntuar))
     pruebas.append(("Corrector de formato docx (corregir.py)", puerta_corregir))

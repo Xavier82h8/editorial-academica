@@ -2421,13 +2421,21 @@ def fuentes_bloque_equipo(path, equipo=None):
     return f if isinstance(f, dict) else {}
 
 
-def buscar_equipo(path, equipo=None):
-    """`.editorial.yaml` explícito, o el primero hacia arriba desde la carpeta del documento (máx. 6 niveles)."""
+EQUIPO_EXPLICITO = None  # ruta de `--equipo` (cli.perfil_por_defecto): vale para todas las búsquedas de este proceso
+IGNORADOS = set()  # rutas resueltas de .editorial.yaml que `--perfil` explícito desautoriza (cli.perfil_por_defecto)
+
+
+def buscar_equipo(path, equipo=None, ignorados=True):
+    """`.editorial.yaml` explícito, o el primero hacia arriba desde la carpeta del documento (máx. 6 niveles). Un archivo que
+    `--perfil` explícito desautorizó (declara otro perfil) no se devuelve, salvo con `ignorados=False`."""
+    equipo = equipo or EQUIPO_EXPLICITO
     if equipo:
         return pathlib.Path(equipo)
     d = pathlib.Path(path).resolve().parent
     for _ in range(6):
         if (d / ".editorial.yaml").exists():
+            if ignorados and (d / ".editorial.yaml").resolve() in IGNORADOS:
+                return None
             return d / ".editorial.yaml"
         if d.parent == d:
             break

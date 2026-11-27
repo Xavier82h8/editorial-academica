@@ -37,6 +37,8 @@ COMANDOS = {
     "indices": (HERE / "indices.py", "índice de contenido, de tablas y de figuras con páginas medidas en el PDF (LibreOffice)"),
     "entregar": (HERE / "entregar.py", "corregir, portada, índices, PDF, capturas y auditoría: deja .entrega.docx y .entrega.pdf juntos"),
     "medir": (HERE / "medir.py", "ficha técnica de medidas efectivas (márgenes, sangría, interlineado, fuente, número de página) en .docx y PDF; reglas del usuario medibles (INS-016)"),
+    "comparar": (HERE / "fidelidad.py", "compara el texto (y resume el formato) de un original con su versión corregida: certificado de fidelidad"),
+    "calificar": (HERE / "calificar.py", "califica sin tocar nada: auditar + estructura + congruencia + puntuar + medir en una corrida (solo lectura, con hash)"),
     "perfilar": (HERE / "perfilar.py", "la guía de tu escuela (PDF o .docx) se convierte en reglas: .editorial.yaml + estructura, cada valor con su cita de origen"),
     "render": (HERE / "render.py", "renderiza Markdown con marcas [@id] a docx, pdf, latex, html o md según un perfil"),
 }

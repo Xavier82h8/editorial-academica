@@ -84,7 +84,7 @@ def entregar(documento, perfil, paginacion=None, portada_numero=None, campos=(),
         tmp = pathlib.Path(tmp)
         actual = entrada
         # 1. corregir
-        args = [str(actual), "--perfil", perfil, "--out", str(tmp / "1-corregido.docx"), "--json", str(tmp / "corregir.json")]
+        args = [str(actual), "--perfil", perfil, "--out", str(tmp / "1-corregido.docx"), "--json", str(tmp / "corregir.json")] + eq_args
         if paginacion:
             args += ["--paginacion", paginacion]
         if portada_numero:
@@ -139,7 +139,7 @@ def entregar(documento, perfil, paginacion=None, portada_numero=None, campos=(),
     if ruta_e.exists():
         est = json.loads(ruta_e.read_text(encoding="utf-8"))
         ruta_e.unlink()
-    code_p, sal_p = correr("puntuar", str(out), "--perfil", perfil, "--sin-historial", "--json", str(out.with_name(out.stem + ".puntaje.json")))
+    code_p, sal_p = correr("puntuar", str(out), "--perfil", perfil, "--sin-historial", "--json", str(out.with_name(out.stem + ".puntaje.json")), *eq_args)
     pun = {}
     ruta_p = out.with_name(out.stem + ".puntaje.json")
     if ruta_p.exists():

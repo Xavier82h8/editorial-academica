@@ -5,7 +5,7 @@
 [![Pruebas](https://github.com/Xavier82h8/editorial-academica/actions/workflows/pruebas.yml/badge.svg)](https://github.com/Xavier82h8/editorial-academica/actions/workflows/pruebas.yml)
 [![Licencia: MIT](https://img.shields.io/badge/licencia-MIT-green.svg)](LICENSE)
 [![Python 3.10+](https://img.shields.io/badge/python-3.10%2B-blue.svg)](requirements.txt)
-[![Versión 0.9.0](https://img.shields.io/badge/versi%C3%B3n-0.9.0-informational.svg)](CHANGELOG.md)
+[![Versión 0.10.0](https://img.shields.io/badge/versi%C3%B3n-0.10.0-informational.svg)](CHANGELOG.md)
 [![APA 7 | IEEE](https://img.shields.io/badge/normas-APA%207%20%7C%20IEEE-8a2be2.svg)](docs/REGLAS.md)
 [![Agent Skills](https://img.shields.io/badge/Agent%20Skills-Claude%20Code%20%7C%20Codex%20%7C%20Gemini%20%7C%20OpenCode-black.svg)](#instalación)
 
@@ -25,6 +25,8 @@ Otras herramientas te dicen qué está mal. Esta además **toma tu formato como 
 8. **`repasar`: estudiar tu protocolo sin calificarlo.** Capítulo por capítulo: qué pide la guía, qué tiene tu documento y preguntas para entenderlo; sin puntaje, porque eso lo decide tu docente. `repasar protocolo.docx --seccion 4`.
 
 9. **`medir`: la medida efectiva, sin falsos hallazgos por tecnicismos.** Ficha técnica del Word con el valor que de verdad ve Word (herencia de estilos resuelta; interlineado automático ×1.5 frente a exacto 18 pt; 1.27 cm = 0.5 in = 36 pt) por sección y por grupo de párrafos, y del PDF (márgenes reales, posición del número de página, sangría visible). Lo que pides, «márgenes 3 cm a la izquierda», se vuelve una regla medible con su origen (INS-016); lo que no entiende te lo pregunta y lo que no se puede medir lo dice («no medible: …»). `medir tesis.docx --pdf tesis.pdf --regla "sangría francesa 1.27 cm en referencias"`.
+
+10. **Calificar y ajustar sin cambiar tu trabajo (modo fiel).** `calificar tesis.docx` da puntaje, hallazgos por prioridad y ajustes sugeridos sin escribir nada (verifica el hash del archivo antes y después). `corregir tesis.docx --fiel` solo toca propiedades de formato; todo cambio de texto («Bibliografía» → «Referencias», forma de las citas, orden de las referencias, numeración y mayúsculas de títulos) sale como propuesta con su antes y después, y se aplica únicamente lo que apruebas (`--aplicar-propuestas`). Cada corrección termina con un certificado: «fidelidad: texto idéntico» o la lista exacta de cambios. Un `--perfil` explícito ya no aplica en silencio el `.editorial.yaml` de la carpeta, y todo comando dice qué perfil aplicó. `comparar original.docx corregido.docx`.
 
 **Un caso real, anonimizado:** el protocolo institucional de una asignatura de Taller de Investigación pasó de **87.9 a 91** con estas funciones: portada fiel a la guía medida a 0.1 pt, índice real con páginas medidas, 32 → 19 afirmaciones sin fuente arbitrada y las normas ISO verificadas. Sin nombres de personas, escuela ni proyecto.
 
@@ -107,6 +109,7 @@ En tu agente basta con pedirlo («audita mi tesis en APA 7»). Desde la terminal
 pip install -r requirements.txt
 python scripts/editorial.py auditar mi_tesis.docx --perfil apa7     # qué está mal, con regla y sección oficial
 python scripts/editorial.py corregir mi_tesis.docx --perfil apa7    # escribe mi_tesis.corregido.docx; el original no se toca
+python scripts/editorial.py corregir mi_tesis.docx --fiel          # solo formato; el texto no cambia (propuestas aparte)
 python scripts/editorial.py puntuar mi_tesis.corregido.docx --perfil apa7
 ```
 
@@ -119,7 +122,9 @@ En Claude Code son `/editorial-academica:<nombre>`; en cualquier otro lado, `pyt
 | Comando | Para qué | Ejemplo |
 |---|---|---|
 | `auditar` | Dictamen de formato, citas y referencias, cada hallazgo con su ID de regla | `auditar tesis.docx --perfil apa7` |
-| `corregir` | Arregla lo mecánico en una copia `.corregido.docx` | `corregir tesis.docx --perfil apa7 --paginacion encabezado` |
+| `corregir` | Arregla lo mecánico en una copia `.corregido.docx`; con `--fiel` solo formato y el texto queda intacto (los cambios de texto van como propuestas que apruebas) | `corregir tesis.docx --perfil apa7 --paginacion encabezado` · `corregir tesis.docx --fiel` |
+| `calificar` | Califica sin tocar nada (solo lectura, con hash): puntaje, hallazgos por prioridad y ajustes sugeridos, automáticos o tuyos | `calificar tesis.docx` |
+| `comparar` | Certificado de fidelidad: compara el texto de un original con su versión corregida y resume los cambios de formato por grupo | `comparar tesis.docx tesis.corregido.docx` |
 | `puntuar` | Puntaje 0-100, las 5 correcciones que más lo suben e historial | `puntuar tesis.docx --perfil apa7` |
 | `congruencia` | Objetivos, método, resultados y conclusiones; cifras, siglas y referencias cruzadas | `congruencia tesis.docx` |
 | `estructura` | Secciones que exige el género y maquetación (paginación, tablas, portada) | `estructura tesis.docx --estructura tesis --perfil apa7` |
@@ -279,7 +284,7 @@ Código bajo [licencia MIT](LICENSE). Las plantillas CSL son del proyecto Citati
 - **Source verification V1-V5**: existence, metadata, retractions, quality and claim support against abstracts (Crossref, OpenAlex). Only DOIs, titles and URLs leave your machine, never the document text. Network failures are reported as `no_verificado`, never as verified.
 - **Score 0-100** with the five highest-impact fixes; `corregir` fixes mechanical APA formatting on a copy, never on your original.
 - **Measured**: 0 false positives on 17 official APA/IEEE samples; precision and recall of 1.00 on seeded and blind regression rounds; a [worked example](ejemplos/README.md) from 53.6 to 94.4, rendered with LibreOffice; [live runs](docs/PRUEBAS-EN-VIVO.md) in Codex and OpenCode reaching the same verdict as the judge.
-- **What sets it apart**: your own format is binding (`modelo`, INS-015), `perfilar` turns your school's guide into rules with the quoted source of each value, the cover page and the indexes are built and measured against the PDF, `entregar` delivers a verified .docx + .pdf, ISO standards are verified even when iso.org blocks, `medir` gives the effective measurements of a Word file and its PDF (margins, indents, line spacing, page-number position) and turns your instructions into measurable rules with tolerances, and sources are graded A-E.
+- **What sets it apart**: your own format is binding (`modelo`, INS-015), `perfilar` turns your school's guide into rules with the quoted source of each value, the cover page and the indexes are built and measured against the PDF, `entregar` delivers a verified .docx + .pdf, ISO standards are verified even when iso.org blocks, `calificar` grades without touching the file and `corregir --fiel` only changes formatting (every text change is a proposal you approve, with a fidelity certificate), `medir` gives the effective measurements of a Word file and its PDF (margins, indents, line spacing, page-number position) and turns your instructions into measurable rules with tolerances, and sources are graded A-E.
 - **Honest limits**: V5 checks abstracts only, the auto-corrector targets APA-based profiles, agent rules are non-deterministic, and the official standards are not distributed (`python scripts/obtener_normas.py`).
 
 Install: `/plugin marketplace add Xavier82h8/editorial-academica` (Claude Code), `gemini extensions install https://github.com/Xavier82h8/editorial-academica` (Gemini CLI), `python scripts/instalar.py --cli codex|opencode|cursor|copilot`, or `pip install -r requirements.txt` for the plain CLI. MIT licensed; see [NOTICE](NOTICE) for third-party material. APA® and IEEE® are trademarks of their owners; this project is not affiliated with them.

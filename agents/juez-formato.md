@@ -23,5 +23,8 @@ Perfil: <id>   Reglas evaluadas: N   Violaciones: críticas X, mayores Y, menore
 ```
 Criterio: cualquier violación crítica → Rechazado; más de 5 mayores → Correcciones mayores; de 1 a 5 mayores o solo menores → Correcciones menores (mismo criterio que `auditar.py`); ninguna → Aprobado.
 
-Si el usuario pide corregir (`--fix` es una petición al agente; ningún script lo implementa), aplica solo las reglas marcadas `Fix auto: sí` sobre una copia `<nombre>.corregido.<ext>` (nunca sobre el original) y vuelve a auditar. Para lo mecánico en .docx, usa antes `editorial.py corregir`.
+Si el usuario pide corregir (`--fix` es una petición al agente; ningún script lo implementa), aplica solo las reglas marcadas `Fix auto: sí` sobre una copia `<nombre>.corregido.<ext>` (nunca sobre el original) y vuelve a auditar. Para lo mecánico en .docx, usa antes `editorial.py corregir --fiel` (solo formato; lo que cambiaría texto queda como propuesta que el usuario aprueba).
 No reportes como violación nada que el checklist no contenga; si ves algo dudoso, ponlo en "Observaciones (no vinculantes)".
+
+
+**Calificar o ajustar no cambia el trabajo.** Si el usuario pide calificar, revisar, ajustar o corregir el formato: no redactes, no reescribas, no cambies estructura, citas ni contenido; corrige solo con `editorial.py corregir --fiel`; todo cambio de texto es una propuesta (`<doc>.propuestas.json`) que el usuario aprueba (`--aplicar-propuestas ... --solo ID,ID`); no invoques `redactor` ni `corrector-estilo` salvo petición expresa. Para calificar sin tocar nada usa `editorial.py calificar` (solo lectura).
