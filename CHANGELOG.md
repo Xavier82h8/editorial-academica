@@ -6,7 +6,7 @@ Formato basado en [Keep a Changelog](https://keepachangelog.com/es-ES/1.1.0/); v
 ### Corregido
 - **`portada` sin PyMuPDF partía mal el título.** El ancho del texto de respaldo era 0.5 del cuerpo por carácter, así que un título en mayúsculas negritas cabía en menos líneas que en el modelo e INS-015 desfasaba todas las líneas siguientes. Esto hacía fallar la prueba v0.8 en GitHub Actions. Ahora usa las métricas AFM de Helvetica con un factor por familia y peso: menos de 1 % de diferencia con PyMuPDF en Times y Arial, y los mismos cortes de línea.
 ### Documentación
-- README: la sección «Edición básica y edición Pro (Sinodal)» compara lo que hace cada edición y resume una prueba real de Sinodal en Claude Code. También se actualiza la fila de la batería de pruebas, la hoja de ruta y los límites.
+- README: enlace a Sinodal en Agensi. La sección «Edición básica y edición Pro (Sinodal)» compara lo que hace cada edición y resume una prueba real de Sinodal en Claude Code. También se actualiza la fila de la batería de pruebas, la hoja de ruta y los límites.
 
 ## [0.10.0] - 2026-11-27
 ### Destacado

@@ -8,12 +8,12 @@
 [![Versión 0.10.0](https://img.shields.io/badge/versi%C3%B3n-0.10.0-informational.svg)](CHANGELOG.md)
 [![APA 7 | IEEE](https://img.shields.io/badge/normas-APA%207%20%7C%20IEEE-8a2be2.svg)](docs/REGLAS.md)
 [![Agent Skills](https://img.shields.io/badge/Agent%20Skills-Claude%20Code%20%7C%20Codex%20%7C%20Gemini%20%7C%20OpenCode-black.svg)](#instalación)
-[![Edición Pro: Sinodal](https://img.shields.io/badge/edici%C3%B3n%20Pro-Sinodal-1E8E3E.svg)](#edición-básica-y-edición-pro-sinodal)
+[![Edición Pro: Sinodal](https://img.shields.io/badge/edici%C3%B3n%20Pro-Sinodal-1E8E3E.svg)](https://www.agensi.io/skills/sinodal-apa-7-ieee-thesis-and-paper-reviewer)
 
 > Tu asesor no debería gastar la revisión en márgenes, sangrías y comas de la lista de referencias. Que lo haga la máquina, con la regla citada, y que la conversación con tu asesor sea sobre tus ideas.
 
 > [!TIP]
-> **Este repositorio es la edición básica, gratuita y abierta (MIT).** La edición Pro, **Sinodal**, añade la revisión del tiempo verbal, la medición del formato IEEE y un paquete que no instala nada ni usa la red. Detalles en [Edición básica y edición Pro](#edición-básica-y-edición-pro-sinodal).
+> **Este repositorio es la edición básica, gratuita y abierta (MIT).** La edición Pro, **Sinodal**, añade la revisión del tiempo verbal, la medición del formato IEEE y un paquete que no instala nada ni usa la red. Detalles en [Edición básica y edición Pro](#edición-básica-y-edición-pro-sinodal) · [Sinodal en Agensi](https://www.agensi.io/skills/sinodal-apa-7-ieee-thesis-and-paper-reviewer).
 
 ## Lo que hace distinta a editorial-academica
 
@@ -116,8 +116,7 @@ Este repositorio es y seguirá siendo **gratuito y abierto (MIT)**: es el motor 
 - **Copia:** escribió `sample-report.sinodal.docx` con márgenes, interlineado y sangrías de APA 7 y el texto verificado idéntico.
 - **Original:** quedó intacto, con el mismo sha256 antes y después.
 
-Sinodal se publica en el marketplace de skills Agensi; el enlace se añadirá aquí cuando el anuncio esté aprobado.
-<!-- ENLACE SINODAL: añadir el enlace de Agensi (y el de afiliado, si el autor lo quiere) cuando el anuncio esté aprobado. -->
+**[Sinodal en Agensi →](https://www.agensi.io/skills/sinodal-apa-7-ieee-thesis-and-paper-reviewer)** (pago único de 29 USD).
 
 ## Instalación
 
@@ -322,6 +321,6 @@ Código bajo [licencia MIT](LICENSE). Las plantillas CSL son del proyecto Citati
   - **Adds:** IEEE format measurement and fixes, the verb-tense check for Spanish protocols, and "Author | Year" table citations.
   - **Languages:** English and Spanish documents.
   - **Tested:** in a real Claude Code session with only Sinodal installed, it scored the sample report 45.1/100 and wrote a formatted copy with identical text. The original stayed unchanged.
-  - **Where:** it is published on the Agensi skills marketplace.
+  - **Where:** [Sinodal on Agensi](https://www.agensi.io/skills/sinodal-apa-7-ieee-thesis-and-paper-reviewer).
 
 Install: `/plugin marketplace add Xavier82h8/editorial-academica` (Claude Code), `gemini extensions install https://github.com/Xavier82h8/editorial-academica` (Gemini CLI), `python scripts/instalar.py --cli codex|opencode|cursor|copilot`, or `pip install -r requirements.txt` for the plain CLI. MIT licensed; see [NOTICE](NOTICE) for third-party material. APA® and IEEE® are trademarks of their owners; this project is not affiliated with them.
