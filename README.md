@@ -8,8 +8,12 @@
 [![Versión 0.10.0](https://img.shields.io/badge/versi%C3%B3n-0.10.0-informational.svg)](CHANGELOG.md)
 [![APA 7 | IEEE](https://img.shields.io/badge/normas-APA%207%20%7C%20IEEE-8a2be2.svg)](docs/REGLAS.md)
 [![Agent Skills](https://img.shields.io/badge/Agent%20Skills-Claude%20Code%20%7C%20Codex%20%7C%20Gemini%20%7C%20OpenCode-black.svg)](#instalación)
+[![Edición Pro: Sinodal](https://img.shields.io/badge/edici%C3%B3n%20Pro-Sinodal-1E8E3E.svg)](#edición-básica-y-edición-pro-sinodal)
 
 > Tu asesor no debería gastar la revisión en márgenes, sangrías y comas de la lista de referencias. Que lo haga la máquina, con la regla citada, y que la conversación con tu asesor sea sobre tus ideas.
+
+> [!TIP]
+> **Este repositorio es la edición básica, gratuita y abierta (MIT).** La edición Pro, **Sinodal**, añade la revisión del tiempo verbal, la medición del formato IEEE y un paquete que no instala nada ni usa la red. Detalles en [Edición básica y edición Pro](#edición-básica-y-edición-pro-sinodal).
 
 ## Lo que hace distinta a editorial-academica
 
@@ -87,6 +91,33 @@ Cada hallazgo, venga de donde venga, cita su regla (`APA-034`, `IEEE-093`, `CON-
 | Corrección del contenido, siguiendo cada hallazgo | **94.4** Publicable | Ningún problema pendiente. No llega a 100 porque 3 de las 4 fuentes no publican su resumen, y el editor no da por buena una afirmación que no pudo comprobar |
 
 Además de lo que muestran las imágenes, encontró un objetivo que nunca vuelve a aparecer en el método ni en las conclusiones (`CON-020`). Cada problema lleva un código de regla (`CON-001`, `APA-038`…) que remite a la norma oficial; la lista completa está en [docs/REGLAS.md](docs/REGLAS.md).
+
+## Edición básica y edición Pro (Sinodal)
+
+Este repositorio es y seguirá siendo **gratuito y abierto (MIT)**: es el motor completo de la versión 0.10, con verificación de fuentes en Crossref y OpenAlex, `render`, portada, índices, `entregar` y `perfilar`. La **edición Pro, Sinodal**, nace de la versión 0.11 y está pensada para revisar sin configurar nada: un paquete que tu agente ejecuta sin instalar dependencias y sin conectarse a la red.
+
+| | Edición básica (este repositorio) | Sinodal (edición Pro) |
+|---|---|---|
+| Revisión de formato, citas y referencias en APA 7 e IEEE, con ID de regla | Sí (324 reglas) | Sí (350 reglas) |
+| Puntaje 0-100 y las 5 correcciones de mayor impacto | Sí | Sí |
+| Formato corregido en una copia, con el texto verificado idéntico | Perfiles de base APA | APA 7 e IEEE (márgenes, fuente, interlineado, espacios y sangrías; no crea columnas) |
+| Medición del formato IEEE (Times 10, dos columnas, márgenes) | No | Sí (IEEE-141 a IEEE-144) |
+| Tiempo verbal: un protocolo en futuro, sin afirmar resultados que aún no tiene | No | Sí, en documentos en español (RED-001 a RED-003) |
+| Citas en tablas «Autor \| Año» cuentan como cita (APA-034) | No | Sí |
+| Documento convertido a texto por secciones, para que el agente gaste menos tokens | No | Sí |
+| Verificación de fuentes V1-V5 | Con red: Crossref, OpenAlex, DataCite | Sin red: la hace tu agente con sus propias búsquedas |
+| Portada, índices, `entregar`, `render`, `convertir`, `perfilar` | Sí | No |
+| Qué hay que instalar | Python 3.10+ y `pip install -r requirements.txt` (pandoc y LibreOffice para algunas funciones) | Python 3.10+, nada más: solo la biblioteca estándar |
+| Licencia | MIT | Comercial |
+
+**Probado en una sesión real.** En una sesión de Claude Code con solo Sinodal instalada, sin esta edición básica, se le pidió «Review my report sample-report.docx in APA 7… Don't change my text» sobre el [informe de ejemplo](ejemplos/README.md):
+- **Dictamen:** el agente cargó la skill, corrió sus scripts y revisó la congruencia por su cuenta, y dio **45.1/100, Rechazado**.
+- **Hallazgos:** citó APA-034 (Twenge, 2017), EA-001 (el marcador sin fuente), CON-013 (una conclusión causal) y CON-014 (120 frente a 112 participantes).
+- **Copia:** escribió `sample-report.sinodal.docx` con márgenes, interlineado y sangrías de APA 7 y el texto verificado idéntico.
+- **Original:** quedó intacto, con el mismo sha256 antes y después.
+
+Sinodal se publica en el marketplace de skills Agensi; el enlace se añadirá aquí cuando el anuncio esté aprobado.
+<!-- ENLACE SINODAL: añadir el enlace de Agensi (y el de afiliado, si el autor lo quiere) cuando el anuncio esté aprobado. -->
 
 ## Instalación
 
@@ -213,7 +244,7 @@ Bandas: **90 o más** Publicable, **75-89** Correcciones menores, **60-74** Corr
 | 17 documentos de muestra oficiales de APA e IEEE, que están bien hechos | **0 falsas alarmas** |
 | Protocolo de investigación real de licenciatura (anonimizado) | de 31,1 a 88,4 sobre 100 |
 | Uso real desde otros agentes | Codex y OpenCode, sin ayuda, llegaron al mismo dictamen ([detalle](docs/PRUEBAS-EN-VIVO.md)) |
-| Batería de pruebas | unos 100 segundos; corre sola en Windows y Linux con cada cambio (GitHub Actions) |
+| Batería de pruebas | 23 puertas; corre sola con cada cambio en Windows y Linux, con Python 3.10 y 3.12 (GitHub Actions), en 1 a 3 minutos por sistema, sin red ni normas oficiales |
 
 En términos técnicos: precisión y exhaustividad (*recall*) de 1,00 en todas las rondas. Ese 1,00 significa que ninguna ronda conocida vuelve a fallar, no que el revisor sea infalible con documentos nuevos.
 
@@ -253,7 +284,7 @@ Solo se envían a servicios externos (Crossref, OpenAlex, DataCite, doi.org) **D
 ## Límites
 
 - El sustento de una cita (V5) solo se comprueba contra el resumen de la fuente; lo que esté solo en el texto completo queda «no verificable».
-- `corregir` solo corrige perfiles de base APA; con base IEEE se audita pero sale con código 2.
+- `corregir` solo corrige perfiles de base APA; con base IEEE se audita pero sale con código 2. La edición Pro (Sinodal) ajusta también el formato IEEE en una copia.
 - Las reglas que juzga el agente (lenguaje sin sesgo, claridad, si una cita respalda lo que dice) dependen de su criterio: dos corridas, o dos agentes, pueden diferir.
 - Las normas oficiales (`normas/`) no se distribuyen; se obtienen con `python scripts/obtener_normas.py`. Sin ellas, las pruebas que las necesitan se saltan con aviso.
 - El revisor automático lee .docx y Markdown; PDF y LaTeX los evalúa el agente tras extraer el texto.
@@ -261,11 +292,11 @@ Solo se envían a servicios externos (Crossref, OpenAlex, DataCite, doi.org) **D
 
 ## Hoja de ruta
 
-- Corrector automático para perfiles de base IEEE.
 - Encabezados de nivel 4 y 5 en línea.
 - V5 con texto completo de fuentes de acceso abierto.
-- Citas dentro de celdas de tabla (APA-034).
 - Prueba en vivo en Gemini CLI, Cursor y Copilot CLI.
+
+Ya disponibles en la edición Pro (Sinodal): el ajuste del formato con base IEEE, las citas dentro de tablas «Autor | Año» (APA-034) y la revisión del tiempo verbal.
 - Servidor MCP para usar el revisor desde cualquier cliente.
 
 ## Contribuir
@@ -286,5 +317,11 @@ Código bajo [licencia MIT](LICENSE). Las plantillas CSL son del proyecto Citati
 - **Measured**: 0 false positives on 17 official APA/IEEE samples; precision and recall of 1.00 on seeded and blind regression rounds; a [worked example](ejemplos/README.md) from 53.6 to 94.4, rendered with LibreOffice; [live runs](docs/PRUEBAS-EN-VIVO.md) in Codex and OpenCode reaching the same verdict as the judge.
 - **What sets it apart**: your own format is binding (`modelo`, INS-015), `perfilar` turns your school's guide into rules with the quoted source of each value, the cover page and the indexes are built and measured against the PDF, `entregar` delivers a verified .docx + .pdf, ISO standards are verified even when iso.org blocks, `calificar` grades without touching the file and `corregir --fiel` only changes formatting (every text change is a proposal you approve, with a fidelity certificate), `medir` gives the effective measurements of a Word file and its PDF (margins, indents, line spacing, page-number position) and turns your instructions into measurable rules with tolerances, and sources are graded A-E.
 - **Honest limits**: V5 checks abstracts only, the auto-corrector targets APA-based profiles, agent rules are non-deterministic, and the official standards are not distributed (`python scripts/obtener_normas.py`).
+- **Free and Pro editions**: this repository is the free, MIT-licensed basic edition (v0.10). The Pro edition, **Sinodal**, is built on v0.11.
+  - **Install:** a self-contained package (standard library only, no network, nothing to install).
+  - **Adds:** IEEE format measurement and fixes, the verb-tense check for Spanish protocols, and "Author | Year" table citations.
+  - **Languages:** English and Spanish documents.
+  - **Tested:** in a real Claude Code session with only Sinodal installed, it scored the sample report 45.1/100 and wrote a formatted copy with identical text. The original stayed unchanged.
+  - **Where:** it is published on the Agensi skills marketplace.
 
 Install: `/plugin marketplace add Xavier82h8/editorial-academica` (Claude Code), `gemini extensions install https://github.com/Xavier82h8/editorial-academica` (Gemini CLI), `python scripts/instalar.py --cli codex|opencode|cursor|copilot`, or `pip install -r requirements.txt` for the plain CLI. MIT licensed; see [NOTICE](NOTICE) for third-party material. APA® and IEEE® are trademarks of their owners; this project is not affiliated with them.

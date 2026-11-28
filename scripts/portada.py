@@ -89,13 +89,41 @@ def _fuente_fitz(nombre, negrita, cursiva):
     return "cobi" if negrita and cursiva else "cobo" if negrita else "coit" if cursiva else "cour"
 
 
+# Anchos de Helvetica en milésimas del cuerpo (métricas AFM estándar de Adobe); respaldo cuando no hay PyMuPDF.
+_HELV = dict(zip("ABCDEFGHIJKLMNOPQRSTUVWXYZ", (667, 667, 722, 722, 667, 611, 778, 722, 278, 500, 667, 556, 833,
+                                                722, 778, 667, 778, 722, 667, 611, 722, 667, 944, 667, 667, 611)))
+_HELV.update(zip("abcdefghijklmnopqrstuvwxyz", (556, 556, 500, 556, 556, 278, 556, 556, 222, 222, 500, 222, 833,
+                                                556, 556, 556, 556, 333, 500, 278, 556, 500, 722, 500, 500, 500)))
+_HELV.update({c: 556 for c in "0123456789"})
+_HELV.update({" ": 278, ".": 278, ",": 278, ":": 278, ";": 278, "-": 333, "—": 1000, "–": 556, "(": 333, ")": 333,
+              "/": 278, "'": 191, '"': 355, "«": 556, "»": 556})
+
+
+# Factor sobre Helvetica por familia y peso: (mayúsculas, resto), medido con PyMuPDF sobre texto en español.
+_FACTOR = {("he", False): (1.0, 1.0), ("he", True): (1.02, 1.08), ("ti", False): (0.99, 0.89), ("ti", True): (1.04, 0.95)}
+
+
+def _ancho_aprox(texto, nombre, pt, negrita):
+    """Ancho en pt con las métricas de Helvetica y un factor por familia y peso (Courier: 0.6 fijo)."""
+    import unicodedata
+    fam = _fuente_fitz(nombre, negrita, False)[:2]
+    if fam == "co":
+        return 0.6 * pt * len(texto)
+    f_may, f_resto = _FACTOR[(fam, bool(negrita))]
+    total = 0.0
+    for c in texto:
+        b = unicodedata.normalize("NFD", c)[0]
+        total += _HELV.get(b, 556 if b.isalpha() else 500) * (f_may if b.isupper() else f_resto)
+    return total / 1000 * pt
+
+
 def ancho_texto(texto, nombre, pt, negrita, cursiva):
-    """Ancho aproximado en pt de `texto` (métricas de PyMuPDF); sin PyMuPDF, 0.5 del cuerpo por carácter."""
+    """Ancho aproximado en pt de `texto` (métricas de PyMuPDF); sin PyMuPDF, métricas AFM de Helvetica (_ancho_aprox)."""
     try:
         import fitz
         return fitz.Font(_fuente_fitz(nombre, negrita, cursiva)).text_length(texto, fontsize=pt)
     except Exception:  # noqa: BLE001
-        return 0.5 * pt * len(texto)
+        return _ancho_aprox(texto, nombre, pt, negrita)
 
 
 # ---------------------------------------------------------------- XML

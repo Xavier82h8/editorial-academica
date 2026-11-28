@@ -2,6 +2,12 @@
 
 Formato basado en [Keep a Changelog](https://keepachangelog.com/es-ES/1.1.0/); versionado semántico.
 
+## [Sin publicar]
+### Corregido
+- **`portada` sin PyMuPDF partía mal el título.** El ancho del texto de respaldo era 0.5 del cuerpo por carácter, así que un título en mayúsculas negritas cabía en menos líneas que en el modelo e INS-015 desfasaba todas las líneas siguientes. Esto hacía fallar la prueba v0.8 en GitHub Actions. Ahora usa las métricas AFM de Helvetica con un factor por familia y peso: menos de 1 % de diferencia con PyMuPDF en Times y Arial, y los mismos cortes de línea.
+### Documentación
+- README: la sección «Edición básica y edición Pro (Sinodal)» compara lo que hace cada edición y resume una prueba real de Sinodal en Claude Code. También se actualiza la fila de la batería de pruebas, la hoja de ruta y los límites.
+
 ## [0.10.0] - 2026-11-27
 ### Destacado
 - **Modo fiel: calificar y ajustar sin cambiar tu trabajo.** `corregir --fiel` solo cambia propiedades de formato (márgenes, fuente, interlineado, sangrías, espacios, paginación, bordes, saltos); nunca el texto. Todo lo que cambiaría texto (rótulo «Bibliografía» → «Referencias», forma y orden de las citas, orden y forma de las referencias, DOI, puntuación, siglas, numeración y mayúsculas de títulos, rótulos de tablas y figuras) se emite como **propuesta** en `<doc>.propuestas.json` y en una lista legible (id, regla, párrafo, antes, después, motivo), y se aplica solo con `corregir --fiel --aplicar-propuestas ARCHIVO.json [--solo P001,P003]` (ids de propuesta o reglas).
